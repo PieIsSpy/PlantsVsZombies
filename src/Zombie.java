@@ -26,7 +26,7 @@ public class Zombie {
 
     }
 
-    public void die() {
+    public static void die() {
         count--;
     }
 
