@@ -1,4 +1,3 @@
-package MCO1;
 
 public class PlantStats {
 
