@@ -47,11 +47,28 @@ public class Zombie {
      *  lawn at speed variable seconds per grid.
      */
     public void walk() {
-        position[1] -= (float)(1.0 / speed);
+        position[1] -= (float) (1.0 / speed);
     }
 
     public void eat(Plant p) {
+        p.takeDamage(damage);
 
+        // temporary until Board.java have death mechanics already
+        if (!p.isAlive())
+            p = null;
+    }
+
+    public void behaviour(Plant p) {
+        while (!this.isAtHouse() && this.isAlive()) {
+            if (position[1] - p.getCol() > 0.5 || !p.isAlive()) {
+                System.out.printf("pos: row %d col %d\n", (int)position[0], (int)position[1]);
+                walk();
+            }
+            else if (p.isAlive()){
+                System.out.printf("plant hp: %d\n", p.getHealth());
+                eat(p);
+            }
+        }
     }
 
     /** This method subtracts the health of the Zombie
@@ -140,6 +157,24 @@ public class Zombie {
      */
 }
 
+/*
+class zombieDriver {
+    public static void main(String[] arg) {
+        Zombie z = new Zombie(1);
+        Plant[] p = new Plant[2];
+        p[0] = new Plant(1,1);
+        p[1] = new Plant(1, 2);
+        Plant front = p[1];
+
+        z.behaviour(front);
+        front = p[0];
+        z.behaviour(front);
+    }
+}
+
+ */
+
+/*
 class driverZombie {
     public static void main(String[] args) {
         Zombie[] spawns = new Zombie[5];
@@ -202,3 +237,4 @@ class driverZombie {
             System.out.println("THE ZOMBIES ATE YOUR BRAIN!");
     }
 }
+ */
