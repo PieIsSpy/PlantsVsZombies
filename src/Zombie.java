@@ -8,7 +8,8 @@
  */
 public class Zombie {
     /** This constructor initializes the default values
-     *  of a basic zombie. This also increments the static variable
+     *  of a basic zombie and places it to a given row.
+     *  This also increments the static variable
      *  "count" by 1.
      *
      *  @param x_pos the row grid position of the Zombie
