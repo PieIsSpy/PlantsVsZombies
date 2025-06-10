@@ -50,20 +50,33 @@ public class Zombie {
         position[1] -= (float) (1.0 / speed);
     }
 
+    /** This method makes the zombie eat the plant that is
+     *  in front of it, dealing damage.
+     *
+     *  @param p the target plant object to be damaged
+     */
     public void eat(Plant p) {
         p.takeDamage(damage);
 
-        // temporary until Board.java have death mechanics already
+        // temporary until Lawn.java have death mechanics already
         if (!p.isAlive())
             p = null;
     }
 
+    /** This method compiles basic action methods
+     *  of a zombie and turns it into a behaviour.
+     *
+     *  @param p the plant to be checked
+     */
     public void behaviour(Plant p) {
+        // while zombie isn't in the house and still alive
         while (!this.isAtHouse() && this.isAlive()) {
+            // if zombie is still not within attack range or there isn't any plants in front
             if (position[1] - p.getCol() > 0.5 || !p.isAlive()) {
                 System.out.printf("pos: row %d col %d\n", (int)position[0], (int)position[1]);
                 walk();
             }
+            // else if a plant is in front of zombie
             else if (p.isAlive()){
                 System.out.printf("plant hp: %d\n", p.getHealth());
                 eat(p);
