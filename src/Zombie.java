@@ -20,8 +20,8 @@ public class Zombie {
         health = 70;
 
         position = new float[2];
-        position[0] = x_pos;
-        position[1] = 9;
+        row_position = x_pos;
+        col_position = 9;
 
         count++;
     }
@@ -41,14 +41,14 @@ public class Zombie {
      *  equal to 0, false otherwise
      */
     public boolean isAtHouse() {
-        return position[1] <= 0;
+        return col_position <= 0;
     }
 
     /** This method moves the Zombie to the left of the
      *  lawn at speed variable seconds per grid.
      */
     public void walk() {
-        position[1] -= (float) (1.0 / speed);
+        col_position -= (float) (1.0 / speed);
     }
 
     /** This method makes the zombie eat the plant that is
@@ -73,8 +73,8 @@ public class Zombie {
         // while zombie isn't in the house and still alive
         while (!this.isAtHouse() && this.isAlive()) {
             // if zombie is still not within attack range or there isn't any plants in front
-            if (position[1] - p.getCol() > 0.5 || !p.isAlive()) {
-                System.out.printf("pos: row %d col %d\n", (int)position[0], (int)position[1]);
+            if (row_position - p.getCol() > 0.5 || !p.isAlive()) {
+                System.out.printf("pos: row %d col %d\n", (int)row_position, (int)col_position);
                 walk();
             }
             // else if a plant is in front of zombie
@@ -126,15 +126,22 @@ public class Zombie {
         return damage;
     }
 
-    /** This method returns the coordinates of
-     *  a Zombie. position[0] represents the
-     *  row coordinate while position[1] represents
-     *  the col coordinate.
+    /** This method returns the row coordinate of
+     *  a Zombie. 
      *
-     *  @return the current coordinates of a zombie
+     *  @return the row coordinate of a zombie
      */
-    public float[] getPosition() {
-        return position;
+    public float getRowCoord() {
+        return row_position;
+    }
+
+    /** This method returns the column coordinate of
+     *  a Zombie.
+     *
+     *  @return the column coordinate of a zombie
+     */
+    public float getColCoord() {
+        return col_position;
     }
 
     /** This method returns the current Zombie counts.
@@ -157,8 +164,10 @@ public class Zombie {
     private int damage;
     /** How much damage it can sustain */
     private int health;
-    /** Where is the position of the zombie */
-    private float[] position;
+    /** The row position of the zombie */
+    private float row_position;
+    /** The column positon of the zombie */
+    private float col_position;
     /** How many zombies are created */
     private static int count = 0;
 
