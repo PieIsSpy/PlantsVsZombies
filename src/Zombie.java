@@ -19,7 +19,6 @@ public class Zombie {
         damage = 10;
         health = 70;
 
-        position = new float[2];
         row_position = x_pos;
         col_position = 9;
 
