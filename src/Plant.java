@@ -1,21 +1,37 @@
 
 public class Plant {
 
-    private static int count = 0;
-
-    /**This constructor initializes the  */
-    public Plant(String typeOfPlant, int r, int c)
+    Plant(String name, int cost, int cooldown, int health, int range, 
+    int attackDamage, int directDamage, int speed) //attack plants (e.g., peashooter)
     {
-        stats = new PlantStats(typeOfPlant);
-        row = r;
-        col = c;
-        health = 100;
-        count++;
+        this.name = name;
+        this.cost = cost;
+        this.cooldown = cooldown;
+        this.health = health;
+        this.range = range;
+        this.attackDamage = attackDamage;
+        this.directDamage = directDamage;
+        this.speed = speed;
+
     }
 
-    public Plant(int r, int c)
+    Plant(String name, int cost, int cooldown, int health) //utility plants (e.g., sunflower, wallnut)
     {
-        this("sunflower", r, c);
+        this(name, cost, cooldown, health, 0, 0, 0, 0);
+    }
+
+    public void setPosition(int r, int c)
+    {
+        if(isValidPosition(r, c))
+        {
+            row = r;
+            col = c;
+        }
+    }
+
+    public boolean isValidPosition(int r, int c)
+    {
+        return r >= 0 && c >= 0; //will update in future
     }
 
     public boolean isAlive()
@@ -25,27 +41,43 @@ public class Plant {
 
     public void takeDamage(int dmg)
     {
-        if(isAlive())
+        if(health > 0)
         {
-            health = health - dmg;
+            health -= dmg;
         }
-        
+        else
+        {
+            health = 0;
+        }
+    }
+    //other plant subclasses will override
+    public void plantBehavior()
+    {
+
     }
 
-    @Override 
+    @Override
     public String toString()
     {
-        return "Type of plant: " + stats.getName() + "\nCost: " + stats.getCost()
-        + "\nSpeed: " + stats.getSpeed() + "\nAtack Range: " + stats.getAttackRange()
-        + "\nAttack Damage: " + stats.getAttackDamage() + "\nDirect Damage: " + 
-        stats.getDirectDamage() + "\n";
+        return "Type of plant: " + getName() + "\nCost: " + getCost()
+        + "\nSpeed: " + getSpeed() + "\nAtack Range: " + getRange()
+        + "\nAttack Damage: " + getAttackDamage() + "\nDirect Damage: " + 
+        getDirectDamage() + "\n";
     }
 
-    public void displayCurrentStatus()
+    public String getName()
     {
-        System.out.println("Health: " + getHealth());
-        System.out.println(stats.getName() + " at row " + getRow() + " and column " + getCol());
-        System.out.println();
+        return name;
+    }
+
+    public int getCost()
+    {
+        return cost;
+    }
+
+    public int getCooldown()
+    {
+        return cooldown;
     }
 
     public int getHealth()
@@ -53,9 +85,24 @@ public class Plant {
         return health;
     }
 
-    public static int getCount()
+    public int getRange()
     {
-        return count;
+        return range;
+    }
+
+    public int getAttackDamage()
+    {
+        return attackDamage;
+    }
+
+    public int getDirectDamage()
+    {
+        return directDamage;
+    }
+
+    private int getSpeed()
+    {
+        return speed;
     }
 
     public int getRow()
@@ -63,16 +110,21 @@ public class Plant {
         return row;
     }
 
-    public int getCol()
+    public int getColumn()
     {
         return col;
     }
 
-
-    private PlantStats stats;
+    private String name;
+    private int cost;
+    private int cooldown;
     private int health;
+    private int range;
+    private int attackDamage;
+    private int directDamage;
+    private int speed;
     private int row;
     private int col;
-
 }
+
 
