@@ -1,4 +1,3 @@
-package MCO1pt2;
 
 public class Sunflower extends Plant{
 
