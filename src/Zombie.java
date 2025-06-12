@@ -12,14 +12,14 @@ public class Zombie {
      *  This also increments the static variable
      *  "count" by 1.
      *
-     *  @param x_pos the row grid position of the Zombie
+     *  @param r the row grid position of the Zombie
      */
-    public Zombie(int x_pos) {
+    public Zombie(int r) {
         speed = 4;
         damage = 10;
         health = 70;
 
-        row_position = x_pos;
+        row_position = r;
         col_position = 9;
 
         count++;
@@ -69,10 +69,10 @@ public class Zombie {
      *  @param p the plant to be checked
      */
     public void behaviour(Plant p) {
-        // while zombie isn't in the house and still alive
-        while (!this.isAtHouse() && this.isAlive()) {
+        // while zombie isn't in the house and still alive (this will be called repeatedly by Lawn.java
+        if (!this.isAtHouse() && this.isAlive()) {
             // if zombie is still not within attack range or there isn't any plants in front
-            if (row_position - p.getCol() > 0.5 || !p.isAlive()) {
+            if (col_position - p.getColumn() > 0.5 || !p.isAlive()) {
                 System.out.printf("pos: row %d col %d\n", (int)row_position, (int)col_position);
                 walk();
             }
