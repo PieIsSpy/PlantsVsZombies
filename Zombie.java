@@ -14,13 +14,13 @@ public class Zombie {
      *
      *  @param r the row grid position of the Zombie
      */
-    public Zombie(int r) {
+    public Zombie(int r, int c) {
         speed = 4;
         damage = 10;
         health = 70;
 
         row_position = r;
-        col_position = 9;
+        col_position = c;
 
         count++;
     }
@@ -193,9 +193,7 @@ class zombieDriver {
         z.behaviour(front);
     }
 }
-
- */
-
+*/
 /*
 class driverZombie {
     public static void main(String[] args) {
@@ -204,7 +202,7 @@ class driverZombie {
         float[] coordinates;
 
         for (i = 0; i < 5; i++)
-            spawns[i] = new Zombie((int)Math.floor(Math.random() * 9) + 1);
+            spawns[i] = new Zombie((int)Math.floor(Math.random() * 9) + 1, 9);
 
         System.out.printf("There are %d Zombies spawned in your lawn!\n", Zombie.getCount());
 
@@ -212,8 +210,8 @@ class driverZombie {
 
         System.out.println("Zombie random spawns");
         for (i = 0; i < 5; i++) {
-            coordinates = spawns[i].getPosition();
-            System.out.printf("Zombie %d spawn: (row %d, col %d)\n", i + 1, (int)coordinates[0], (int)coordinates[1]);
+            //coordinates = spawns[i].getPosition();
+            System.out.printf("Zombie %d spawn: (row %d, col %d)\n", i + 1, (int)spawns[i].getRowCoord(), (int)spawns[i].getColCoord());
         }
 
         System.out.println();
@@ -249,9 +247,9 @@ class driverZombie {
         while (!spawns[1].isAtHouse())
         {
             spawns[1].walk();
-            coordinates = spawns[1].getPosition();
+            //coordinates = spawns[1].getPosition();
             System.out.printf("seconds: %d\n", i);
-            System.out.printf("Zombie %d pos: (row %d, col %d)\n", 2, (int)coordinates[0], (int)coordinates[1]);
+            System.out.printf("Zombie %d pos: (row %d, col %d)\n", 2, (int)spawns[1].getRowCoord(), (int)spawns[1].getColCoord());
             i++;
         }
 
@@ -259,4 +257,4 @@ class driverZombie {
             System.out.println("THE ZOMBIES ATE YOUR BRAIN!");
     }
 }
- */
+*/
