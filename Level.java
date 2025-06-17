@@ -3,9 +3,9 @@ import java.util.ArrayList;
 public class Level {
     public Level (int l, int r, int c, int t) {
         LEVEL_NUM = l;
-        rows = r;
-        columns = c;
-        time_length = t;
+        ROWS = r;
+        COLUMNS = c;
+        TIME_LENGTH = t;
         time_current = 0;
         enemies = new ArrayList<Zombie>();
         tiles = new Plant[r][c];
@@ -26,7 +26,7 @@ public class Level {
     }
 
     public boolean isGameWon() {
-        return enemies.isEmpty() && time_current >= time_length;
+        return enemies.isEmpty() && time_current >= TIME_LENGTH;
     }
 
     public boolean canBePlaced(int row, int col) {
@@ -39,7 +39,7 @@ public class Level {
     }
 
     public void spawnZombie() {
-        enemies.add(new Zombie((int)(Math.floor(Math.random() * (rows))), columns + 1));
+        enemies.add(new Zombie((int)(Math.floor(Math.random() * (ROWS))), COLUMNS + 1));
         //System.out.println("Time: " + time_current);
         System.out.printf("Spawned zombie at row %d, col %d\n", (int)enemies.getLast().getRowCoord(), (int)enemies.getLast().getColCoord());
         System.out.println();
@@ -55,6 +55,8 @@ public class Level {
         int cout = 0;
         int i;
         boolean waveFlag = false;
+
+        System.out.println("Level " + LEVEL_NUM);
 
         while (!isGameWon() && !isGameOver()) {
             System.out.println("time: " + time_current);
@@ -79,7 +81,7 @@ public class Level {
             }
 
             // check if its time to spawn one
-            if (interval != 0 & cout >= interval && time_current < time_length) {
+            if (interval != 0 & cout >= interval && time_current < TIME_LENGTH) {
                 spawnZombie();
                 cout = 0;
             }
@@ -102,10 +104,10 @@ public class Level {
     }
 
     private final int LEVEL_NUM;
-    private int time_length;
+    private final int TIME_LENGTH;
     private int time_current;
-    private int rows;
-    private int columns;
+    private final int ROWS;
+    private final int COLUMNS;
     private Plant[][] tiles;
     private ArrayList<Zombie> enemies;
 }
