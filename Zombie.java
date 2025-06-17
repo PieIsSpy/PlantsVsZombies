@@ -66,22 +66,44 @@ public class Zombie {
     /** This method compiles basic action methods
      *  of a zombie and turns it into a behaviour.
      *
-     *  @param p the plant to be checked
+     *  @param plants the plant row to be checked
      */
-    public void behaviour(Plant p) {
+    public void behaviour(Plant[] plants) {
         // while zombie isn't in the house and still alive (this will be called repeatedly by Lawn.java
         if (!this.isAtHouse() && this.isAlive()) {
             // if zombie is still not within attack range or there isn't any plants in front
-            if (col_position - p.getColumn() > 0.5 || !p.isAlive()) {
+            if (findFront(plants) == null || col_position - findFront(plants).getColumn() > 0.5) {//!p.isAlive() || p == null) {
                 System.out.printf("pos: row %d col %d\n", (int)row_position, (int)col_position);
                 walk();
             }
             // else if a plant is in front of zombie
-            else if (p.isAlive()){
-                System.out.printf("plant hp: %d\n", p.getHealth());
-                eat(p);
+            else if (findFront(plants).isAlive()){
+                System.out.printf("plant hp: %d\n", findFront(plants).getHealth());
+                eat(findFront(plants));
             }
         }
+    }
+
+    public Plant findFront(Plant[] plants) {
+        int column = -1;
+        float smallestDistance = 999;
+        int i;
+
+        for (i = 0; i < plants.length; i++) {
+            // check plants that are only in front of zombie's current pos
+            if (i <= (int)col_position && plants[i] != null) {
+                if (col_position - plants[i].getColumn() < smallestDistance) {
+                    smallestDistance = col_position - plants[i].getColumn();
+                    column = i;
+                    System.out.println("front plant " + plants[column].getColumn());
+                }
+            }
+        }
+
+        if (column != -1)
+            return plants[column];
+        else
+            return null;
     }
 
     /** This method subtracts the health of the Zombie
@@ -182,7 +204,7 @@ public class Zombie {
 /*
 class zombieDriver {
     public static void main(String[] arg) {
-        Zombie z = new Zombie(1);
+        Zombie z = new Zombie(1, 9);
         Plant[] p = new Plant[2];
         p[0] = new Plant(1,1);
         p[1] = new Plant(1, 2);
@@ -193,7 +215,9 @@ class zombieDriver {
         z.behaviour(front);
     }
 }
-*/
+
+ */
+
 /*
 class driverZombie {
     public static void main(String[] args) {

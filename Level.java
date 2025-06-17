@@ -8,9 +8,24 @@ public class Level {
         time_length = t;
         time_current = 0;
         enemies = new ArrayList<Zombie>();
+        tiles = new Plant[r][c];
     }
 
     public boolean isGameOver() {
+        int i = 0;
+        boolean condition = false;
+
+        while (i < enemies.size() && !condition) {
+            if (enemies.get(i).isAtHouse())
+                condition = true;
+
+            i++;
+        }
+
+        return condition;
+    }
+
+    public boolean isGameWon() {
         return enemies.isEmpty() && time_current >= time_length;
     }
 
@@ -18,21 +33,17 @@ public class Level {
         return tiles[row][col] == null;
     }
 
-    public Plant findFront(int row) {
-        int column = -1;
-        //while (column )
-    }
-
-    public void placePlant() {
-
+    public void placePlant(int r, int c) {
+        if (canBePlaced(r, c))
+            tiles[r][c] = new Sunflower();
     }
 
     public void spawnZombie() {
         enemies.add(new Zombie((int)(Math.floor(Math.random() * (rows))), columns + 1));
-        System.out.println("Time: " + time_current);
+        //System.out.println("Time: " + time_current);
         System.out.printf("Spawned zombie at row %d, col %d\n", (int)enemies.getLast().getRowCoord(), (int)enemies.getLast().getColCoord());
         System.out.println();
-        enemies.clear();
+        //enemies.clear();
     }
 
     public void playerAction() {
@@ -45,10 +56,14 @@ public class Level {
         int i;
         boolean waveFlag = false;
 
-        while (!isGameOver()) {
+        while (!isGameWon() && !isGameOver()) {
+            System.out.println("time: " + time_current);
             // check time
-            if (time_current >= 30 && time_current <= 80)
+            if (time_current >= 30 && time_current <= 80) {
+                if (time_current == 30)
+                    System.out.println("The zombies are coming...");
                 interval = 10;
+            }
             else if (time_current >= 81 && time_current <= 140)
                 interval = 5;
             else if (time_current >= 141 && time_current <= 170)
@@ -64,7 +79,7 @@ public class Level {
             }
 
             // check if its time to spawn one
-            if (cout >= interval && time_current < time_length) {
+            if (interval != 0 & cout >= interval && time_current < time_length) {
                 spawnZombie();
                 cout = 0;
             }
@@ -72,11 +87,17 @@ public class Level {
             //behavior call
             for (i = 0; i < enemies.size(); i++) {
                 if (enemies.get(i).isAlive())
-                    enemies.get(i).behaviour(tiles[(int)enemies.get(i).getRowCoord()][tiles.length]);
+                    enemies.get(i).behaviour(tiles[(int)enemies.get(i).getRowCoord()]);
             }
 
-            cout++;
-            time_current++;
+            if (!isGameWon() && !isGameOver()) {
+                cout++;
+                time_current++;
+            }
+            else if (isGameOver())
+                System.out.println("THE ZOMBIES ATE YOUR BRAIN!");
+            else if (isGameWon())
+                System.out.println("You won!");
         }
     }
 
