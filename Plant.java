@@ -3,64 +3,45 @@
  */
 public class Plant extends Entity {
 
-    Plant(String name, int cost, int cooldown, int health, int range,
-          int attackDamage, int directDamage, float speed) //attack plants (e.g., peashooter)
+    Plant(float r, float c) //attack plants (e.g., peashooter)
     {
-        this.name = name;
-        this.cost = cost;
-        this.cooldown = cooldown;
-        this.health = health;
-        this.range = range;
-        this.attackDamage = attackDamage;
-        this.directDamage = directDamage;
-        this.speed = speed;
+        super(0, 0, 0, r, c);
+        name = "Default";
+        cost = 0;
+        cooldown = 0;
+        range = 0;
+        directDamage = 0;
 
     }
 
-    Plant(String name, int cost, int cooldown, int health) //utility plants (e.g., sunflower, wallnut)
-    {
-        this(name, cost, cooldown, health, 0, 0, 0, 0);
-    }
-
-    public void setPosition(int r, int c)
-    {
-        row = r;
-        col = c;
-    }
-
-
-    public boolean isAlive()
-    {
-        return health > 0;
-    }
-
-    public void takeDamage(int dmg)
-    {
-        if(health > 0)
-        {
-            health -= dmg;
-        }
-        else
-        {
-            health = 0;
-        }
-    }
-
-
-    //other plant subclasses will override
     public void plantAction()
     {
         
     }
 
-
-    @Override
-    public String toString()
+    public void setName(String n)
     {
-        return "Type of plant: " + getName() + "\nCost: " + getCost()
-        + "\nSpeed: " + getSpeed() + "\nAtack Range: " + getRange()
-        + "\nAttack Damage: " + getAttackDamage() + "\nDirect Damage: " + 
-        getDirectDamage() + "\n";
+        name = n;
+    }
+
+    public void setCost(int c)
+    {
+        cost = c;
+    }
+
+    public void setCooldown(int cd)
+    {
+        cooldown = cd;
+    }
+
+    public void setRange(int r)
+    {
+        range = r;
+    }
+
+    public void setDirectDamage(int d)
+    {
+        directDamage = d;
     }
 
     public String getName()
@@ -83,11 +64,6 @@ public class Plant extends Entity {
         return range;
     }
 
-    public int getAttackDamage()
-    {
-        return attackDamage;
-    }
-
     public int getDirectDamage()
     {
         return directDamage;
@@ -98,8 +74,5 @@ public class Plant extends Entity {
     private int cost;
     private int cooldown;
     private int range;
-    private int attackDamage;
     private int directDamage;
 }
-
-
