@@ -21,13 +21,6 @@ public class Zombie extends Entity {
         count++;
     }
 
-    /** This method checks if the Zombie is still alive.
-     *
-     *  @return true if the health is above 0, else false
-     */
-    public boolean isAlive() {
-        return getHealth() > 0;
-    }
 
     /** This method checks if the Zombie has already
      *  reached the player's house.
@@ -112,22 +105,7 @@ public class Zombie extends Entity {
             return null;
     }
 
-    /** This method subtracts the health of the Zombie
-     *  by d amount of damage. If the current health
-     *  of a zombie underflows below 0, it automatically
-     *  sets to 0.
-     *
-     *  @param d the damage input to a Zombie
-     */
-    public void takeDamage(int d) {
-        int cur = getHealth();
-        cur -= d;
-
-        if (cur < 0)
-            setHealth(0);
-        else
-            setHealth(cur);
-    }
+   
 
     /** This method returns the current Zombie counts.
      *
