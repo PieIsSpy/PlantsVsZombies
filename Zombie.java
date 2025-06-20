@@ -16,7 +16,7 @@ public class Zombie extends Entity {
      *  @param c the col grid position of the zombie
      */
     public Zombie(int r, int c) {
-        super(70, 10, r, c);
+        super(70, 4,10, r, c);
 
         count++;
     }
@@ -44,7 +44,7 @@ public class Zombie extends Entity {
      */
     public void walk() {
         float cur = getCol();
-        cur -= (float) (1.0 / speed);
+        cur -= (float) (1.0 / getSpeed());
         setCol(cur);
     }
 
@@ -70,7 +70,7 @@ public class Zombie extends Entity {
         // while zombie isn't in the house and still alive (this will be called repeatedly by Lawn.java
         if (!this.isAtHouse() && this.isAlive()) {
             // if zombie is still not within attack range or there isn't any plants in front
-            if (findFront(plants) == null || getCol() - findFront(plants).getColumn() > 0.5) {//!p.isAlive() || p == null) {
+            if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 0.5) {//!p.isAlive() || p == null) {
                 System.out.printf("pos: row %d col %d\n", (int)getRow(), (int)getCol());
                 walk();
             }
@@ -98,10 +98,10 @@ public class Zombie extends Entity {
         for (i = 0; i < plants.length; i++) {
             // check plants that are only in front of zombie's current pos
             if (i <= (int)getCol() && plants[i] != null) {
-                if (getCol() - plants[i].getColumn() < smallestDistance) {
-                    smallestDistance = getCol() - plants[i].getColumn();
+                if (getCol() - plants[i].getCol() < smallestDistance) {
+                    smallestDistance = getCol() - plants[i].getCol();
                     column = i;
-                    System.out.println("front plant " + plants[column].getColumn());
+                    System.out.println("front plant " + plants[column].getCol());
                 }
             }
         }
@@ -129,15 +129,6 @@ public class Zombie extends Entity {
             setHealth(cur);
     }
 
-    /** This method returns the speed per grid
-     *  of a Zombie.
-     *
-     *  @return the seconds per grid of a zombie
-     */
-    public int getSpeed() {
-        return speed;
-    }
-
     /** This method returns the current Zombie counts.
      *
      *  @return the number of Zombie objects created
@@ -152,8 +143,6 @@ public class Zombie extends Entity {
         count--;
     }
 
-    /** How fast the zombie moves */
-    private int speed;
     /** How many zombies are created */
     private static int count = 0;
 }
