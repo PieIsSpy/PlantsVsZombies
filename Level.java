@@ -1,7 +1,24 @@
 
 import java.util.ArrayList;
-
+/**
+ * This class represents the core game logic
+ * and mechanics of Plants vs Zombies. It manages
+ * the game grid, cooldowns, and tick based 
+ * progression of the game. 
+ */
 public class Level {
+
+    /**
+     * This constructor intitializes the gameplay settings
+     * for the level such as its number, grid dimensions, 
+     * duration, and starting time. 
+     * 
+     * @param l level number, indicating the 
+     * @param r number of rows of the game grid
+     * @param c number of columns of the game grid
+     * @param t total duration of the game
+     */
+
     public Level (int l, int r, int c, int t) {
 
         LEVEL_NUM = l;
@@ -16,11 +33,21 @@ public class Level {
         initializeCooldown();
     }
 
+    /**
+     * This method initializes all the available plant types
+     * of the game. 
+     */
     public void initialize_AvailablePlants()
     {
-        availablePlants = new Plant[] {new Sunflower(), new Peashooter()};
+
+        availablePlants = new Plant[] {new Sunflower(-1, -1), new Peashooter(-1, -1)};
     }
 
+    /**
+     * This method initializes the cooldown logic for
+     * each plant type.It ensures that each plant type can
+     * track its individual cooldown timer during gameplay. 
+     */
     public void initializeCooldown()
     {   
         int i;
@@ -32,6 +59,15 @@ public class Level {
         }
     }
 
+    /**
+     * This method checks if the game has ended by
+     * determining if at least one of the zombies
+     * have reached the player's house. 
+     *  
+     * 
+     * @return true if at least one zombie reached the house, 
+     * false otherwise. 
+     */
     public boolean isGameOver() {
         int i = 0;
         boolean condition = false;
@@ -54,7 +90,7 @@ public class Level {
         return tiles[row][col] == null;
     }
 
-    public boolean placePlant(int row, int col, Plant p)
+    public boolean placePlant(int row, int col)
     {
         int i;
         boolean isFound = false;
@@ -69,18 +105,17 @@ public class Level {
 
         while(i < tiles.length && !isFound)
         {
-            if(availablePlants[i].getName().equals(p.getName()))
+            if(availablePlants[i].getName().equals(tiles[row][col].getName()))
             {
                 if(cooldowns[i].isReady(time_current))
                 {
-                    tiles[row][col] = p;
-                    p.setPosition(row, col);
+                    tiles[row][col] = new Plant(row, col);
                     cooldowns[i].updateLastPlaced(time_current);
-                    System.out.println(p.getName() + "successfully planted at (" + p.getRow() + ", " + p.getColumn() + ")");
+                    System.out.println(tiles[row][col].getName() + "successfully planted at (" + tiles[row][col].getRow() + ", " + tiles[row][col].getCol() + ")");
                 }
                 else
                 {
-                    System.out.println(p.getName() + " is still cooling down, with " + cooldowns[i].getRemainingTime(time_current) + " seconds left");
+                    System.out.println(tiles[row][col].getName() + " is still cooling down, with " + cooldowns[i].getRemainingTime(time_current) + " seconds left");
                 }
                 isFound = true;
                 
