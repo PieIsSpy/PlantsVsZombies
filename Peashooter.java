@@ -1,9 +1,15 @@
 public class Peashooter extends Plant {
 
-    public Peashooter()
+    public Peashooter(float r, float c)
     {
-        //range to be edited
-        super("Peashooter", 100, 7, 300, 0, 20, 20, 1.5f); 
+        super(r, c);
+        setName("Peashooter");
+        setCost(100);
+        setCooldown(7);
+        setRange(7);
+        setDamage(20);
+        setHealth(30);
+        setDirectDamage(30);
 
     }
 
