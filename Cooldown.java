@@ -4,6 +4,10 @@
  * plant is ready to be planted in the game
  * again. 
  * 
+ * @author Karl Deejay Omandac
+ * @author Rachel Angeline Alba
+ * @version 1.0
+ * 
  */
 
 public class Cooldown {
