@@ -26,6 +26,13 @@ public class Entity {
         col = c;
     }
 
+    /**
+     * This constructor initializes the starting health, 
+     * speed, and damage output of an entity. 
+     * @param h the health point of an entity
+     * @param s the speed of an entity
+     * @param d the damage output of an entity
+     */
     public Entity(int h, int s, int d)
     {
         health = h;
