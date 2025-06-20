@@ -4,23 +4,19 @@
  *
  *  @author Karl Deejay Omandac
  *  @author Rachel Angeline Alba
- *  @version 1.0
+ *  @version 1.1
  */
-public class Zombie {
+public class Zombie extends Entity {
     /** This constructor initializes the default values
      *  of a basic zombie and places it to a given row.
      *  This also increments the static variable
      *  "count" by 1.
      *
      *  @param r the row grid position of the Zombie
+     *  @param c the col grid position of the zombie
      */
     public Zombie(int r, int c) {
-        speed = 4;
-        damage = 10;
-        health = 70;
-
-        row_position = r;
-        col_position = c;
+        super(70, 10, r, c);
 
         count++;
     }
@@ -30,7 +26,7 @@ public class Zombie {
      *  @return true if the health is above 0, else false
      */
     public boolean isAlive() {
-        return health > 0;
+        return getHealth() > 0;
     }
 
     /** This method checks if the Zombie has already
@@ -40,14 +36,16 @@ public class Zombie {
      *  equal to 0, false otherwise
      */
     public boolean isAtHouse() {
-        return col_position <= 0;
+        return getCol() <= 0;
     }
 
     /** This method moves the Zombie to the left of the
      *  lawn at speed variable seconds per grid.
      */
     public void walk() {
-        col_position -= (float) (1.0 / speed);
+        float cur = getCol();
+        cur -= (float) (1.0 / speed);
+        setCol(cur);
     }
 
     /** This method makes the zombie eat the plant that is
@@ -56,7 +54,7 @@ public class Zombie {
      *  @param p the target plant object to be damaged
      */
     public void eat(Plant p) {
-        p.takeDamage(damage);
+        p.takeDamage(getDamage());
 
         // temporary until Lawn.java have death mechanics already
         if (!p.isAlive())
@@ -72,8 +70,8 @@ public class Zombie {
         // while zombie isn't in the house and still alive (this will be called repeatedly by Lawn.java
         if (!this.isAtHouse() && this.isAlive()) {
             // if zombie is still not within attack range or there isn't any plants in front
-            if (findFront(plants) == null || col_position - findFront(plants).getColumn() > 0.5) {//!p.isAlive() || p == null) {
-                System.out.printf("pos: row %d col %d\n", (int)row_position, (int)col_position);
+            if (findFront(plants) == null || getCol() - findFront(plants).getColumn() > 0.5) {//!p.isAlive() || p == null) {
+                System.out.printf("pos: row %d col %d\n", (int)getRow(), (int)getCol());
                 walk();
             }
             // else if a plant is in front of zombie
@@ -84,6 +82,14 @@ public class Zombie {
         }
     }
 
+    /** This method finds the nearest plant that is facing the zombie.
+     *  If there are no plants found that is in front of the zombie,
+     *  then this method will return null.
+     *
+     *  @param plants the row of plants to be checked
+     *  @return the nearest plant in front of the zombie if there is one,
+     *  else return null
+     */
     public Plant findFront(Plant[] plants) {
         int column = -1;
         float smallestDistance = 999;
@@ -91,9 +97,9 @@ public class Zombie {
 
         for (i = 0; i < plants.length; i++) {
             // check plants that are only in front of zombie's current pos
-            if (i <= (int)col_position && plants[i] != null) {
-                if (col_position - plants[i].getColumn() < smallestDistance) {
-                    smallestDistance = col_position - plants[i].getColumn();
+            if (i <= (int)getCol() && plants[i] != null) {
+                if (getCol() - plants[i].getColumn() < smallestDistance) {
+                    smallestDistance = getCol() - plants[i].getColumn();
                     column = i;
                     System.out.println("front plant " + plants[column].getColumn());
                 }
@@ -114,10 +120,13 @@ public class Zombie {
      *  @param d the damage input to a Zombie
      */
     public void takeDamage(int d) {
-        health -= d;
+        int cur = getHealth();
+        cur -= d;
 
-        if (health < 0)
-            health = 0;
+        if (cur < 0)
+            setHealth(0);
+        else
+            setHealth(cur);
     }
 
     /** This method returns the speed per grid
@@ -127,42 +136,6 @@ public class Zombie {
      */
     public int getSpeed() {
         return speed;
-    }
-
-    /** This method returns the current health of a
-     *  Zombie.
-     * 
-     *  @return the current health of a zombie
-     */
-    public int getHealth() {
-        return health;
-    }
-
-    /** This method returns the damage output of
-     *  a Zombie.
-     *
-     *  @return the damage output of a Zombie
-     */
-    public int getDamage() {
-        return damage;
-    }
-
-    /** This method returns the row coordinate of
-     *  a Zombie. 
-     *
-     *  @return the row coordinate of a zombie
-     */
-    public float getRowCoord() {
-        return row_position;
-    }
-
-    /** This method returns the column coordinate of
-     *  a Zombie.
-     *
-     *  @return the column coordinate of a zombie
-     */
-    public float getColCoord() {
-        return col_position;
     }
 
     /** This method returns the current Zombie counts.
@@ -181,104 +154,6 @@ public class Zombie {
 
     /** How fast the zombie moves */
     private int speed;
-    /** How much damage it deals to the plant it is attacking */
-    private int damage;
-    /** How much damage it can sustain */
-    private int health;
-    /** The row position of the zombie */
-    private float row_position;
-    /** The column positon of the zombie */
-    private float col_position;
     /** How many zombies are created */
     private static int count = 0;
-
-    /*
-    reserved, may be used later
-    private final int DEFAULT_SPEED = 4;
-    private final int DEFAULT_DAMAGE = 10;
-    private final int DEFAULT_HEALTH = 70;
-    private final float DEFAULT_COL = 9;
-     */
 }
-
-/*
-class zombieDriver {
-    public static void main(String[] arg) {
-        Zombie z = new Zombie(1, 9);
-        Plant[] p = new Plant[2];
-        p[0] = new Plant(1,1);
-        p[1] = new Plant(1, 2);
-        Plant front = p[1];
-
-        z.behaviour(front);
-        front = p[0];
-        z.behaviour(front);
-    }
-}
-
- */
-
-/*
-class driverZombie {
-    public static void main(String[] args) {
-        Zombie[] spawns = new Zombie[5];
-        int i;
-        float[] coordinates;
-
-        for (i = 0; i < 5; i++)
-            spawns[i] = new Zombie((int)Math.floor(Math.random() * 9) + 1, 9);
-
-        System.out.printf("There are %d Zombies spawned in your lawn!\n", Zombie.getCount());
-
-        System.out.println();
-
-        System.out.println("Zombie random spawns");
-        for (i = 0; i < 5; i++) {
-            //coordinates = spawns[i].getPosition();
-            System.out.printf("Zombie %d spawn: (row %d, col %d)\n", i + 1, (int)spawns[i].getRowCoord(), (int)spawns[i].getColCoord());
-        }
-
-        System.out.println();
-
-        System.out.println("Zombie stats");
-        for (i = 0; i < 5; i++) {
-            System.out.printf("Zombie %d:\n", i+1);
-            System.out.printf("Speed: %d\n", spawns[i].getHealth());
-            System.out.printf("Damage: %d\n", spawns[i].getDamage());
-            System.out.printf("Health: %d\n", spawns[i].getHealth());
-            System.out.println();
-        }
-
-        System.out.println();
-        System.out.println();
-
-        System.out.println("Kill one zombie");
-        while (spawns[0].isAlive()) {
-            System.out.printf("Zombie 1 health: %d/70\n", spawns[0].getHealth());
-            spawns[0].takeDamage(15);
-        }
-
-        if (!spawns[0].isAlive())
-        {
-            System.out.println("Zombie 1 died!");
-            spawns[0] = null;
-            Zombie.die();
-        }
-
-        System.out.println();
-        System.out.println("Zombie going to your house");
-        i = 0;
-        while (!spawns[1].isAtHouse())
-        {
-            spawns[1].walk();
-            //coordinates = spawns[1].getPosition();
-            System.out.printf("seconds: %d\n", i);
-            System.out.printf("Zombie %d pos: (row %d, col %d)\n", 2, (int)spawns[1].getRowCoord(), (int)spawns[1].getColCoord());
-            i++;
-        }
-
-        if (spawns[1].isAtHouse())
-            System.out.println("THE ZOMBIES ATE YOUR BRAIN!");
-    }
-}
-*/
