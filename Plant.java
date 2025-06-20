@@ -2,7 +2,7 @@
 public class Plant {
 
     Plant(String name, int cost, int cooldown, int health, int range, 
-    int attackDamage, int directDamage, int speed) //attack plants (e.g., peashooter)
+    int attackDamage, int directDamage, float speed) //attack plants (e.g., peashooter)
     {
         this.name = name;
         this.cost = cost;
@@ -22,17 +22,10 @@ public class Plant {
 
     public void setPosition(int r, int c)
     {
-        if(isValidPosition(r, c))
-        {
-            row = r;
-            col = c;
-        }
+        row = r;
+        col = c;
     }
 
-    public boolean isValidPosition(int r, int c)
-    {
-        return r >= 0 && c >= 0; //will update in future
-    }
 
     public boolean isAlive()
     {
@@ -50,11 +43,14 @@ public class Plant {
             health = 0;
         }
     }
-    //other plant subclasses will override
-    public void plantBehavior()
-    {
 
+
+    //other plant subclasses will override
+    public void plantAction()
+    {
+        
     }
+
 
     @Override
     public String toString()
@@ -100,7 +96,7 @@ public class Plant {
         return directDamage;
     }
 
-    private int getSpeed()
+    private float getSpeed()
     {
         return speed;
     }
@@ -115,6 +111,7 @@ public class Plant {
         return col;
     }
 
+
     private String name;
     private int cost;
     private int cooldown;
@@ -122,9 +119,11 @@ public class Plant {
     private int range;
     private int attackDamage;
     private int directDamage;
-    private int speed;
+    private float speed;
     private int row;
     private int col;
+    
+
 }
 
 
