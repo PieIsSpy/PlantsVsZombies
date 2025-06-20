@@ -1,7 +1,9 @@
+
 import java.util.ArrayList;
 
 public class Level {
     public Level (int l, int r, int c, int t) {
+
         LEVEL_NUM = l;
         ROWS = r;
         COLUMNS = c;
@@ -9,6 +11,25 @@ public class Level {
         time_current = 0;
         enemies = new ArrayList<Zombie>();
         tiles = new Plant[r][c];
+
+        initialize_AvailablePlants();
+        initializeCooldown();
+    }
+
+    public void initialize_AvailablePlants()
+    {
+        availablePlants = new Plant[] {new Sunflower(), new Peashooter()};
+    }
+
+    public void initializeCooldown()
+    {   
+        int i;
+
+        cooldowns = new Cooldown[availablePlants.length];
+        for(i = 0; i < availablePlants.length; i++)
+        {
+            cooldowns[i] = new Cooldown(availablePlants[i].getName(), availablePlants[i].getCooldown());
+        }
     }
 
     public boolean isGameOver() {
@@ -33,9 +54,44 @@ public class Level {
         return tiles[row][col] == null;
     }
 
-    public void placePlant(int r, int c) {
-        if (canBePlaced(r, c))
-            tiles[r][c] = new Sunflower();
+    public boolean placePlant(int row, int col, Plant p)
+    {
+        int i;
+        boolean isFound = false;
+
+        if(!canBePlaced(row, col))
+        {
+            System.out.println("Occupied!");
+            return false;
+        }
+
+        i = 0;
+
+        while(i < tiles.length && !isFound)
+        {
+            if(availablePlants[i].getName().equals(p.getName()))
+            {
+                if(cooldowns[i].isReady(time_current))
+                {
+                    tiles[row][col] = p;
+                    p.setPosition(row, col);
+                    cooldowns[i].updateLastPlaced(time_current);
+                    System.out.println(p.getName() + "successfully planted at (" + p.getRow() + ", " + p.getColumn() + ")");
+                }
+                else
+                {
+                    System.out.println(p.getName() + " is still cooling down, with " + cooldowns[i].getRemainingTime(time_current) + " seconds left");
+                }
+                isFound = true;
+                
+            }
+            
+            i++;
+        }
+
+        return true;
+        
+    
     }
 
     public void spawnZombie() {
@@ -101,6 +157,18 @@ public class Level {
             else if (isGameWon())
                 System.out.println("You won!");
         }
+
+        
+    }
+
+    public void incrementCurrentTime()
+    {
+        time_current++;
+    }
+
+    public int getCurrentTime()
+    {
+        return time_current;
     }
 
     private final int LEVEL_NUM;
@@ -110,6 +178,10 @@ public class Level {
     private final int COLUMNS;
     private Plant[][] tiles;
     private ArrayList<Zombie> enemies;
+    private Plant[] availablePlants;
+    private Cooldown[] cooldowns;
+
+    
 }
 
 class LevelDriver {
