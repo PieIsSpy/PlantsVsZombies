@@ -5,6 +5,11 @@ import java.util.ArrayList;
  * and mechanics of Plants vs Zombies. It manages
  * the game grid, cooldowns, and tick based 
  * progression of the game. 
+ * 
+ * @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 1.0
+ * 
  */
 public class Level {
 
