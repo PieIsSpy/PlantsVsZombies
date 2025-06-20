@@ -24,7 +24,7 @@ public class Zombie extends Entity {
     /** This method checks if the Zombie has already
      *  reached the player's house.
      *
-     *  @return true if position[1] is less than or
+     *  @return true if the zombie's column coordinate is less than or
      *  equal to 0, false otherwise
      */
     public boolean isAtHouse() {

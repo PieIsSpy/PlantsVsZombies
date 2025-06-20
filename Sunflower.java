@@ -20,11 +20,14 @@ public class Sunflower extends Plant{
     //how to handle sun generating action
     //how to make sun generate given the interval of 24 seconds?
 
-    @Override 
-   public void plantAction()
-   {
+    /** This method defines the behavior of the sunflower.
+     *
+     */
+    @Override
+    public void plantAction()
+    {
         System.out.println("Sunflower has generated" + SUN_AMOUNT + " sun!");
-   }
+    }
 
     public int getSUN_AMOUNT()
     {
@@ -38,5 +41,5 @@ public class Sunflower extends Plant{
 
     private final int SUN_AMOUNT = 25; //how much sun it produces
     private final int SUN_INTERVAL = 24; //how fast it produces sun (seconds)
-    
+    private int count = 0;
 }
