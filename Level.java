@@ -88,7 +88,10 @@ public class Level {
     }
 
     public boolean isGameWon() {
-        return enemies.isEmpty() && time_current >= TIME_LENGTH;
+        if (time_current >= TIME_LENGTH)
+            enemies.clear();
+
+        return enemies.isEmpty();
     }
 
     public boolean canBePlaced(int row, int col) {

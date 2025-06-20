@@ -21,7 +21,6 @@ public class Zombie extends Entity {
         count++;
     }
 
-
     /** This method checks if the Zombie has already
      *  reached the player's house.
      *
@@ -104,8 +103,6 @@ public class Zombie extends Entity {
         else
             return null;
     }
-
-   
 
     /** This method returns the current Zombie counts.
      *

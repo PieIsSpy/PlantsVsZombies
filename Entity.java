@@ -40,12 +40,12 @@ public class Entity {
         damage = d;
     }
 
-    /** This method subtracts the health of the Zombie
+    /** This method subtracts the health of an entity
      *  by d amount of damage. If the current health
-     *  of a zombie underflows below 0, it automatically
+     *  of an entity underflow below 0, it automatically
      *  sets to 0.
      *
-     *  @param d the damage input to a Zombie
+     *  @param d the damage input to an entity
      */
     public void takeDamage(int d) {
         int cur = getHealth();
@@ -57,7 +57,7 @@ public class Entity {
             setHealth(cur);
     }
 
-    /** This method checks if the Zombie is still alive.
+    /** This method checks if the entity is still alive.
      *
      *  @return true if the health is above 0, else false
      */
