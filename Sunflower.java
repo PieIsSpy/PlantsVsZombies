@@ -7,12 +7,14 @@
  *  @version 1.0
  */
 public class Sunflower extends Plant{
-    /** This constructor initializes the name, cost, cooldown and health of a sunflower
-     *
-     */
-    public Sunflower()
+
+    public Sunflower(float r, float c)
     {
-        super("Sunflower", 50, 7, 300);
+        super(r, c);
+        setName("Sunflower");
+        setCost(50);
+        setCooldown(5);
+        setHealth(30);
     }
 
     //how to handle sun generating action
