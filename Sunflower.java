@@ -1,5 +1,15 @@
+/** This class represents a Sunflower entity
+ *  that inherits a Plant class. This plant
+ *  produces suns in a certain amount of rate.
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 1.0
+ */
 public class Sunflower extends Plant{
-
+    /** This constructor initializes the name, cost, cooldown and health of a sunflower
+     *
+     */
     public Sunflower()
     {
         super("Sunflower", 50, 7, 300);

@@ -1,8 +1,10 @@
+/** This class
+ *
+ */
+public class Plant extends Entity {
 
-public class Plant {
-
-    Plant(String name, int cost, int cooldown, int health, int range, 
-    int attackDamage, int directDamage, float speed) //attack plants (e.g., peashooter)
+    Plant(String name, int cost, int cooldown, int health, int range,
+          int attackDamage, int directDamage, float speed) //attack plants (e.g., peashooter)
     {
         this.name = name;
         this.cost = cost;
@@ -76,11 +78,6 @@ public class Plant {
         return cooldown;
     }
 
-    public int getHealth()
-    {
-        return health;
-    }
-
     public int getRange()
     {
         return range;
@@ -96,34 +93,13 @@ public class Plant {
         return directDamage;
     }
 
-    private float getSpeed()
-    {
-        return speed;
-    }
-
-    public int getRow()
-    {
-        return row;
-    }
-
-    public int getColumn()
-    {
-        return col;
-    }
-
 
     private String name;
     private int cost;
     private int cooldown;
-    private int health;
     private int range;
     private int attackDamage;
     private int directDamage;
-    private float speed;
-    private int row;
-    private int col;
-    
-
 }
 
 

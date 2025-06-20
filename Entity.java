@@ -1,6 +1,6 @@
 /** This class represents an Entity of a game.
  *  This can be used by either plants or zombie
- *  to inherit the attributes of health, damage,
+ *  to inherit the attributes of health, speed, damage,
  *  and row and column coordinates.
  *
  *  @author Karl Deejay Omandac
