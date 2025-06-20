@@ -90,20 +90,29 @@ public class Level {
         }
 
         return true;
-        
-    
     }
 
     public void spawnZombie() {
         enemies.add(new Zombie((int)(Math.floor(Math.random() * (ROWS))), COLUMNS + 1));
         //System.out.println("Time: " + time_current);
-        System.out.printf("Spawned zombie at row %d, col %d\n", (int)enemies.getLast().getRowCoord(), (int)enemies.getLast().getColCoord());
+        System.out.printf("Spawned zombie at row %d, col %d\n", (int)enemies.getLast().getRow(), (int)enemies.getLast().getCol());
         System.out.println();
         //enemies.clear();
     }
 
     public void playerAction() {
 
+    }
+
+    /** This method searches and despawns dead entities.
+     *
+     */
+    public void despawn() {
+        int i;
+        // zombies
+        for (i = 0; i < enemies.size(); i++)
+            if (enemies.get(i).getHealth() == 0)
+                enemies.remove(i);
     }
 
     public void gameCycle() {
@@ -145,9 +154,13 @@ public class Level {
             //behavior call
             for (i = 0; i < enemies.size(); i++) {
                 if (enemies.get(i).isAlive())
-                    enemies.get(i).behaviour(tiles[(int)enemies.get(i).getRowCoord()]);
+                    enemies.get(i).behaviour(tiles[(int)enemies.get(i).getRow()]);
             }
 
+            // despawn dead entities
+            despawn();
+
+            // check current game status
             if (!isGameWon() && !isGameOver()) {
                 cout++;
                 time_current++;
@@ -159,11 +172,6 @@ public class Level {
         }
 
         
-    }
-
-    public void incrementCurrentTime()
-    {
-        time_current++;
     }
 
     public int getCurrentTime()
@@ -180,13 +188,4 @@ public class Level {
     private ArrayList<Zombie> enemies;
     private Plant[] availablePlants;
     private Cooldown[] cooldowns;
-
-    
-}
-
-class LevelDriver {
-    public static void main(String[] args) {
-        Level level1 = new Level(1, 5, 9, 180);
-        level1.gameCycle();
-    }
 }
