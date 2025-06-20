@@ -13,12 +13,14 @@ public class Entity {
      *  of an entity
      *
      *  @param h the health point of an entity
+     *  @param s the speed of an entity
      *  @param d the damage output of an entity
      *  @param r the row coordinate of an entity
      *  @param c the col coordinate of an entity
      */
-    public Entity (int h, int d, float r, float c) {
+    public Entity (int h, int s, int d, float r, float c) {
         health = h;
+        speed = s;
         damage = d;
         row = r;
         col = c;
@@ -30,6 +32,10 @@ public class Entity {
      */
     public void setHealth(int h) {
         health = h;
+    }
+
+    public void setSpeed(int s) {
+        speed = s;
     }
 
     /** This method updates the damage output of an entity
@@ -65,6 +71,15 @@ public class Entity {
         return health;
     }
 
+    /** This method returns the speed per grid
+     *  of an entity.
+     *
+     *  @return the seconds per grid of an entity
+     */
+    public int getSpeed() {
+        return speed;
+    }
+
     /** This method returns the damage output of
      *  an Entity.
      *
@@ -94,6 +109,8 @@ public class Entity {
 
     /** how much damage it can sustain */
     private int health;
+    /** How fast an entity attacks or walks */
+    private int speed;
     /** How much damage it deals to the entity being attacked */
     private int damage;
     /** The row position of the entity */
