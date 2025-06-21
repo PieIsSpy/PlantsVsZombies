@@ -1,5 +1,7 @@
 
 import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * This class represents the core game logic
  * and mechanics of Plants vs Zombies. It manages
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 public class Level {
 
     /**
-     * This constructor intitializes the gameplay settings
+     * This constructor initializes the gameplay settings
      * for the level such as its number, grid dimensions, 
      * duration, and starting time. 
      * 
@@ -30,7 +32,7 @@ public class Level {
         ROWS = r;
         COLUMNS = c;
         TIME_LENGTH = t;
-        time_current = 0;
+        time_current = 30;
         enemies = new ArrayList<Zombie>();
         tiles = new Plant[r][c];
 
@@ -62,6 +64,26 @@ public class Level {
         {
             cooldowns[i] = new Cooldown(availablePlants[i].getName(), availablePlants[i].getCooldown());
         }
+    }
+
+    public void displayChar(int n, char c) {
+        int i;
+        for (i = 0; i < n; i++)
+            System.out.print(c);
+    }
+
+    public void displayLine() {
+        int i, j;
+        displayChar(1, '+');
+
+        for (i = 0; i < COLUMNS; i++) {
+            displayChar(4, '-');
+            displayChar(1, '+');
+        }
+    }
+
+    public void displayLawn() {
+
     }
 
     /**
@@ -99,7 +121,7 @@ public class Level {
      * limit, false otherwise. 
      */
     public boolean isGameWon() {
-        return enemies.isEmpty() || time_current >= TIME_LENGTH;
+        return (time_current > 170 && enemies.isEmpty()) || time_current >= TIME_LENGTH;
     }
 
     /**
@@ -117,53 +139,115 @@ public class Level {
         return tiles[row][col] == null;
     }
 
-    /**
-     * This method checks to see if all conditions
-     * are met before being able to place a plant. 
-     * These conditions include if the given position 
-     * is occupied and if the plant is still on 
-     * cooldown. 
-     * 
-     * @param row number of rows in game grid 
-     * @param col numebr of columns in game grid 
-     * @return true if placed a plant object successfully, 
-     * false otherwise. 
+    /** This method checks if the given plant name is in cooldown or not.
+     *
+     *  @param name the name of the plant to be checked
+     *  @return true if the plant is still in cooldown, false if not
      */
-    public boolean placePlant(int row, int col)
-    {
+    public boolean isInCooldown(String name) {
         int i;
-        boolean isFound = false;
+        boolean condition = true;
+        for (i = 0; i < availablePlants.length; i++)
+            if (name.equalsIgnoreCase(availablePlants[i].getName())) {
+                condition = !cooldowns[i].isReady(time_current);
+            }
 
-        if(!canBePlaced(row, col))
-        {
-            System.out.println("Occupied!");
-            return false;
+        return condition;
+    }
+
+    /** This method checks if the given plant name is a valid plant,
+     *  regardless of letter casing.
+     *
+     *  @param n the name of the plant to be checked
+     *  @return true if it's a valid name, false if not
+     */
+    public boolean isValidName(String n) {
+        int i = 0;
+        boolean condition = false;
+
+        while (i < availablePlants.length && !condition) {
+            if (n.equalsIgnoreCase(availablePlants[i].getName()))
+                condition = true;
+            else
+                i++;
         }
 
-        i = 0;
+        return condition;
+    }
 
-        while(i < tiles.length && !isFound)
-        {
-            if(availablePlants[i].getName().equals(tiles[row][col].getName())) //finds the plant's respective cooldown
-            {
-                if(cooldowns[i].isReady(time_current)) 
-                {
-                    tiles[row][col] = new Plant(row, col);
-                    cooldowns[i].updateLastPlaced(time_current); //triggers the plant's cooldown after placing it successfully 
-                    System.out.println(tiles[row][col].getName() + "successfully planted at (" + tiles[row][col].getRow() + ", " + tiles[row][col].getCol() + ")");
+    /** This method checks if the given row and col coordinates are valid or not.
+     *
+     *  @param r the row coordinate to be checked
+     *  @param c the col coordinate to be checked
+     *  @return true if the coordinates are valid, false if not
+     */
+    public boolean isValidCoordinate(int r, int c) {
+        return r >= 0 && r < ROWS && c >= 0 && c < COLUMNS;
+    }
+
+    /**
+     *
+     *  @param name the name of the plant to be placed
+     *  @param r the row of the grid
+     *  @param c the column of the grid
+     *  @return
+     */
+    public Plant createPlant(String name, int r, int c) {
+        int i = 0;
+        int found = -1;
+        while (i < availablePlants.length && found == -1) {
+            if (name.equalsIgnoreCase(availablePlants[i].getName()))
+                found = i;
+            else
+                i++;
+        }
+
+        // update cooldown
+        if (found != -1)
+            cooldowns[found].updateLastPlaced(time_current);
+
+        // return instantiation
+        if (name.equalsIgnoreCase("peashooter"))
+            return new Peashooter(r, c);
+        else if (name.equalsIgnoreCase("sunflower"))
+            return new Sunflower(r, c);
+
+        // it is assumed that the name is already valid
+        // in some cases, if the given name is still invalid
+        // this method does nothing
+        return null;
+    }
+
+    /** This method is an action that lets the player place a plant
+     *  in their lawn, provided that the given tile is unoccupied and
+     *  the given name of the plant is not in cooldown.
+     *
+     *  @param kb the scanner to be used for inputs
+     */
+    public void placePlant(Scanner kb) {
+        int row, col;
+        String name;
+        System.out.println("Enter name of plant: ");
+        name = kb.nextLine();
+        System.out.println("Enter row coordinate: ");
+        row = kb.nextInt();
+        System.out.println("Enter col coordinate: ");
+        col = kb.nextInt();
+
+        if (isValidName(name) && isValidCoordinate(row, col)) {
+            if (canBePlaced(row, col)) {
+                if (!isInCooldown(name)) {
+                    tiles[row - 1][col - 1] = createPlant(name, row - 1, col - 1);
+                    System.out.println("Placed a " + tiles[row-1][col-1].getName() + " at row:" + row + ", col:" + col);
                 }
                 else
-                {
-                    System.out.println(tiles[row][col].getName() + " is still cooling down, with " + cooldowns[i].getRemainingTime(time_current) + " seconds left");
-                }
-                isFound = true;
-                
+                    System.out.println("Plant is still in cooldown");
             }
-            
-            i++;
+            else
+                System.out.println("Tile is occupied");
         }
-
-        return true;
+        else
+            System.out.println("Invalid Input");
     }
 
     /**
@@ -179,8 +263,21 @@ public class Level {
         //enemies.clear();
     }
 
-    public void playerAction() {
+    public void playerAction(Scanner kb) {
+        int input;
+        int row, col;
+        System.out.println("1. Place plant");
+        System.out.println("2. Collect sun");
+        System.out.println("3. Wait");
+        System.out.print("Input: ");
+        input = kb.nextInt();
 
+        if (input == 1)
+            kb.nextLine();
+
+        if (input == 1) {
+            placePlant(kb);
+        }
     }
 
     /** This method searches for entities 
@@ -202,6 +299,7 @@ public class Level {
      * 
      */
     public void gameCycle() {
+        Scanner kb = new Scanner(System.in);
         int interval = 0;
         int cout = 0;
         int i;
@@ -246,6 +344,9 @@ public class Level {
             // despawn dead entities
             despawn();
 
+            // player action
+            playerAction(kb);
+
             // check current game status
             if (!isGameWon() && !isGameOver()) {
                 cout++;
@@ -257,7 +358,7 @@ public class Level {
                 System.out.println("You won!");
         }
 
-        
+        kb.close();
     }
 
     /**
@@ -289,4 +390,7 @@ public class Level {
     private Plant[] availablePlants; 
     /**array of cooldown objects per plant type */
     private Cooldown[] cooldowns;
+    /**current amount of sun*/
+    private int current_sun = 1000;
+    private int collectable_sun = 0;
 }

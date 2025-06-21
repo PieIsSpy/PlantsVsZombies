@@ -28,7 +28,7 @@ public class Zombie extends Entity {
      *  equal to 0, false otherwise
      */
     public boolean isAtHouse() {
-        return getCol() <= 0;
+        return getCol() <= -1;
     }
 
     /** This method moves the Zombie to the left of the
@@ -62,13 +62,12 @@ public class Zombie extends Entity {
         // while zombie isn't in the house and still alive (this will be called repeatedly by Lawn.java
         if (!this.isAtHouse() && this.isAlive()) {
             // if zombie is still not within attack range or there isn't any plants in front
-            if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 0.5) {//!p.isAlive() || p == null) {
-                System.out.printf("pos: row %d col %d\n", (int)getRow(), (int)getCol());
+            if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 0.5) {
                 walk();
             }
             // else if a plant is in front of zombie
             else if (findFront(plants).isAlive()){
-                System.out.printf("plant hp: %d\n", findFront(plants).getHealth());
+                System.out.printf("plant in row %d col %d hp: %d\n", (int)findFront(plants).getRow(), (int)findFront(plants).getCol(), findFront(plants).getHealth());
                 eat(findFront(plants));
             }
         }

@@ -24,7 +24,7 @@ public class Cooldown {
     public Cooldown(String type, int cd)
     {
         cooldown = cd;
-        lastPlaced = -888;
+        lastPlaced = 0;
         plantType = type;
     }
 
