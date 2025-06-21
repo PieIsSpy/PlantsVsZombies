@@ -305,7 +305,7 @@ public class Level {
     public void gameCycle() {
         Scanner kb = new Scanner(System.in);
         int interval = 0;
-        /**count variable that tracks the time at which a zombie
+        /*count variable that tracks the time at which a zombie
          * object starts spawning once it reaches the given interval
         */
         int cout = 0;
