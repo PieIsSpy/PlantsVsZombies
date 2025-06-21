@@ -294,19 +294,27 @@ public class Level {
     }
 
     /**
-     * will finish tom
+     * This method handles the main game loop which
+     * is responsible for the in-game time progression,
+     * enemy spawning at given intervals and their
+     * behaviors.This loop continues until the game is
+     * won/lost.
      * 
      * 
      */
     public void gameCycle() {
         Scanner kb = new Scanner(System.in);
         int interval = 0;
+        /**count variable that tracks the time at which a zombie
+         * object starts spawning once it reaches the given interval
+        */
         int cout = 0;
         int i;
         boolean waveFlag = false;
 
         System.out.println("Level " + LEVEL_NUM);
 
+        //continues until the end of the game
         while (!isGameWon() && !isGameOver()) {
             System.out.println("time: " + time_current);
             // check time
