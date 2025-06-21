@@ -66,10 +66,6 @@ public class Level {
         }
     }
 
-    public void displayLawn() {
-
-    }
-
     /**
      * This method checks if the game has ended by
      * determining if at least one of the zombies
