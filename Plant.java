@@ -21,6 +21,7 @@ public class Plant extends Entity {
         cooldown = 0;
         range = 0;
         directDamage = 0;
+        directDamageRange = 0;
 
     }
 
@@ -29,7 +30,7 @@ public class Plant extends Entity {
      *  overridden for it to be used.
      *
      */
-    public void plantAction()
+    public void plantBehavior()
     {
         
     }
@@ -150,4 +151,6 @@ public class Plant extends Entity {
     private int range;
     /** the damage output of the plant at its nearest distance */
     private int directDamage;
+    /**the range between plant and zombie object that allows plant to deal increased damage*/
+    private int directDamageRange;
 }
