@@ -131,6 +131,19 @@ public class Plant extends Entity {
         return range;
     }
 
+    /**
+     * 
+     * This method returns the range between plant 
+     * and zombie object that allows plant to deal
+     * increased damage. 
+     * 
+     * @return direct damage range of plant
+     */
+    public int getDirectDamageRange()
+    {
+        return directDamageRange;
+    }
+
     /** This method returns the damage output of the plant
      *  at its nearest distance.
      *
