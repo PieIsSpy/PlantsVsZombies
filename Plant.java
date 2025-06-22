@@ -70,6 +70,20 @@ public class Plant extends Entity {
         range = r;
     }
 
+    /**
+     * This method sets the range of distance
+     * between plant and enemy object that will 
+     * allow the plant deal increased damage. 
+     * 
+     * @param dr direct damage range between 
+     * plant and zombie object 
+     * 
+     */
+    public void setDirectDamageRange(int dr)
+    {
+        directDamageRange = dr;
+    }
+
     /** This method sets the damage output of the plant when an enemy
      *  is at its nearest position.
      *
