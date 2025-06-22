@@ -115,6 +115,8 @@ public class Lawn {
         }
     }
 
+    /** the rows of the lawn */
     private final int ROWS;
+    /** the columns of the lawn */
     private final int COLUMNS;
 }
