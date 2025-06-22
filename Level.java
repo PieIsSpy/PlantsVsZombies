@@ -394,6 +394,7 @@ public class Level {
     /**array of cooldown objects per plant type */
     private Cooldown[] cooldowns;
     /**current amount of sun*/
-    private int current_sun = 1000;
+    private int current_sun = 0;
+    /**current collectable amount of sun*/
     private int collectable_sun = 0;
 }

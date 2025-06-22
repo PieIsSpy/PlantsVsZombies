@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /** The class Plant represents a plant entity that can be placed by a player.
  *  This class also serves as the parent class for different types of plants.
  *
@@ -30,7 +32,7 @@ public class Plant extends Entity {
      *  overridden for it to be used.
      *
      */
-    public void plantBehavior()
+    public void plantBehavior(ArrayList<Zombie> enemies)
     {
         
     }
