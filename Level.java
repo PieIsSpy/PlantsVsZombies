@@ -32,7 +32,7 @@ public class Level {
         ROWS = r;
         COLUMNS = c;
         TIME_LENGTH = t;
-        time_current = 30;
+        time_current = 0;
         enemies = new ArrayList<Zombie>();
         tiles = new Plant[r][c];
 
@@ -205,29 +205,41 @@ public class Level {
      *  @param kb the scanner to be used for inputs
      */
     public void placePlant(Scanner kb) {
-        int row, col;
+        int row = -1, col = -1;
+        int i;
         String name;
+        System.out.println("Plants:");
+        for (i = 0; i < availablePlants.length; i++) {
+            if (cooldowns[i].isReady(time_current))
+                System.out.println((i+1) + ". " + availablePlants[i].getName() + ": Ready");
+            else
+                System.out.println((i+1) + ". " + availablePlants[i].getName() + ": On Cooldown (" + cooldowns[i].getRemainingTime(time_current) + ")");
+        }
+        System.out.println("Type 'cancel' to cancel");
+
         System.out.println("Enter name of plant: ");
         name = kb.nextLine();
-        System.out.println("Enter row coordinate: ");
-        row = kb.nextInt() - 1;
-        System.out.println("Enter col coordinate: ");
-        col = kb.nextInt() - 1;
 
-        if (isValidName(name) && isValidCoordinate(row, col)) {
-            if (canBePlaced(row, col)) {
-                if (!isInCooldown(name)) {
-                    tiles[row][col] = createPlant(name, row, col);
-                    System.out.println("Placed a " + tiles[row][col].getName() + " at row:" + (row + 1) + ", col:" + (col + 1));
-                }
-                else
-                    System.out.println("Plant is still in cooldown");
-            }
-            else
-                System.out.println("Tile is occupied");
+        if (!name.equalsIgnoreCase("cancel")) {
+            System.out.println("Enter row coordinate: ");
+            row = kb.nextInt() - 1;
+            System.out.println("Enter col coordinate: ");
+            col = kb.nextInt() - 1;
         }
-        else
-            System.out.println("Invalid Input");
+
+        if (!name.equalsIgnoreCase("cancel")) {
+            if (isValidName(name) && isValidCoordinate(row, col)) {
+                if (canBePlaced(row, col)) {
+                    if (!isInCooldown(name)) {
+                        tiles[row][col] = createPlant(name, row, col);
+                        System.out.println("Placed a " + tiles[row][col].getName() + " at row:" + (row + 1) + ", col:" + (col + 1));
+                    } else
+                        System.out.println("Plant is still in cooldown");
+                } else
+                    System.out.println("Tile is occupied");
+            } else
+                System.out.println("Invalid Input");
+        }
     }
 
     /**
@@ -238,7 +250,7 @@ public class Level {
     public void spawnZombie() {
         enemies.add(new Zombie((int)(Math.floor(Math.random() * ROWS)), COLUMNS + 1));
         //System.out.println("Time: " + time_current);
-        System.out.printf("Spawned zombie at row %d, col %d\n", (int)enemies.getLast().getRow(), (int)enemies.getLast().getCol());
+        System.out.printf("Spawned zombie at row %d, col %d\n", (int)enemies.getLast().getRow() + 1, (int)enemies.getLast().getCol() + 1);
         System.out.println();
         //enemies.clear();
     }
@@ -301,7 +313,7 @@ public class Level {
          * object starts spawning once it reaches the given interval
         */
         int cout = 0;
-        int i;
+        int i, j;
         boolean waveFlag = false;
 
         System.out.println("Level " + LEVEL_NUM);
@@ -309,7 +321,7 @@ public class Level {
         //continues until the end of the game
         //while (time_current < TIME_LENGTH) {
         while (!isGameWon() && !isGameOver()) {
-            System.out.println("time: " + time_current);
+            System.out.println("Time: " + time_current + "/" + TIME_LENGTH);
             lawn.displayLawn(tiles, enemies);
 
             // check time
@@ -343,6 +355,11 @@ public class Level {
                 if (enemies.get(i).isAlive())
                     enemies.get(i).behaviour(tiles[(int)enemies.get(i).getRow()]);
             }
+
+            for (i = 0; i < ROWS; i++)
+                for (j = 0; j < COLUMNS; j++)
+                    if (tiles[i][j] != null && tiles[i][j].isAlive())
+                        tiles[i][j].plantBehavior(enemies);
 
             // despawn dead entities
             despawn();
