@@ -8,7 +8,7 @@ import java.util.Scanner;
  * the game grid, cooldowns, and tick based 
  * progression of the game. 
  * 
- * @author Karl Deejay Omandac
+ *  @author Karl Deejay Omandac
  *  @author Rachel Angeline Alba
  *  @version 1.0
  * 
@@ -243,6 +243,11 @@ public class Level {
         //enemies.clear();
     }
 
+    /** This method allows the player to choose their action for every
+     *  second.
+     *
+     *  @param kb the scanner to be used for inputs
+     */
     public void playerAction(Scanner kb) {
         int input;
         int row, col;
@@ -302,12 +307,12 @@ public class Level {
         System.out.println("Level " + LEVEL_NUM);
         spawnZombie();
         //continues until the end of the game
-        while (time_current < TIME_LENGTH) {
-        //while (!isGameWon() && !isGameOver()) {
+        //while (time_current < TIME_LENGTH) {
+        while (!isGameWon() && !isGameOver()) {
             System.out.println("time: " + time_current);
             lawn.displayLawn(tiles, enemies);
+
             // check time
-            /*
             if (time_current >= 30 && time_current <= 80) {
                 if (time_current == 30)
                     System.out.println("The zombies are coming...");
@@ -332,7 +337,6 @@ public class Level {
                 spawnZombie();
                 cout = 0;
             }
-            */
 
             //behavior call
             for (i = 0; i < enemies.size(); i++) {

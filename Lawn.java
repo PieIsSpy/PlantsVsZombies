@@ -1,17 +1,39 @@
 import java.util.ArrayList;
 
+/** This class represents a visual display
+ *  of the player's Lawn.
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 1.0
+ */
 public class Lawn {
+    /** This constructor initializes the rows and columns of the
+     *  Lawn.
+     *
+     *  @param r the rows of the lawn
+     *  @param c the columns of the lawn
+     */
     public Lawn(int r, int c) {
         ROWS = r;
         COLUMNS = c;
     }
 
+    /** This method displays a char in a certain amount of times
+     *
+     *  @param n the amount of times to be displayed
+     *  @param c the char to be displayed
+     */
     public void displayChar(int n, char c) {
         int i;
         for (i = 0; i < n; i++)
             System.out.print(c);
     }
 
+    /** This method displays a line that cannot be affected by
+     *  plants or zombies.
+     *
+     */
     public void displayLine() {
         int i, j;
         System.out.print("\t");
@@ -22,6 +44,12 @@ public class Lawn {
         }
     }
 
+    /** This method displays the contents of the Lawn.
+     *
+     *  @param p the plant tiles of the lawn
+     *  @param z the zombies in the lawn
+     *  @param r the row to be displayed
+     */
     public void displayContent(Plant[] p, ArrayList<Zombie> z, int r) {
         int i;
         int j;
@@ -60,6 +88,11 @@ public class Lawn {
         System.out.println();
     }
 
+    /** This method displays the whole lawn of the player.
+     *
+     *  @param p the tiles of the lawn which contains plants
+     *  @param z the zombies present in the lawn
+     */
     public void displayLawn(Plant[][] p, ArrayList<Zombie> z) {
         int i;
         // print number of cols
@@ -84,22 +117,4 @@ public class Lawn {
 
     private final int ROWS;
     private final int COLUMNS;
-}
-
-class LawnDriver {
-    public static void main(String[] args) {
-        Lawn display = new Lawn(6, 19);
-        Plant[][] p = new Plant[6][19];
-        ArrayList<Zombie> z = new ArrayList<Zombie>();
-
-        //p[0][0] = new Sunflower(0,0);
-        p[0][4] = new Peashooter(0, 4);
-        p[1][1] = new Peashooter(1,1);
-        z.add(new Zombie(0,3));
-        //z.add(new Zombie(1,3));
-        z.add(new Zombie(3, 0));
-        z.add(new Zombie(0, 0));
-
-        display.displayLawn(p, z);
-    }
 }
