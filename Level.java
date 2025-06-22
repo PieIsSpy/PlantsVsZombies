@@ -210,15 +210,15 @@ public class Level {
         System.out.println("Enter name of plant: ");
         name = kb.nextLine();
         System.out.println("Enter row coordinate: ");
-        row = kb.nextInt();
+        row = kb.nextInt() - 1;
         System.out.println("Enter col coordinate: ");
-        col = kb.nextInt();
+        col = kb.nextInt() - 1;
 
         if (isValidName(name) && isValidCoordinate(row, col)) {
             if (canBePlaced(row, col)) {
                 if (!isInCooldown(name)) {
-                    tiles[row - 1][col - 1] = createPlant(name, row - 1, col - 1);
-                    System.out.println("Placed a " + tiles[row-1][col-1].getName() + " at row:" + row + ", col:" + col);
+                    tiles[row][col] = createPlant(name, row, col);
+                    System.out.println("Placed a " + tiles[row][col].getName() + " at row:" + (row + 1) + ", col:" + (col + 1));
                 }
                 else
                     System.out.println("Plant is still in cooldown");
@@ -236,7 +236,7 @@ public class Level {
      * to the enemies array list. 
      */
     public void spawnZombie() {
-        enemies.add(new Zombie((int)(Math.floor(Math.random() * (ROWS))), COLUMNS + 1));
+        enemies.add(new Zombie((int)(Math.floor(Math.random() * ROWS)), COLUMNS + 1));
         //System.out.println("Time: " + time_current);
         System.out.printf("Spawned zombie at row %d, col %d\n", (int)enemies.getLast().getRow(), (int)enemies.getLast().getCol());
         System.out.println();
@@ -266,11 +266,17 @@ public class Level {
      *
      */
     public void despawn() {
-        int i;
+        int i, j;
         // zombies
         for (i = 0; i < enemies.size(); i++)
             if (enemies.get(i).getHealth() == 0)
                 enemies.remove(i);
+
+        // plants
+        for (i = 0; i < ROWS; i++)
+            for (j = 0; j < COLUMNS; j++)
+                if (tiles[i][j] != null && tiles[i][j].getHealth() == 0)
+                    tiles[i][j] = null;
     }
 
     /**
@@ -284,6 +290,7 @@ public class Level {
      */
     public void gameCycle() {
         Scanner kb = new Scanner(System.in);
+        Lawn lawn = new Lawn(ROWS, COLUMNS);
         int interval = 0;
         /*count variable that tracks the time at which a zombie
          * object starts spawning once it reaches the given interval
@@ -293,11 +300,14 @@ public class Level {
         boolean waveFlag = false;
 
         System.out.println("Level " + LEVEL_NUM);
-
+        spawnZombie();
         //continues until the end of the game
-        while (!isGameWon() && !isGameOver()) {
+        while (time_current < TIME_LENGTH) {
+        //while (!isGameWon() && !isGameOver()) {
             System.out.println("time: " + time_current);
+            lawn.displayLawn(tiles, enemies);
             // check time
+            /*
             if (time_current >= 30 && time_current <= 80) {
                 if (time_current == 30)
                     System.out.println("The zombies are coming...");
@@ -322,6 +332,7 @@ public class Level {
                 spawnZombie();
                 cout = 0;
             }
+            */
 
             //behavior call
             for (i = 0; i < enemies.size(); i++) {

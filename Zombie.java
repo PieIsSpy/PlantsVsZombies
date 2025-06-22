@@ -38,6 +38,7 @@ public class Zombie extends Entity {
         float cur = getCol();
         cur -= (float) (1.0 / getSpeed());
         setCol(cur);
+        //System.out.printf("pos: row %d col %d\n", (int)getRow(), (int)getCol());
     }
 
     /** This method makes the zombie eat the plant that is
@@ -47,10 +48,6 @@ public class Zombie extends Entity {
      */
     public void eat(Plant p) {
         p.takeDamage(getDamage());
-
-        // temporary until Lawn.java have death mechanics already
-        if (!p.isAlive())
-            p = null;
     }
 
     /** This method compiles basic action methods
@@ -67,7 +64,7 @@ public class Zombie extends Entity {
             }
             // else if a plant is in front of zombie
             else if (findFront(plants).isAlive()){
-                System.out.printf("plant in row %d col %d hp: %d\n", (int)findFront(plants).getRow(), (int)findFront(plants).getCol(), findFront(plants).getHealth());
+                //System.out.printf("plant in row %d col %d hp: %d\n", (int)findFront(plants).getRow(), (int)findFront(plants).getCol(), findFront(plants).getHealth());
                 eat(findFront(plants));
             }
         }
@@ -92,7 +89,7 @@ public class Zombie extends Entity {
                 if (getCol() - plants[i].getCol() < smallestDistance) {
                     smallestDistance = getCol() - plants[i].getCol();
                     column = i;
-                    System.out.println("front plant " + plants[column].getCol());
+                    //System.out.println("front plant " + plants[column].getCol());
                 }
             }
         }

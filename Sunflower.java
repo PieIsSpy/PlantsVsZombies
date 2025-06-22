@@ -24,7 +24,7 @@ public class Sunflower extends Plant{
      *
      */
     @Override
-    public void plantAction()
+    public void plantBehavior()
     {
         System.out.println("Sunflower has generated" + SUN_AMOUNT + " sun!");
     }
