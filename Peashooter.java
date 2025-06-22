@@ -1,6 +1,15 @@
 
 import java.util.ArrayList;
 
+/** The class Peashooter represents the behaviors of a peashooter plant.
+ * It extends the Plant class and defines how it interacts with 
+ * zombie objects whether by firing projectiles or detecting nearby
+ * enemies. 
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 1.0
+ */
 public class Peashooter extends Plant {
 
     /**
@@ -18,12 +27,13 @@ public class Peashooter extends Plant {
         setCost(100);
         setCooldown(7);
         setRange(7);
-        setDamage(15);
+        setDamage(5);
         setHealth(30);
-        setDirectDamage(25);
+        setDirectDamage(10);
         setDirectDamageRange(2);
-        projectileSpeed = 1.5f;
-
+        setSpeed(2);
+        setProjectileSpeed(1.5f);
+        shootCooldown = 0;
         peas = new ArrayList<>();
 
     }
@@ -32,43 +42,83 @@ public class Peashooter extends Plant {
      * This method is used to define the peashooter's 
      * behavior in response to zombie objects.
      * 
-     * 
      * @param enemies list of zombie objects
+     * 
      */
+    @Override
+
     public void plantBehavior(ArrayList<Zombie> enemies)
     {
         Zombie z = findNearestEnemy(enemies);
 
-        int i;
         if(z != null && isWithinRange(z.getCol()))
         {
-            shoot(z); 
-            System.out.println("Peashooter firing...");
 
-            i = 0; 
-
-            while(i < peas.size())
+            if(shootCooldown > 0)
             {
-                //
-                //distance between pea and zombie is less than 0.5
-                if(z.isAlive() && (z.getCol() - peas.get(i).getColumn()) < 0.5)
-                {
-                    peas.get(i).hitEnemy(z);
-                }
-                else
-                {
-                    peas.get(i).moveProjectile();
-                }
-                i++;
+                shootCooldown--;
             }
 
-            //removes the peas that have already hit the zombie
-            removeInactiveProjectiles();
+            if(shootCooldown == 0)
+            {
+                shoot(z); 
+                System.out.println("Peashooter firing...");
+                shootCooldown = getSpeed();
+            }
+            
         }
 
-        //projectileLogic(enemies)?? 
+         projectileLogic(enemies);
+
     }
 
+    /**
+     * This method handles the logic of the projectile
+     * after a peashooter releases/shoots it. If it hits
+     * the zombie object, it will be removed from the 
+     * list of projectiles. Otherwise, it will continue 
+     * moving. 
+     * 
+     * @param enemies list of zombie objects 
+     */
+    public void projectileLogic(ArrayList<Zombie> enemies)
+    {
+        int i = 0, x;
+        boolean hasHit = false;
+
+        //loops through the list of projectiles
+        while(i < peas.size())
+        {
+            //loops through the list of enemies within the same row
+            for(x = 0; x < enemies.size() && !hasHit; x++)
+            {
+                //if zombie is alive and projectile is within range of attack 
+                if(enemies.get(x).isAlive() && (enemies.get(x).getCol() - peas.get(i).getColumn()) < 0.5)
+                {
+                    peas.get(i).hitEnemy(enemies.get(x));
+                    hasHit = true;
+                }
+            
+            }
+
+            //if it has not hit any zombie yet, it will continue moving
+            if(!hasHit)
+            {
+                peas.get(i).moveProjectile();
+            }
+            
+            i++;
+        }
+
+        //removes the projectiles that have already hit the zombie
+        removeInactiveProjectiles();
+    }
+
+    /**
+     * This method removes all inactive projectiles
+     * from the list. 
+     * 
+     */
     public void removeInactiveProjectiles()
     {
         int i;
@@ -81,24 +131,6 @@ public class Peashooter extends Plant {
         }
     }
 
-
-    /**
-     * 
-     * for(i = 0; i < ROW; i++)
-     * {
-     *      for(x = 0; x < COL; x++)
-     *      {
-     *          tiles[i][x].plantBehavior
-     *      }
-     *  
-     * }
-     * 
-     * attack range of projectile = <0.5
-     * 
-     *
-     */
-
-    
    
     /**
      * This method checks if an object is within
@@ -111,12 +143,6 @@ public class Peashooter extends Plant {
      */
     public boolean isWithinRange(float target)
     {
-        //plant range = 7
-        //plantcol index = 2
-        //zombie col index = 5
-        //checks if 
-        //(5 - 2) <= 7 : checks if it is within the range of peashooter
-        // && 5 >= 2 : ensures that it is in front of peashooter
         return (target - getCol()) <= getRange() && target >= getCol();
         
     }
@@ -138,33 +164,43 @@ public class Peashooter extends Plant {
 
     /**
      * 
-     * This method
+     * This method represents the shooting of a projectile
+     * at its targeted zombie object. It adds it to the 
+     * peashooter's list of projectiles. If the target is within
+     * a direct damage range, the projectile will deal an increased
+     * amount of damage. 
      * 
      * 
-     * @param z
+     * @param z zombie object targeted by projectile 
      */
     public void shoot(Zombie z)
     {
-        //so it deals more damage when it is closer
         if(isWithinDirectDamage(z.getCol()))
         {
-            peas.add(new Projectile(getCol(), getDirectDamage(), projectileSpeed));
+            peas.add(new Projectile(getRow(), getCol(), getDirectDamage(), projectileSpeed));
         }
         else
         {
-            peas.add(new Projectile(getCol(), getDamage(), projectileSpeed));
+            peas.add(new Projectile(getRow(), getCol(), getDamage(), projectileSpeed));
         }
-    
         
     }
 
-    
-
+    /**
+     * 
+     * This method searches through the list of zombie 
+     * objects to find the nearest one positioned in the 
+     * front of peashooter object. If successfull it will 
+     * return the nearest zombie object, otherwise, it 
+     * will return null
+     * 
+     * @param enemies list of zombie objects 
+     * @return nearest zombie object if it is positioned in front of
+     * peashooter, otherwise, null. 
+     */
     public Zombie findNearestEnemy(ArrayList<Zombie> enemies)
     {
-        //loop through all the zombies in the list
-        //find the one with equal row and nearest col
-
+    
         int i, finalCol = -1; 
         float smallestDistance = 888f, distance;
         
@@ -184,6 +220,7 @@ public class Peashooter extends Plant {
             }
         }
 
+        //if nearest zombie object is found
         if(finalCol != -1)
         {
             return enemies.get(finalCol);
@@ -193,21 +230,31 @@ public class Peashooter extends Plant {
 
     }
 
-    /* 
+    /**
+     * This method sets the projectile speed of 
+     * a peashooter object. 
+     * 
+     * @param pSpeed projectile speed or how fast a 
+     * projectile moves after it is released. 
+     */
+    public void setProjectileSpeed(float pSpeed)
+    {
+        projectileSpeed = pSpeed;
+    }
+
+     /* 
     public static void main(String[] args) {
         
         int i, x;
         Peashooter p1 = new Peashooter(2, 1);
-        boolean isAlive = true;
-        
 
-        
-        Zombie z = new Zombie(2, 4); 
         ArrayList<Zombie> zombies = new ArrayList<>();
-        zombies.add(z);
+
+        zombies.add(new Zombie(2, 4));
+        zombies.add(new Zombie(2, 3));
 
         
-        for (i = 0; i < 10 && isAlive; i++) {
+        for (i = 0; i < 30; i++) {
             System.out.println("Time: " + i);
 
             p1.plantBehavior(zombies); 
@@ -216,16 +263,18 @@ public class Peashooter extends Plant {
            for (x = 0; x < p1.peas.size(); x++) 
            {
                 Projectile p = p1.peas.get(x);
-                System.out.printf("projectile at col %.2f\n", p.getColumn());
+                System.out.printf("projectile %d at col %.2f\n", x, p.getColumn());
             }
 
-            System.out.printf("zombie at col %.2f\n health: %d \n alive?: %b\n", z.getCol(), z.getHealth(), z.isAlive());
-
-            if (!z.isAlive()) 
+            for(x = 0; x < zombies.size(); x++)
             {
-                System.out.println("zmbie defeated!");
-                isAlive = false;
+                System.out.printf("zombie at col %.2f\n health: %d \n alive?: %b\n", zombies.get(x).getCol(), zombies.get(x).getHealth(), zombies.get(x).isAlive());
+                if(!zombies.get(x).isAlive())
+                {
+                    System.out.println("Zombie " + x + " is defeated!");
+                }
             }
+            
 
             System.out.println();
         }
@@ -233,9 +282,9 @@ public class Peashooter extends Plant {
 
     */
 
-
     private ArrayList<Projectile> peas;
     private float projectileSpeed;
+    private int shootCooldown;
    
     
 }
