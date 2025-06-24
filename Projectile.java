@@ -1,5 +1,4 @@
-
-/** The class Projectile represents a projectile fired by 
+/** The class Projectile represents a projectile fired by
  * a plant object. It is responsible for handling its 
  * movement and dealing damage to a zombie object.  
  *
@@ -57,7 +56,6 @@ public class Projectile {
 
         pos += (float)(1.0 / speed);
         setColumn(pos);
-        
     }
 
     /**

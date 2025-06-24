@@ -21,7 +21,7 @@ public class Cooldown {
      * @param type plant type
      * @param cd cooldowns of each plant type
      */
-    public Cooldown(String type, int cd)
+    public Cooldown(String type, int cd, int initialTime)
     {
         cooldown = cd;
         lastPlaced = 0;
@@ -39,6 +39,7 @@ public class Cooldown {
      */
     public boolean isReady(int currentTime)
     {
+        //return currentTime >= System.currentTimeMillis()/1000- lastPlaced + cooldown;
         return currentTime >= lastPlaced + cooldown;
     }
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *  @version 1.0
  */
 
-public class Sunflower extends Plant{
+public class Sunflower extends Plant {
 
     public Sunflower(float r, float c)
     {

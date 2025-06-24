@@ -1,8 +1,7 @@
-
 import java.util.ArrayList;
 
 /** The class Peashooter represents the behaviors of a peashooter plant.
- * It extends the Plant class and defines how it interacts with 
+ * It extends the Plant class and defines how it interacts with
  * zombie objects whether by firing projectiles or detecting nearby
  * enemies. 
  *
@@ -14,7 +13,7 @@ public class Peashooter extends Plant {
 
     /**
      * This constructor initializes the attributes of a
-     * Peashooter object and sets it to its given 
+     * Peashooter object and sets it to its given
      * position. 
      * 
      * @param r row index of object
@@ -189,7 +188,7 @@ public class Peashooter extends Plant {
      * 
      * This method searches through the list of zombie 
      * objects to find the nearest one positioned in the 
-     * front of peashooter object. If successfull it will 
+     * front of peashooter object. If successful, it will
      * return the nearest zombie object, otherwise, it 
      * will return null
      * 
