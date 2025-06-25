@@ -18,6 +18,7 @@ public class GameElement {
      * 
      * @param r row position
      * @param c column position
+     * @param t internal time of a gameElement
      */
     public GameElement(float r, float c, int t)
     {
@@ -82,6 +83,12 @@ public class GameElement {
         return col;
     }
 
+    /**
+     * This method returns the internal time of
+     * a game element
+     * 
+     * @return internal time of game element
+     */
     public int getInternal_Time() {
         return internal_time;
     }
@@ -91,7 +98,7 @@ public class GameElement {
      * of a game element object
      * 
      * 
-     * @param c column position of projectile
+     * @param c column position of game element
      */
     public void setCol(float c)
     {
@@ -110,6 +117,14 @@ public class GameElement {
         row = r;
     }
 
+    /**
+     * This method updates the internal time of
+     * a game element in order to track the last time
+     * it performed an action. 
+     * 
+     * @param t current game time to be set as the 
+     * game element's internal time
+     */
     public void setInternal_time(int t) {
         internal_time = t;
     }
