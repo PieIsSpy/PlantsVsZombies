@@ -1,7 +1,8 @@
+
 import java.util.ArrayList;
 
 /** The class Peashooter represents the behaviors of a peashooter plant.
- * It extends the Plant class and defines how it interacts with
+ * It extends the Plant class and defines how it interacts with 
  * zombie objects whether by firing projectiles or detecting nearby
  * enemies. 
  *
@@ -13,7 +14,7 @@ public class Peashooter extends Plant {
 
     /**
      * This constructor initializes the attributes of a
-     * Peashooter object and sets it to its given
+     * Peashooter object and sets it to its given 
      * position. 
      * 
      * @param r row index of object
@@ -22,6 +23,14 @@ public class Peashooter extends Plant {
     public Peashooter(float r, float c)
     {
         super(r, c);
+        initializeStats();
+        shootCooldown = 0;
+        peas = new ArrayList<>();
+
+    }
+
+    public void initializeStats()
+    {
         setName("Peashooter");
         setCost(100);
         setCooldown(7);
@@ -32,9 +41,6 @@ public class Peashooter extends Plant {
         setDirectDamageRange(2);
         setSpeed(2);
         setProjectileSpeed(1.5f);
-        shootCooldown = 0;
-        peas = new ArrayList<>();
-
     }
 
     /**
@@ -45,9 +51,10 @@ public class Peashooter extends Plant {
      * 
      */
     @Override
-    public void plantBehavior(ArrayList<Zombie> enemies)
+
+    public void plantBehavior(Level level)
     {
-        Zombie z = findNearestEnemy(enemies);
+        Zombie z = findFront(level.getEnemies());
 
         if(z != null && isWithinRange(z.getCol()))
         {
@@ -66,7 +73,7 @@ public class Peashooter extends Plant {
             
         }
 
-         projectileLogic(enemies);
+         projectileLogic(level.getEnemies());
 
     }
 
@@ -82,18 +89,19 @@ public class Peashooter extends Plant {
     public void projectileLogic(ArrayList<Zombie> enemies)
     {
         int i = 0, x;
-        boolean hasHit = false;
+        boolean hasHit;
 
         //loops through the list of projectiles
         while(i < peas.size())
         {
+            hasHit = false;
             //loops through the list of enemies within the same row
             for(x = 0; x < enemies.size() && !hasHit; x++)
             {
                 //if zombie is alive and projectile is within range of attack 
-                if(enemies.get(x).isAlive() && (enemies.get(x).getCol() - peas.get(i).getColumn()) < 0.5)
+                if(enemies.get(x).isAlive() && (enemies.get(x).getCol() - peas.get(i).getCol()) < 0.5)
                 {
-                    peas.get(i).hitEnemy(enemies.get(x));
+                    peas.get(i).hit(enemies.get(x));
                     hasHit = true;
                 }
             
@@ -102,7 +110,7 @@ public class Peashooter extends Plant {
             //if it has not hit any zombie yet, it will continue moving
             if(!hasHit)
             {
-                peas.get(i).moveProjectile();
+                peas.get(i).update();
             }
             
             i++;
@@ -188,7 +196,7 @@ public class Peashooter extends Plant {
      * 
      * This method searches through the list of zombie 
      * objects to find the nearest one positioned in the 
-     * front of peashooter object. If successful, it will
+     * front of peashooter object. If successfull it will 
      * return the nearest zombie object, otherwise, it 
      * will return null
      * 
@@ -196,7 +204,7 @@ public class Peashooter extends Plant {
      * @return nearest zombie object if it is positioned in front of
      * peashooter, otherwise, null. 
      */
-    public Zombie findNearestEnemy(ArrayList<Zombie> enemies)
+    public Zombie findFront(ArrayList<Zombie> enemies)
     {
     
         int i, finalCol = -1; 
@@ -240,12 +248,15 @@ public class Peashooter extends Plant {
         projectileSpeed = pSpeed;
     }
 
-     /* 
+     
+    
+    /* 
     public static void main(String[] args) {
         
         int i, x;
         Peashooter p1 = new Peashooter(2, 1);
 
+        Level level = new Level(1, 5, 9, 50);
         ArrayList<Zombie> zombies = new ArrayList<>();
 
         zombies.add(new Zombie(2, 4));
@@ -255,13 +266,12 @@ public class Peashooter extends Plant {
         for (i = 0; i < 30; i++) {
             System.out.println("Time: " + i);
 
-            p1.plantBehavior(zombies); 
-
+            p1.plantBehavior(level); 
             
            for (x = 0; x < p1.peas.size(); x++) 
            {
                 Projectile p = p1.peas.get(x);
-                System.out.printf("projectile %d at col %.2f\n", x, p.getColumn());
+                System.out.printf("projectile %d at col %.2f\n", x, p.getCol());
             }
 
             for(x = 0; x < zombies.size(); x++)
@@ -277,12 +287,13 @@ public class Peashooter extends Plant {
             System.out.println();
         }
     }
-
     */
+
 
     private ArrayList<Projectile> peas;
     private float projectileSpeed;
     private int shootCooldown;
+
    
     
 }
