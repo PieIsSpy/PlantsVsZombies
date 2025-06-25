@@ -10,7 +10,7 @@
 public class Entity {
     /** This constructor initializes the starting health,
      *  damage output, and row and col coordinates
-     *  of an entity
+     *  of an entity. 
      *
      *  @param h the health point of an entity
      *  @param s the speed of an entity
