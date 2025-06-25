@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 /** This class represents a Sunflower entity
  *  that inherits a Plant class. This plant
@@ -9,37 +8,53 @@ import java.util.ArrayList;
  *  @version 1.0
  */
 
-public class Sunflower extends Plant {
+public class Sunflower extends Plant{
 
     public Sunflower(float r, float c)
     {
         super(r, c);
+        initializeStats();
+        counter = 0;
+        
+    }
+
+    public void initializeStats()
+    {
         setName("Sunflower");
         setCost(50);
         setCooldown(5);
         setHealth(30);
+        setSpeed(20);
     }
 
-    //how to handle sun generating action
-    //how to make sun generate given the interval of 24 seconds?
 
     @Override 
-   public void plantBehavior(ArrayList<Zombie> enemies)
+   public void plantBehavior(Level level) 
    {
-        System.out.println("Sunflower has generated" + SUN_AMOUNT + " sun!");
+        //same logic as peashooter
+
+        //when does it generate sun?
+        //generates sun every 20 seconds
+        if(counter > 0)
+        {
+            //20 - counter
+            counter--;
+            System.out.println("Sunflower has " + counter + " remaining seconds to produce another sun");
+        }
+
+        if(counter == 0)
+        {
+            System.out.println("Sunflower has produced a sun!");
+            level.addSun(this);
+            counter = getSpeed();
+        }
+
+
    }
 
-    public int getSUN_AMOUNT()
-    {
-        return SUN_AMOUNT;
-    }
+   private int counter;
+   
 
-    public int getSUN_INTERVAL()
-    {
-        return SUN_INTERVAL;
-    }
-
-    private final int SUN_AMOUNT = 25; //how much sun it produces
-    private final int SUN_INTERVAL = 24; //how fast it produces sun (seconds)
+    
     
 }
