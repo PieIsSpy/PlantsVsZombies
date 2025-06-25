@@ -192,6 +192,9 @@ public class Level {
             for (j = 0; j < COLUMNS; j++)
                 if (tiles[i][j] != null)
                     tiles[i][j].plantBehavior(this, currentTime);
+
+        for (i = 0; i < suns.size(); i++)
+            suns.get(i).update(currentTime);
     }
 
     public void gameCycle(int currentTime) {
