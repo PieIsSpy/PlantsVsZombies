@@ -24,7 +24,6 @@ public class Peashooter extends Plant {
     {
         super(r, c, t);
         initializeStats();
-        shootCooldown = 0;
         peas = new ArrayList<Projectile>();
     }
 
@@ -33,7 +32,7 @@ public class Peashooter extends Plant {
         setName("Peashooter");
         setCost(100);
         setCooldown(7);
-        setRange(8);
+        setRange(20);
         setDamage(5);
         setHealth(100);
         setDirectDamage(10);
@@ -62,7 +61,7 @@ public class Peashooter extends Plant {
             }
         }
 
-         projectileLogic(level.getEnemies());
+         projectileLogic(level.getEnemies(), currentTime);
 
     }
 
@@ -75,7 +74,7 @@ public class Peashooter extends Plant {
      * 
      * @param enemies list of zombie objects 
      */
-    public void projectileLogic(ArrayList<Zombie> enemies)
+    public void projectileLogic(ArrayList<Zombie> enemies, int currentTime)
     {
         int i = 0, x;
         boolean hasHit;
@@ -99,7 +98,7 @@ public class Peashooter extends Plant {
             //if it has not hit any zombie yet, it will continue moving
             if(!hasHit)
             {
-                peas.get(i).update();
+                peas.get(i).update(currentTime);
             }
             
             i++;
@@ -170,6 +169,7 @@ public class Peashooter extends Plant {
      */
     public void shoot(Zombie z, int currentTime)
     {
+        System.out.println("Pew!");
         if(isWithinDirectDamage(z.getCol()))
         {
             peas.add(new Projectile(getRow(), getCol(), currentTime, getDirectDamage(), projectileSpeed));
@@ -237,13 +237,13 @@ public class Peashooter extends Plant {
         projectileSpeed = pSpeed;
     }
 
+    public ArrayList<Projectile> getPeas() {
+        return peas;
+    }
+
 
     private ArrayList<Projectile> peas;
     private float projectileSpeed;
-    private int shootCooldown;
-
-   
-    
 }
 
 

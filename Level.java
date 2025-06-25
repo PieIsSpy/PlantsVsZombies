@@ -18,6 +18,8 @@ public class Level {
         int i;
 
         internal_start = curTime;
+        sun_interval = curTime;
+
         LEVEL_NUM = n;
         TIME_LENGTH = t;
         ROWS = r;
@@ -210,8 +212,10 @@ public class Level {
             internal_start = currentTime;
         }
 
-        if (currentTime - internal_start % 20 == 0)
+        if (currentTime - sun_interval >= 20) {
             addSun(currentTime);
+            sun_interval = currentTime;
+        }
     }
 
         //used for sunflower
@@ -273,4 +277,5 @@ public class Level {
     private Cooldown[] cooldowns;
     private ArrayList<Sun> suns;
     private int internal_start;
+    private int sun_interval;
 }

@@ -133,7 +133,7 @@ class LevelDriver {
 
         Level model = new Level(1, 180, 5, 9, (int)startTime/1000);
         Lawn view = new Lawn(5, 9);
-        Player control = new Player(1000);
+        Player control = new Player(200);
 
         System.out.println("Level " + model.getLEVEL_NUM());
         while (!model.isGameOver() && !model.isGameWon(correctedTime)) {
