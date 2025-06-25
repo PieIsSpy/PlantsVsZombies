@@ -1,18 +1,18 @@
 
 public class Sun extends GameElement {
 
-    public Sun(float row, float c, boolean fromSky, float targetRow)
+    public Sun(float row, float c, boolean fromSky, float targetRow, int time)
     {
-        super(row, c);
+        super(row, c, time);
         this.fromSky = fromSky;
         this.targetRow = targetRow;
         landedTime = -888;
 
     }
 
-    public Sun(float row, float c, boolean fromSky)
+    public Sun(float row, float c, boolean fromSky, int time)
     {
-        super(row, c);
+        super(row, c, time);
         targetRow = row; //row: 1, col: 2, targetRow = row
         this.fromSky = fromSky;
         landedTime = -888;
@@ -22,7 +22,7 @@ public class Sun extends GameElement {
     {
         if(fromSky) //if sun is from the sky
         {
-            fallFromSky();
+            fallFromSky(currentTime);
         }
 
         landAtTargetRow(currentTime);
@@ -30,12 +30,12 @@ public class Sun extends GameElement {
     }
 
 
-    public void fallFromSky()
+    public void fallFromSky(int currentTime)
     {
         
         float currentRow = getRow();
 
-        if(fromSky && !hasLanded())
+        if(fromSky && !hasLanded() && (currentTime - getInternal_Time() >= 1))
         {
             currentRow += 1f / FALLING_SPEED;
             setRow(currentRow);

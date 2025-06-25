@@ -18,12 +18,13 @@ public class Entity {
      *  @param r the row coordinate of an entity
      *  @param c the col coordinate of an entity
      */
-    public Entity (int h, int s, int d, float r, float c) {
+    public Entity (int h, int s, int d, float r, float c, int t) {
         health = h;
         speed = s;
         damage = d;
         row = r;
         col = c;
+        internal_time = t;
     }
 
     /**
@@ -33,11 +34,12 @@ public class Entity {
      * @param s the speed of an entity
      * @param d the damage output of an entity
      */
-    public Entity(int h, int s, int d)
+    public Entity(int h, int s, int d, int t)
     {
         health = h;
         speed = s;
         damage = d;
+        internal_time = t;
     }
 
     /** This method subtracts the health of an entity
@@ -101,6 +103,10 @@ public class Entity {
         col = c;
     }
 
+    public void setInternal_time(int t) {
+        internal_time = t;
+    }
+
     /** This method returns the current health of an
      *  Entity.
      *
@@ -146,7 +152,11 @@ public class Entity {
         return col;
     }
 
-    /** how much damage it can sustain */
+    public int getInternal_Time() {
+        return internal_time;
+    }
+
+    /** How much damage it can sustain */
     private int health;
     /** How fast an entity attacks or walks */
     private int speed;
@@ -156,4 +166,6 @@ public class Entity {
     private float row;
     /** The column positon of the zombie */
     private float col;
+    /** The internal time of the enemy*/
+    private int internal_time;
 }

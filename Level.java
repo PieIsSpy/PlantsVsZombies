@@ -18,7 +18,6 @@ public class Level {
         int i;
 
         internal_start = curTime;
-        internal_clock = 0;
         LEVEL_NUM = n;
         TIME_LENGTH = t;
         ROWS = r;
@@ -28,7 +27,7 @@ public class Level {
         enemies = new ArrayList<Zombie>();
         suns = new ArrayList<>();
 
-        avaliable_plants = new Plant[]{new Sunflower(-1, -1), new Peashooter(-1, -1)};
+        avaliable_plants = new Plant[]{new Sunflower(-1, -1, 0), new Peashooter(-1, -1, 0)};
         cooldowns = new Cooldown[avaliable_plants.length];
 
         for (i = 0; i < avaliable_plants.length; i++)
@@ -158,8 +157,8 @@ public class Level {
      * and in the rightmost column. It is then added
      * to the enemies array list.
      */
-    public void spawnZombies() {
-        enemies.add(new Zombie((int)(Math.floor(Math.random() * ROWS)), COLUMNS + 1));
+    public void spawnZombies(int currentTime) {
+        enemies.add(new Zombie((int)(Math.floor(Math.random() * ROWS)), COLUMNS + 1, currentTime));
     }
 
     /** This method searches for entities
@@ -181,32 +180,50 @@ public class Level {
                     tiles[i][j] = null;
     }
 
-    public void behaviors() {
+    public void behaviors(int currentTime) {
         int i, j;
 
         for (i = 0; i < enemies.size(); i++)
-            enemies.get(i).behaviour(tiles[(int)enemies.get(i).getRow()]);
+            enemies.get(i).behaviour(tiles[(int)enemies.get(i).getRow()], currentTime);
 
         for (i = 0; i < ROWS; i++)
             for (j = 0; j < COLUMNS; j++)
-                tiles[i][j].plantBehavior(this);
+                if (tiles[i][j] != null)
+                    tiles[i][j].plantBehavior(this, currentTime);
     }
 
     public void gameCycle(int currentTime) {
-        spawnZombies();
-        behaviors();
+        int interval = 0;
 
+        behaviors(currentTime);
+
+        if (currentTime >= (int)Math.floor(TIME_LENGTH * 0.17) && currentTime <= (int)Math.floor(TIME_LENGTH * 0.445))
+            interval = 10;
+        else if (currentTime >= (int)Math.floor(TIME_LENGTH * 0.45) && currentTime <= (int)Math.floor(TIME_LENGTH * 0.78))
+            interval = 5;
+        else if (currentTime >= (int)Math.floor(TIME_LENGTH * 0.785) && currentTime <= (int)Math.floor(TIME_LENGTH * 0.945))
+            interval = 3;
+
+        if (interval != 0 && currentTime - internal_start >= interval) {
+            spawnZombies(currentTime);
+            System.out.println("Spawned Zombie at (" + (enemies.getLast().getRow() + 1) + ", " + (enemies.getLast().getCol() + 1) + ")");
+            internal_start = currentTime;
+        }
+
+        if (currentTime - internal_start % 20 == 0)
+            addSun(currentTime);
     }
 
         //used for sunflower
-    public void addSun(Plant p)
+    public void addSun(Plant p, int currentTime)
     {
-        suns.add(new Sun(p.getRow(), p.getCol(), false));
+        suns.add(new Sun(p.getRow(), p.getCol(), false, currentTime));
+        unclaimed_suns += suns.getLast().getAmount();
     }
 
     //used for sun falling from the sky
     //i still need to update the random spawn since theres a better way than whatever this is
-    public void addSun()
+    public void addSun(int currentTime)
     {
         //random spawn
         Random random = new Random();
@@ -215,12 +232,13 @@ public class Level {
         float columnSpawn = random.nextInt(COLUMNS) + random.nextFloat();
         float targetSpawn = random.nextInt(ROWS) + random.nextFloat();
 
-        suns.add(new Sun(0, columnSpawn, true, Math.max(targetSpawn, 1.5f)));
+        suns.add(new Sun(0, columnSpawn, true, Math.max(targetSpawn, 1.5f), currentTime));
+        unclaimed_suns += suns.getLast().getAmount();
     }
 
     public void removeInactiveSun()
     {
-        int i; 
+        int i;
 
         //removes the sun that have disappeared
         for(i = suns.size() - 1; i >= 0; i--)
@@ -229,8 +247,12 @@ public class Level {
             {
                 suns.remove(i);
             }
-            
+
         }
+    }
+
+    public void removeAllSun() {
+        suns.clear();
     }
 
     /**number of levels to track game progress */
@@ -250,6 +272,5 @@ public class Level {
     private Plant[] avaliable_plants;
     private Cooldown[] cooldowns;
     private ArrayList<Sun> suns;
-    private int internal_clock;
     private int internal_start;
 }

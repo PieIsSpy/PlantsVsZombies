@@ -49,6 +49,7 @@ class LevelDriver {
         boolean success;
 
         System.out.println("Sun: " + c.getSun());
+        System.out.println("Unclaimed sun: " + m.getUnclaimed_suns());
         System.out.println("1. Place plant");
         System.out.println("2. Use shovel");
         System.out.println("3. Collect sun");
@@ -76,7 +77,7 @@ class LevelDriver {
                     if (m.getCooldown(input).isReady(startingTime)) {
                         // lastly, check if the tile can be placed
                         if (m.isValidCoordinate(row, col) && m.canBePlaced(row, col)) {
-                            c.placePlant(m, row, col, input);
+                            c.placePlant(m, row, col, input, startingTime);
                             c.subtractSun(m.getAvaliable_plants()[findName(m, input)].getCost());
                             m.getCooldown(input).updateLastPlaced(startingTime);
                             System.out.println("Placed " + m.getTiles()[row][col].getName() + " at (" + (row+1) + ", " + (col+1) + ")");
@@ -110,6 +111,7 @@ class LevelDriver {
                 System.out.println("Collected " + m.getUnclaimed_suns() + " suns");
                 c.collectSun(m.getUnclaimed_suns());
                 m.setUnclaimed_suns(0);
+                m.removeAllSun();
             } else
                 System.out.println("There are no suns to collect");
         }
@@ -120,13 +122,14 @@ class LevelDriver {
     }
 
     public static void main(String[] args) {
-        Plant[] p = {new Sunflower(-1, -1), new Peashooter(-1,-1)};
+        Plant[] p = {new Sunflower(-1, -1, 0), new Peashooter(-1,-1, 0)};
         LevelDriver util = new LevelDriver();
         long startTime = System.currentTimeMillis();
         long beforeInput;
         long afterInput;
         long totalEllapse = 0;
         int correctedTime = 0;
+        boolean startFlag = false, endFlag = false;
 
         Level model = new Level(1, 180, 5, 9, (int)startTime/1000);
         Lawn view = new Lawn(5, 9);
@@ -134,6 +137,13 @@ class LevelDriver {
 
         System.out.println("Level " + model.getLEVEL_NUM());
         while (!model.isGameOver() && !model.isGameWon(correctedTime)) {
+            if (correctedTime >= 30 && !startFlag) {
+                System.out.println("The zombies... are coming...");
+                startFlag = true;
+            }
+            else if (correctedTime <= 170)
+
+            model.gameCycle(correctedTime);
             System.out.println("Time: " + correctedTime + "/" + model.getTIME_LENGTH());
             view.displayLawn(model.getTiles(), model.getEnemies());
             beforeInput = System.currentTimeMillis();

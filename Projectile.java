@@ -21,9 +21,9 @@ public class Projectile extends GameElement{
      * @param dmg damage it deals to another object
      * @param s speed of projectile 
      */
-    Projectile(float row, float col, int dmg, float s)
+    Projectile(float row, float col, int time, int dmg, float s)
     {
-        super(row, col);
+        super(row, col, time);
         speed = s;
         damage = dmg;
     }
@@ -51,13 +51,15 @@ public class Projectile extends GameElement{
      * 
      */
    
-    public void update()
+    public void update(int currentTime)
     {
         float pos = getCol();
 
-        pos += (float)(1.0 / speed);
-        setCol(pos);
-        
+        if (currentTime - getInternal_Time() >= 1) {
+            pos += (float) (1.0 / speed);
+            setCol(pos);
+            setInternal_time(currentTime);
+        }
     }
 
 

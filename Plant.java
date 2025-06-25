@@ -15,9 +15,9 @@ public class Plant extends Entity {
      *  @param r the row coordinate of a plant
      *  @param c the column coordinate of a plant
      */
-    Plant(float r, float c) //attack plants (e.g., peashooter)
+    Plant(float r, float c, int t) //attack plants (e.g., peashooter)
     {
-        super(0, 0, 0, r, c);
+        super(0, 0, 0, r, c, t);
         name = "Default";
         cost = 0;
         cooldown = 0;
@@ -32,7 +32,7 @@ public class Plant extends Entity {
      *  overridden for it to be used.
      *
      */
-    public void plantBehavior(ArrayList<Zombie> enemies)
+    public void plantBehavior(Level level, int currentTime)
     {
         
     }

@@ -17,8 +17,8 @@ public class Zombie extends Entity {
      *  @param r the row grid position of the Zombie
      *  @param c the col grid position of the zombie
      */
-    public Zombie(int r, int c) {
-        super(70, 4,10, r, c);
+    public Zombie(int r, int c, int t) {
+        super(70, 4,10, r, c, t);
 
         count++;
     }
@@ -57,24 +57,25 @@ public class Zombie extends Entity {
      *
      *  @param plants the plant row to be checked
      */
-    public void behaviour(Plant[] plants) {
-        timer = (int)System.currentTimeMillis() / 1000;
+    public void behaviour(Plant[] plants, int currentTime) {
         // while zombie isn't in the house and still alive
-        //if ((timer - start_timer) >= rate) { // check first if the time matches the rate of action
-            if (!this.isAtHouse() && this.isAlive()) {
-                // if zombie is still not within attack range or there isn't any plants in front
-                if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 0.5) {
+        if (!this.isAtHouse() && this.isAlive()) {
+            // if zombie is still not within attack range or there isn't any plants in front
+            if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 0.5) {
+                if (currentTime - getInternal_Time() >= 1) { // zombie should walk at a certain rate
                     walk();
-                }
-                // else if a plant is in front of zombie
-                else if (findFront(plants).isAlive()) {
-                    //System.out.printf("plant in row %d col %d hp: %d\n", (int)findFront(plants).getRow(), (int)findFront(plants).getCol(), findFront(plants).getHealth());
-                    eat(findFront(plants));
+                    setInternal_time(currentTime);
                 }
             }
-
-            //start_timer = timer;
-        //}
+            // else if a plant is in front of zombie
+            else if (findFront(plants).isAlive()) {
+                if (currentTime - getInternal_Time() >= 0.5) { // zombie should eat at a certain rate
+                    eat(findFront(plants));
+                    setInternal_time(currentTime);
+                    System.out.println("Damaged " + findFront(plants).getName() + " at (" + findFront(plants).getRow() + ", " + findFront(plants).getCol() + ")");
+                }
+            }
+        }
     }
 
     /** This method finds the nearest plant that is facing the zombie.
@@ -107,11 +108,6 @@ public class Zombie extends Entity {
             return null;
     }
 
-    public int getTimeBehavior() {
-        int timer = (int)System.currentTimeMillis() / 1000;
-        return timer - start_timer;
-    }
-
     /** This method returns the current Zombie counts.
      *
      *  @return the number of Zombie objects created
@@ -128,57 +124,4 @@ public class Zombie extends Entity {
 
     /** How many zombies are created */
     private static int count = 0;
-    private int rate = getSpeed();
-    private int timer;
-    private int start_timer = (int)System.currentTimeMillis() / 1000;
 }
-
-/*
-class ZombieDriver {
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-
-    public final static void clearConsole()
-    {
-        try
-        {
-            final String os = System.getProperty("os.name");
-
-            if (os.contains("Windows"))
-            {
-                Runtime.getRuntime().exec("cls");
-            }
-            else
-            {
-                Runtime.getRuntime().exec("clear");
-            }
-        }
-        catch (final Exception e)
-        {
-            //  Handle any exceptions.
-        }
-    }
-
-    public static void main(String[] args) {
-        Lawn l = new Lawn(1,9);
-        Plant[][] p = new Plant[1][9];
-        ArrayList<Zombie> zz = new ArrayList<Zombie>();
-        zz.add(new Zombie(0, 8));
-        long start = System.currentTimeMillis();
-
-        while (!zz.get(0).isAtHouse()) {
-            if (System.currentTimeMillis() % 1000 == 0) {
-                System.out.println("Time: " + (int) (System.currentTimeMillis() - start) / 1000);
-                System.out.println("Zombie timer: " + zz.getFirst().getTimeBehavior());
-                l.displayLawn(p, zz);
-
-            }
-            zz.get(0).behaviour(p[0]);
-        }
-
-        System.out.println("Zombie took " + (int) (System.currentTimeMillis() - start) / 1000 + " seconds to get to the end");
-    }
-}
-*/

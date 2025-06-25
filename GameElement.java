@@ -19,10 +19,11 @@ public class GameElement {
      * @param r row position
      * @param c column position
      */
-    public GameElement(float r, float c)
+    public GameElement(float r, float c, int t)
     {
         row = r;
         col = c;
+        internal_time = t;
         isActive = true;
     }
  
@@ -81,6 +82,10 @@ public class GameElement {
         return col;
     }
 
+    public int getInternal_Time() {
+        return internal_time;
+    }
+
     /**
      * This method sets the columns position
      * of a game element object
@@ -105,6 +110,9 @@ public class GameElement {
         row = r;
     }
 
+    public void setInternal_time(int t) {
+        internal_time = t;
+    }
 
     /**row position of game element */
     private float row;
@@ -112,5 +120,7 @@ public class GameElement {
     private float col;
     /**active status of game element */
     private boolean isActive;
+    /**internal time of the game element*/
+    private int internal_time;
 
 }

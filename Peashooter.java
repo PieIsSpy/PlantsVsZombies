@@ -20,13 +20,12 @@ public class Peashooter extends Plant {
      * @param r row index of object
      * @param c column index of object
      */
-    public Peashooter(float r, float c)
+    public Peashooter(float r, float c, int t)
     {
-        super(r, c);
+        super(r, c, t);
         initializeStats();
         shootCooldown = 0;
-        peas = new ArrayList<>();
-
+        peas = new ArrayList<Projectile>();
     }
 
     public void initializeStats()
@@ -34,9 +33,9 @@ public class Peashooter extends Plant {
         setName("Peashooter");
         setCost(100);
         setCooldown(7);
-        setRange(7);
+        setRange(8);
         setDamage(5);
-        setHealth(30);
+        setHealth(100);
         setDirectDamage(10);
         setDirectDamageRange(2);
         setSpeed(2);
@@ -51,26 +50,16 @@ public class Peashooter extends Plant {
      * 
      */
     @Override
-
-    public void plantBehavior(Level level)
+    public void plantBehavior(Level level, int currentTime)
     {
         Zombie z = findFront(level.getEnemies());
 
         if(z != null && isWithinRange(z.getCol()))
         {
-
-            if(shootCooldown > 0)
-            {
-                shootCooldown--;
+            if (currentTime - getInternal_Time() >= getSpeed()) {
+                shoot(z, currentTime);
+                setInternal_time(currentTime);
             }
-
-            if(shootCooldown == 0)
-            {
-                shoot(z); 
-                System.out.println("Peashooter firing...");
-                shootCooldown = getSpeed();
-            }
-            
         }
 
          projectileLogic(level.getEnemies());
@@ -179,15 +168,15 @@ public class Peashooter extends Plant {
      * 
      * @param z zombie object targeted by projectile 
      */
-    public void shoot(Zombie z)
+    public void shoot(Zombie z, int currentTime)
     {
         if(isWithinDirectDamage(z.getCol()))
         {
-            peas.add(new Projectile(getRow(), getCol(), getDirectDamage(), projectileSpeed));
+            peas.add(new Projectile(getRow(), getCol(), currentTime, getDirectDamage(), projectileSpeed));
         }
         else
         {
-            peas.add(new Projectile(getRow(), getCol(), getDamage(), projectileSpeed));
+            peas.add(new Projectile(getRow(), getCol(), currentTime, getDamage(), projectileSpeed));
         }
         
     }
@@ -247,47 +236,6 @@ public class Peashooter extends Plant {
     {
         projectileSpeed = pSpeed;
     }
-
-     
-    
-    /* 
-    public static void main(String[] args) {
-        
-        int i, x;
-        Peashooter p1 = new Peashooter(2, 1);
-
-        Level level = new Level(1, 5, 9, 50);
-        ArrayList<Zombie> zombies = new ArrayList<>();
-
-        zombies.add(new Zombie(2, 4));
-        zombies.add(new Zombie(2, 3));
-
-        
-        for (i = 0; i < 30; i++) {
-            System.out.println("Time: " + i);
-
-            p1.plantBehavior(level); 
-            
-           for (x = 0; x < p1.peas.size(); x++) 
-           {
-                Projectile p = p1.peas.get(x);
-                System.out.printf("projectile %d at col %.2f\n", x, p.getCol());
-            }
-
-            for(x = 0; x < zombies.size(); x++)
-            {
-                System.out.printf("zombie at col %.2f\n health: %d \n alive?: %b\n", zombies.get(x).getCol(), zombies.get(x).getHealth(), zombies.get(x).isAlive());
-                if(!zombies.get(x).isAlive())
-                {
-                    System.out.println("Zombie " + x + " is defeated!");
-                }
-            }
-            
-
-            System.out.println();
-        }
-    }
-    */
 
 
     private ArrayList<Projectile> peas;

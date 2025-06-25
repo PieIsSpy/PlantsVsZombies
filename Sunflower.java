@@ -10,12 +10,10 @@
 
 public class Sunflower extends Plant{
 
-    public Sunflower(float r, float c)
+    public Sunflower(float r, float c, int t)
     {
-        super(r, c);
+        super(r, c, t);
         initializeStats();
-        counter = 0;
-        
     }
 
     public void initializeStats()
@@ -23,38 +21,23 @@ public class Sunflower extends Plant{
         setName("Sunflower");
         setCost(50);
         setCooldown(5);
-        setHealth(30);
+        setHealth(100);
         setSpeed(20);
     }
 
-
-    @Override 
-   public void plantBehavior(Level level) 
+    @Override
+   public void plantBehavior(Level level, int currentTime)
    {
         //same logic as peashooter
 
-        //when does it generate sun?
         //generates sun every 20 seconds
-        if(counter > 0)
-        {
-            //20 - counter
-            counter--;
-            System.out.println("Sunflower has " + counter + " remaining seconds to produce another sun");
+        if (currentTime - getInternal_Time() < getSpeed()) {
+            System.out.println("Sunflower has " + (getSpeed() - (currentTime - getInternal_Time())) + " remaining seconds to produce another sun");
         }
-
-        if(counter == 0)
-        {
+        else {
             System.out.println("Sunflower has produced a sun!");
-            level.addSun(this);
-            counter = getSpeed();
+            level.addSun(this, currentTime);
+            setInternal_time(currentTime);
         }
-
-
    }
-
-   private int counter;
-   
-
-    
-    
 }
