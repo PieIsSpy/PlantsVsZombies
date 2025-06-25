@@ -15,10 +15,12 @@ public class Peashooter extends Plant {
     /**
      * This constructor initializes the attributes of a
      * Peashooter object and sets it to its given 
-     * position. 
+     * position. This also initializes the internal
+     * clock of the peashooter to keep track of its behavior.
      * 
      * @param r row index of object
      * @param c column index of object
+     * @param t the time of creation
      */
     public Peashooter(float r, float c, int t)
     {
@@ -27,6 +29,10 @@ public class Peashooter extends Plant {
         peas = new ArrayList<Projectile>();
     }
 
+    /** This method initializes the attributes of the
+     *  parent class.
+     *
+     */
     public void initializeStats()
     {
         setName("Peashooter");
@@ -43,10 +49,12 @@ public class Peashooter extends Plant {
 
     /**
      * This method is used to define the peashooter's 
-     * behavior in response to zombie objects.
+     * behavior in response to zombie objects in the
+     * level model class depending on the current
+     * time reference.
      * 
-     * @param enemies list of zombie objects
-     * 
+     * @param level the level to check for zombies
+     * @param currentTime the current time reference
      */
     @Override
     public void plantBehavior(Level level, int currentTime)
@@ -70,9 +78,11 @@ public class Peashooter extends Plant {
      * after a peashooter releases/shoots it. If it hits
      * the zombie object, it will be removed from the 
      * list of projectiles. Otherwise, it will continue 
-     * moving. 
+     * moving. The current time reference is used to
+     * know if the projectile should be updating or not.
      * 
-     * @param enemies list of zombie objects 
+     * @param enemies list of zombie objects
+     * @param currentTime the current time reference
      */
     public void projectileLogic(ArrayList<Zombie> enemies, int currentTime)
     {
@@ -162,7 +172,7 @@ public class Peashooter extends Plant {
      * at its targeted zombie object. It adds it to the 
      * peashooter's list of projectiles. If the target is within
      * a direct damage range, the projectile will deal an increased
-     * amount of damage. 
+     * amount of damage. The current time reference
      * 
      * 
      * @param z zombie object targeted by projectile 
@@ -237,6 +247,11 @@ public class Peashooter extends Plant {
         projectileSpeed = pSpeed;
     }
 
+    /** This method returns the arraylist of peas
+     *  created by this object
+     *
+     * @return the arraylist of peas created
+     */
     public ArrayList<Projectile> getPeas() {
         return peas;
     }

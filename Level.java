@@ -14,6 +14,14 @@ import java.util.Random;
  *
  */
 public class Level {
+    /** This constructor
+     *
+     * @param n
+     * @param t
+     * @param r
+     * @param c
+     * @param curTime
+     */
     public Level(int n, int t, int r, int c, int curTime) {
         int i;
 
@@ -126,7 +134,7 @@ public class Level {
      * limit, false otherwise.
      */
     public boolean isGameWon(int time) {
-        return (time >= (int)Math.ceil(TIME_LENGTH * 0.94) && enemies.isEmpty()) || time >= TIME_LENGTH;
+        return (time >= (int)Math.ceil(TIME_LENGTH * 0.945) && enemies.isEmpty()) || time >= TIME_LENGTH;
     }
 
     /**
@@ -172,8 +180,10 @@ public class Level {
         int i, j;
         // zombies
         for (i = 0; i < enemies.size(); i++)
-            if (enemies.get(i).getHealth() == 0)
+            if (enemies.get(i).getHealth() == 0) {
                 enemies.remove(i);
+                Zombie.die();
+            }
 
         // plants
         for (i = 0; i < ROWS; i++)

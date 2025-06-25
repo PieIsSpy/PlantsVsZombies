@@ -80,7 +80,10 @@ public class Cooldown {
     }
 
 
-    private int cooldown; //time it takes for a plant type to be planted again
-    private int lastPlaced; //time of when the plant type was last planted
-    private String plantType; //type of plant(e.g., Sunflower, Peashooter, etc)
+    /**time it takes for a plant type to be planted again*/
+    private int cooldown;
+    /**time of when the plant type was last planted*/
+    private int lastPlaced;
+    /**type of plant*/
+    private String plantType;
 }

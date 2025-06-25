@@ -7,7 +7,6 @@
  *  @author Rachel Angeline Alba
  *  @version 1.0
  */
-
 public class Projectile extends GameElement{
 
     /**
@@ -16,8 +15,9 @@ public class Projectile extends GameElement{
      * and speed. It also sets the projectile as active. 
      * 
      * 
-     * @param r row position of  a projectile 
-     * @param c column position of a projectile
+     * @param row row position of  a projectile
+     * @param col column position of a projectile
+     * @param time the time of creation of the projectile
      * @param dmg damage it deals to another object
      * @param s speed of projectile 
      */
@@ -50,7 +50,6 @@ public class Projectile extends GameElement{
      * of a projectile after it is released. 
      * 
      */
-   
     public void update(int currentTime)
     {
         float pos = getCol();

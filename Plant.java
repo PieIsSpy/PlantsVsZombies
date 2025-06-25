@@ -1,11 +1,9 @@
-import java.util.ArrayList;
-
 /** The class Plant represents a plant entity that can be placed by a player.
  *  This class also serves as the parent class for different types of plants.
  *
  *  @author Karl Deejay Omandac
  *  @author Rachel Angeline Alba
- *  @version 1.0
+ *  @version 1.1
  */
 public class Plant extends Entity {
     /** This constructor initializes the attributes of a plant

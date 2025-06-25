@@ -11,11 +11,14 @@ import java.util.ArrayList;
 public class Zombie extends Entity {
     /** This constructor initializes the default values
      *  of a basic zombie and places it to a given row.
+     *  This also initializes its internal clock to keep
+     *  track whether to do the action or not.
      *  This also increments the static variable
      *  "count" by 1.
      *
      *  @param r the row grid position of the Zombie
      *  @param c the col grid position of the zombie
+     *  @param t the time of creation
      */
     public Zombie(int r, int c, int t) {
         super(70, 4,10, r, c, t);
