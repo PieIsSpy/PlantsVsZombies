@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.lang.Math;
+import java.util.Random;
 
 /**
  * This class represents the core game logic
@@ -24,6 +26,7 @@ public class Level {
 
         tiles = new Plant[r][c];
         enemies = new ArrayList<Zombie>();
+        suns = new ArrayList<>();
 
         avaliable_plants = new Plant[]{new Sunflower(-1, -1), new Peashooter(-1, -1)};
         cooldowns = new Cooldown[avaliable_plants.length];
@@ -74,6 +77,11 @@ public class Level {
             i++;
 
         return cooldowns[i];
+    }
+
+    public ArrayList<Sun> getSuns()
+    {
+        return suns;
     }
 
     public void setUnclaimed_suns(int n) {
@@ -181,13 +189,48 @@ public class Level {
 
         for (i = 0; i < ROWS; i++)
             for (j = 0; j < COLUMNS; j++)
-                tiles[i][j].plantBehavior(enemies);
+                tiles[i][j].plantBehavior(this);
     }
 
     public void gameCycle(int currentTime) {
         spawnZombies();
         behaviors();
 
+    }
+
+        //used for sunflower
+    public void addSun(Plant p)
+    {
+        suns.add(new Sun(p.getRow(), p.getCol(), false));
+    }
+
+    //used for sun falling from the sky
+    //i still need to update the random spawn since theres a better way than whatever this is
+    public void addSun()
+    {
+        //random spawn
+        Random random = new Random();
+
+        //generates a random number for where it will spawn/fall
+        float columnSpawn = random.nextInt(COLUMNS) + random.nextFloat();
+        float targetSpawn = random.nextInt(ROWS) + random.nextFloat();
+
+        suns.add(new Sun(0, columnSpawn, true, Math.max(targetSpawn, 1.5f)));
+    }
+
+    public void removeInactiveSun()
+    {
+        int i; 
+
+        //removes the sun that have disappeared
+        for(i = suns.size() - 1; i >= 0; i--)
+        {
+            if(!suns.get(i).isActive())
+            {
+                suns.remove(i);
+            }
+            
+        }
     }
 
     /**number of levels to track game progress */
@@ -206,6 +249,7 @@ public class Level {
     private int unclaimed_suns;
     private Plant[] avaliable_plants;
     private Cooldown[] cooldowns;
+    private ArrayList<Sun> suns;
     private int internal_clock;
     private int internal_start;
 }
