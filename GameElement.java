@@ -125,7 +125,7 @@ public class GameElement {
      * @param t current game time to be set as the 
      * game element's internal time
      */
-    public void setInternal_time(int t) {
+    public void setInternal_Time(int t) {
         internal_time = t;
     }
 

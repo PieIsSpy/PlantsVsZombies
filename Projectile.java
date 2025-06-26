@@ -59,7 +59,7 @@ public class Projectile extends GameElement{
         if (currentTime - getInternal_Time() >= 1) {
             pos += (float) (1.0 / speed);
             setCol(pos);
-            setInternal_time(currentTime);
+            setInternal_Time(currentTime);
             System.out.println("Projectile at (" + ((int)getRow()+1) + "," + ((int)getCol()+1) + ")");
         }
     }

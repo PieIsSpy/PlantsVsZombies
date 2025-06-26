@@ -388,7 +388,7 @@ public class Level {
     }
 
     /**
-     * This method removes clears out all the 
+     * This method clears out all the
      * sun from the array list. 
      * 
      */
