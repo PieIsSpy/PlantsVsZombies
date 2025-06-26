@@ -353,19 +353,6 @@ public class Level {
     }
 
     /**
-     * This method allows a plant object (Sunflower) to produce
-     * a sun, adding it to the player's unclaimed suns.
-     * 
-     * @param p Plant object that produces the sun
-     * @param currentTime the current time of the game
-     */
-    public void addSun(Plant p, int currentTime)
-    {
-        suns.add(new Sun(p.getRow(), p.getCol(), false, currentTime));
-        unclaimed_suns += suns.getLast().getAmount();
-    }
-
-    /**
      * This method allows a sun to be spawned randomly
      * within the game, adding it to the player's unclaimed
      * suns. 

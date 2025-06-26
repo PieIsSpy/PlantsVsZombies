@@ -1,3 +1,9 @@
+/** This class represents the Player, the controller
+ *  of the game.
+ *
+ *
+ *
+ */
 public class Player {
 
     public Player (int s) {
