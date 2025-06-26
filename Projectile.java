@@ -1,5 +1,4 @@
-
-/** The class Projectile represents a projectile fired by 
+/** The class Projectile represents a projectile fired by
  * a plant object. It is responsible for handling its 
  * movement and dealing damage to a zombie object.  
  *
@@ -58,7 +57,7 @@ public class Projectile extends GameElement{
             pos += (float) (1.0 / speed);
             setCol(pos);
             setInternal_time(currentTime);
-            System.out.println("Projectile at (" + (int)getRow() + "," + (int)getCol() + ")");
+            //System.out.println("Projectile at (" + (int)getRow() + "," + (int)getCol() + ")");
         }
     }
 
@@ -67,5 +66,4 @@ public class Projectile extends GameElement{
     private int damage;
     /**how fast the projectile moves once released */
     private float speed;
-    
 }

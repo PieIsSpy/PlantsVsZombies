@@ -10,12 +10,23 @@
 
 public class Sunflower extends Plant{
 
+    /**
+     *  This constructor initializes the row and column coordinates of the
+     *  sunflower and the time of its creation. This also assigns default
+     *  stats needed to function.
+     *  @param r the row coordinate of the sunflower
+     *  @param c the col coordinate of the sunflower
+     *  @param t the time of creation
+     */
     public Sunflower(float r, float c, int t)
     {
         super(r, c, t);
         initializeStats();
     }
 
+    /** This method initializes the default stats of the sunflower.
+     *
+     */
     public void initializeStats()
     {
         setName("Sunflower");
@@ -25,14 +36,19 @@ public class Sunflower extends Plant{
         setSpeed(20);
     }
 
+    /** This function
+     *
+     * @param level
+     * @param currentTime
+     */
     @Override
    public void plantBehavior(Level level, int currentTime)
    {
         //same logic as peashooter
 
         //generates sun every 20 seconds
-        if (currentTime - getInternal_Time() < getSpeed()) {
-            System.out.println("Sunflower has " + (getSpeed() - (currentTime - getInternal_Time())) + " remaining seconds to produce another sun");
+        if (currentTime - getInternal_time() < getSpeed()) {
+            System.out.println("Sunflower has " + (getSpeed() - (currentTime - getInternal_time())) + " remaining seconds to produce another sun");
         }
         else {
             System.out.println("Sunflower has produced a sun!");

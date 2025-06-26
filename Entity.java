@@ -103,6 +103,10 @@ public class Entity {
         col = c;
     }
 
+    /** This method updates the internal time of an entity
+     *
+     * @param t the current time of an entity
+     */
     public void setInternal_time(int t) {
         internal_time = t;
     }
@@ -152,7 +156,12 @@ public class Entity {
         return col;
     }
 
-    public int getInternal_Time() {
+    /** This method returns the current internal time
+     *  of the entity
+     *
+     * @return the current internal time of the entity
+     */
+    public int getInternal_time() {
         return internal_time;
     }
 

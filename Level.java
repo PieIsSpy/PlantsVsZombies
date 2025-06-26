@@ -336,6 +336,10 @@ public class Level {
             addSun(currentTime);
             sun_interval = currentTime;
         }
+
+        // remove entities that are past their life expectancy
+        despawn();
+        removeInactiveSun();
     }
 
     /**
@@ -374,7 +378,7 @@ public class Level {
     /**
      * This method removes all inactive suns from the 
      * game. A sun is inactive if it has already reached its
-     * reached its time limit and has disappeared. 
+     * time limit and has disappeared.
      * 
      */
     public void removeInactiveSun()

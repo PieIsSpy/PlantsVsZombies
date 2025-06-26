@@ -38,7 +38,7 @@ public class Peashooter extends Plant {
         setName("Peashooter");
         setCost(100);
         setCooldown(7);
-        setRange(20);
+        setRange(9);
         setDamage(5);
         setHealth(100);
         setDirectDamage(10);
@@ -61,9 +61,10 @@ public class Peashooter extends Plant {
     {
         Zombie z = findFront(level.getEnemies());
 
+        //System.out.println(z != null && isWithinRange(z.getCol()));
         if(z != null && isWithinRange(z.getCol()))
         {
-            if (currentTime - getInternal_Time() >= getSpeed()) {
+            if (currentTime - getInternal_time() >= getSpeed()) {
                 shoot(z, currentTime);
                 setInternal_time(currentTime);
             }
@@ -163,7 +164,7 @@ public class Peashooter extends Plant {
      */
     public boolean isWithinDirectDamage(float target)
     {
-        return target <= getCol() + getDirectDamageRange();
+        return (target <= getCol() + getDirectDamageRange()) && target >= getCol();
     }
 
     /**
@@ -182,10 +183,12 @@ public class Peashooter extends Plant {
         System.out.println("Pew!");
         if(isWithinDirectDamage(z.getCol()))
         {
+            System.out.println("direct");
             peas.add(new Projectile(getRow(), getCol(), currentTime, getDirectDamage(), projectileSpeed));
         }
         else
         {
+            System.out.println("ranged");
             peas.add(new Projectile(getRow(), getCol(), currentTime, getDamage(), projectileSpeed));
         }
         
@@ -219,7 +222,7 @@ public class Peashooter extends Plant {
 
                 if(distance >= 0 && distance < smallestDistance)
                 {
-                    smallestDistance = enemies.get(i).getCol();
+                    smallestDistance = distance;
                     finalCol = i;
                 }
             }
@@ -261,4 +264,21 @@ public class Peashooter extends Plant {
     private float projectileSpeed;
 }
 
+class PeashooterDriver {
+    public static void main(String[] args) {
+        Peashooter p = new Peashooter(1,1,0);
+        Zombie z = new Zombie(1,0,0);
 
+        System.out.println("1");
+        z.setCol(9);
+        p.shoot(z, 1);
+        p.setInternal_time(0);
+        p.getPeas().clear();
+
+        System.out.println("2");
+        z.setCol(2);
+        p.shoot(z, 1);
+        p.setInternal_time(0);
+        p.getPeas().clear();
+    }
+}

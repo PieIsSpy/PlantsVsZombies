@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /** The class Zombie represents a basic zombie object that inherits an Entity class
  *  that can be used by other child classes that represent
  *  variant zombies.
@@ -65,14 +63,14 @@ public class Zombie extends Entity {
         if (!this.isAtHouse() && this.isAlive()) {
             // if zombie is still not within attack range or there isn't any plants in front
             if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 0.5) {
-                if (currentTime - getInternal_Time() >= 1) { // zombie should walk at a certain rate
+                if (currentTime - getInternal_time() >= 1) { // zombie should walk at a certain rate
                     walk();
                     setInternal_time(currentTime);
                 }
             }
             // else if a plant is in front of zombie
             else if (findFront(plants).isAlive()) {
-                if (currentTime - getInternal_Time() >= 0.5) { // zombie should eat at a certain rate
+                if (currentTime - getInternal_time() >= 0.5) { // zombie should eat at a certain rate
                     eat(findFront(plants));
                     setInternal_time(currentTime);
                     System.out.println("Damaged " + findFront(plants).getName() + " at (" + findFront(plants).getRow() + ", " + findFront(plants).getCol() + ")");
@@ -96,7 +94,7 @@ public class Zombie extends Entity {
 
         for (i = 0; i < plants.length; i++) {
             // check plants that are only in front of zombie's current pos
-            if (i <= (int)getCol() && plants[i] != null) {
+            if (plants[i] != null && plants[i].getCol() <= (int)getCol()) {
                 if (getCol() - plants[i].getCol() < smallestDistance) {
                     smallestDistance = getCol() - plants[i].getCol();
                     column = i;
