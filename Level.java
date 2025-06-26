@@ -16,7 +16,7 @@ import java.util.Random;
 public class Level {
 
     /**
-     * This constructor initializes all the neccessary attributes
+     * This constructor initializes all the necessary attributes
      * of a Level object such as its grid dimensions, enemy list, sun 
      * list, and the cooldowns of each plant type. 
      * 
@@ -62,7 +62,7 @@ public class Level {
 
     /**
      * 
-     * This method returns the the game's time
+     * This method returns the game's time
      * limit. 
      * 
      * @return the time limit of the entire game 

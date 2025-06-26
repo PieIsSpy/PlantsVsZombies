@@ -110,7 +110,7 @@ public class GameElement {
      * of a game element object
      * 
      * 
-     * @param c row position of game element
+     * @param r row position of game element
      */
     public void setRow(float r)
     {

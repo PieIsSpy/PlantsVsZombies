@@ -181,5 +181,6 @@ public class Peashooter extends Plant {
         projectileSpeed = pSpeed;
     }
 
+    /**the projectile speed of the peashooter's peas*/
     private float projectileSpeed;
 }

@@ -75,6 +75,10 @@ public class Entity {
         health = h;
     }
 
+    /** This method updates the speed attribute of an entity.
+     *
+     * @param s the speed of the entity
+     */
     public void setSpeed(int s) {
         speed = s;
     }
