@@ -17,6 +17,7 @@ public class Entity {
      *  @param d the damage output of an entity
      *  @param r the row coordinate of an entity
      *  @param c the col coordinate of an entity
+     * @param t the time of creation
      */
     public Entity (int h, int s, int d, float r, float c, int t) {
         health = h;
@@ -33,6 +34,7 @@ public class Entity {
      * @param h the health point of an entity
      * @param s the speed of an entity
      * @param d the damage output of an entity
+     * @param t the time of creation
      */
     public Entity(int h, int s, int d, int t)
     {

@@ -56,7 +56,8 @@ public class Zombie extends Entity {
     /** This method compiles basic action methods
      *  of a zombie and turns it into a behaviour.
      *
-     *  @param plants the plant row to be checked
+     * @param plants the plant row to be checked
+     * @param currentTime the current time reference of the game
      */
     public void behaviour(Plant[] plants, int currentTime) {
         // while zombie isn't in the house and still alive

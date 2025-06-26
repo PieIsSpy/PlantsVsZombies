@@ -107,9 +107,10 @@ public class Peashooter extends Plant {
      * peashooter's list of projectiles. If the target is within
      * a direct damage range, the projectile will deal an increased
      * amount of damage. The current time reference
-     * 
-     * 
-     * @param z zombie object targeted by projectile 
+     *
+     * @param z the zombie to be targeted
+     * @param currentTime the current time reference of the game
+     * @param level the level to add peas projectile
      */
     public void shoot(Zombie z, int currentTime, Level level)
     {
@@ -122,7 +123,6 @@ public class Peashooter extends Plant {
         {
             level.getPeas().add(new Projectile(getRow(), getCol(), currentTime, getDamage(), projectileSpeed));
         }
-        
     }
 
     /**

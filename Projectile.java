@@ -49,7 +49,8 @@ public class Projectile extends GameElement{
     /**
      * This method is updates the movement
      * of a projectile after it is released. 
-     * 
+     *
+     * @param currentTime the current time reference of the game
      */
     public void update(int currentTime)
     {

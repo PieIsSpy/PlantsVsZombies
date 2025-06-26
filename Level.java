@@ -260,6 +260,8 @@ public class Level {
      * This method spawns a new zombie at a random row
      * and in the rightmost column. It is then added
      * to the enemies array list.
+     *
+     * @param currentTime the current time frame of the game
      */
     public void spawnZombies(int currentTime) {
         enemies.add(new Zombie((int)(Math.floor(Math.random() * ROWS)), COLUMNS + 1, currentTime));

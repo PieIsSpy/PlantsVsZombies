@@ -29,6 +29,8 @@ public class Plant extends Entity {
      *  plants have different behaviours, this method have to be
      *  overridden for it to be used.
      *
+     * @param level the level to be checked
+     * @param currentTime the current time frame of the game
      */
     public void plantBehavior(Level level, int currentTime)
     {
