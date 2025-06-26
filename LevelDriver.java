@@ -130,7 +130,7 @@ class LevelDriver {
     }
 
     public static void main(String[] args) {
-        Plant[] p = {new Sunflower(-1, -1, 0), new Peashooter(-1,-1, 0)};
+        //Plant[] p = {new Sunflower(-1, -1, 0), new Peashooter(-1,-1, 0)};
         LevelDriver util = new LevelDriver();
         long startTime = System.currentTimeMillis();
         long beforeInput;
