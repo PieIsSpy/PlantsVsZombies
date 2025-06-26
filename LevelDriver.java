@@ -48,7 +48,6 @@ class LevelDriver {
         Scanner kb = new Scanner(System.in);
         String input;
         int row, col;
-        boolean success;
 
         System.out.println("Sun: " + c.getSun());
         System.out.println("Unclaimed sun: " + m.getUnclaimed_suns());
@@ -125,12 +124,9 @@ class LevelDriver {
         }
         else if (!input.equalsIgnoreCase("4"))
             System.out.println("Invalid input");
-
-        //return (int)System.currentTimeMillis()/1000 - startingTime;
     }
 
     public static void main(String[] args) {
-        //Plant[] p = {new Sunflower(-1, -1, 0), new Peashooter(-1,-1, 0)};
         LevelDriver util = new LevelDriver();
         long startTime = System.currentTimeMillis();
         long beforeInput;
@@ -140,7 +136,7 @@ class LevelDriver {
         boolean startFlag = false, endFlag = false;
 
         Level model = new Level(1, 180, 5, 9, (int)startTime/1000);
-        Lawn view = new Lawn(5, 9);
+        Lawn view = new Lawn(model.getROWS(), model.getCOLUMNS());
         Player control = new Player(200);
 
         System.out.println("Level " + model.getLEVEL_NUM());
