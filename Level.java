@@ -158,13 +158,18 @@ public class Level {
      * This method returns the game's array list 
      * of Sun objects. 
      * 
-     * @return array list of Sun objects
+     * @return the array list of Sun objects
      */
     public ArrayList<Sun> getSuns()
     {
         return suns;
     }
 
+    /** This method returns the game's array list of
+     *  Projectile objects.
+     *
+     * @return the arraylist of Projectile objects
+     */
     public ArrayList<Projectile> getPeas() {
         return peas;
     }
@@ -262,25 +267,36 @@ public class Level {
 
     /** This method searches for entities
      * that have a health of 0, and removes
-     * them from the game.
+     * them from the game. This also removes
+     * inactive game elements from the game.
      *
      */
     public void despawn() {
         int i, j;
-        // zombies
+        // remove dead zombies
         for (i = 0; i < enemies.size(); i++)
             if (enemies.get(i).getHealth() == 0)
                 enemies.remove(i);
 
-        // plants
+        // remove dead plants
         for (i = 0; i < ROWS; i++)
             for (j = 0; j < COLUMNS; j++)
                 if (tiles[i][j] != null && tiles[i][j].getHealth() == 0)
                     tiles[i][j] = null;
+
+        // remove inactive suns
+        for (i = suns.size() - 1; i >= 0; i--)
+            if (!suns.get(i).isActive())
+                suns.remove(i);
+
+        // remove inactive projectiles
+        for (i = peas.size() - 1; i >= 0; i--)
+            if (!peas.get(i).isActive())
+                peas.remove(i);
     }
 
     /**
-     * This method calls the behaviors of Zombie, Plant, and Sun
+     * This method calls the behaviors of Zombie, Plant, Sun and Projectile
      * objects, allowing it to perform its actions with respect
      * to the game's time progression. 
      * 
@@ -299,11 +315,11 @@ public class Level {
                 if (tiles[i][j] != null)
                     tiles[i][j].plantBehavior(this, currentTime);
 
-        //calls sun behavior
+        //calls sun behavior (or updates its state)
         for (i = 0; i < suns.size(); i++)
             suns.get(i).update(currentTime);
 
-        // calls projectile logic (or basically just behavior)
+        // calls projectile logic (or behavior)
         for (i = 0; i < peas.size(); i++)
             peas.get(i).projectileLogic(getEnemies(), currentTime);
     }
@@ -339,17 +355,15 @@ public class Level {
             internal_start = currentTime;
         }
 
-        //spawns a falling sun after a 20 second interval
+        //spawns a falling sun after a 20-second interval
         //sun_interval : when the last sun was spawned
         if (currentTime - sun_interval >= 20) {
             addSun(currentTime);
             sun_interval = currentTime;
         }
 
-        // remove entities that are past their life expectancy
+        // remove dead entities and inactive game elements
         despawn();
-        removeInactiveSun();
-        removeInactiveProjectiles();
     }
 
     /**
@@ -369,44 +383,6 @@ public class Level {
 
         suns.add(new Sun(0, columnSpawn, true, Math.max(targetSpawn, 1.5f), currentTime));
         unclaimed_suns += suns.getLast().getAmount();
-    }
-
-    /**
-     * This method removes all inactive suns from the 
-     * game. A sun is inactive if it has already reached its
-     * time limit and has disappeared.
-     * 
-     */
-    public void removeInactiveSun()
-    {
-        int i;
-
-        //removes the sun that have disappeared
-        for(i = suns.size() - 1; i >= 0; i--)
-        {
-            if(!suns.get(i).isActive())
-            {
-                suns.remove(i);
-            }
-
-        }
-    }
-
-    /**
-     * This method removes all inactive projectiles
-     * from the list.
-     *
-     */
-    public void removeInactiveProjectiles()
-    {
-        int i;
-        for(i = peas.size() - 1; i >= 0; i--)
-        {
-            if(!peas.get(i).isActive())
-            {
-                peas.remove(i);
-            }
-        }
     }
 
     /**
