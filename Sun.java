@@ -69,7 +69,7 @@ public class Sun extends GameElement {
         {
             currentRow += 1f / FALLING_SPEED;
             setRow(currentRow);
-            System.out.println("Sun is falling at (" + (getRow()+1) + ", " + (getCol()+1) + ")");
+            System.out.println("Sun is falling at (" + (getRow() + 1) + ", " + (getCol() + 1) + ")");
         }
     }
 
@@ -86,7 +86,7 @@ public class Sun extends GameElement {
             setRow(targetRow);
             landedTime = currentTime;
             fromSky = false;
-            System.out.println("Sun is has landed in (" + (getRow()+1) + ", " + (getCol()+1) + ")");
+            System.out.println("Sun is now in (" + (getRow() + 1) + ", " + (getCol() + 1) + ")");
         }
     }
 

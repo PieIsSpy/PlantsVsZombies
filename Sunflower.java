@@ -17,6 +17,7 @@ public class Sunflower extends Plant{
      *  @param r the row coordinate of the sunflower
      *  @param c the col coordinate of the sunflower
      *  @param t the time of creation
+     *  
      */
     public Sunflower(float r, float c, int t)
     {
@@ -36,10 +37,13 @@ public class Sunflower extends Plant{
         setSpeed(20);
     }
 
-    /** This function
+    /** This function manages the behavior of a Sunflower 
+     * object. For every given interval, it produces a sun
+     * or in this case it adds a sun to the main game's array 
+     * list of Sun objects. 
      *
-     * @param level
-     * @param currentTime
+     * @param level the level to access its Sun objects
+     * @param currentTime the current time of the ga,e 
      */
     @Override
    public void plantBehavior(Level level, int currentTime)
