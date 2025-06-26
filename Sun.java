@@ -1,6 +1,28 @@
 
+/** This class represents a Sun object which serves
+ * as a player's way of buying Plant objects. There are 
+ * two ways to obtain these kinds of objects. One is through a 
+ * random spawn falling from the sky, and another is produced by 
+ * a Sunflower object. 
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 1.0
+ */
+
 public class Sun extends GameElement {
 
+    /**
+     * This constructor initializes the attributes of 
+     * a Sun object such as its initial posiitons, a 
+     * 
+     * 
+     * @param row
+     * @param c
+     * @param fromSky
+     * @param targetRow
+     * @param time
+     */
     public Sun(float row, float c, boolean fromSky, float targetRow, int time)
     {
         super(row, c, time);
@@ -39,7 +61,7 @@ public class Sun extends GameElement {
         {
             currentRow += 1f / FALLING_SPEED;
             setRow(currentRow);
-            System.out.println("Sun is falling at (" + getRow() + ", " + getCol() + ")");
+            System.out.println("Sun is falling at (" + (getRow() + 1) + ", " + (getCol() + 1) + ")");
         }
     }
 
@@ -94,7 +116,6 @@ public class Sun extends GameElement {
         return AMOUNT;
     }
 
-   
 
     private final int AMOUNT = 25;
     private final float FALLING_SPEED = 2f;
