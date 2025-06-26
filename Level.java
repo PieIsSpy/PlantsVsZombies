@@ -5,8 +5,8 @@ import java.util.Random;
 /**
  * This class represents the core game logic
  * and mechanics of Plants vs Zombies. It manages
- * the game grid, cooldowns, and tick based
- * progression of the game.
+ * the game's time progression, plant and zombie interactions, 
+ * and other gameplay related behaviors.
  *
  *  @author Karl Deejay Omandac
  *  @author Rachel Angeline Alba
@@ -14,13 +14,18 @@ import java.util.Random;
  *
  */
 public class Level {
-    /** This constructor
-     *
-     * @param n
-     * @param t
-     * @param r
-     * @param c
-     * @param curTime
+
+    /**
+     * This constructor initializes all the neccessary attributes
+     * of a Level object such as its grid dimensions, enemy list, sun 
+     * list, and the cooldowns of each plant type. 
+     * 
+     * 
+     * @param n number of levels that the game has
+     * @param t total time of the entire game
+     * @param r maximum number of rows in game grid
+     * @param c maximum number of columns in game grid
+     * @param curTime starting time of the game 
      */
     public Level(int n, int t, int r, int c, int curTime) {
         int i;
@@ -44,38 +49,98 @@ public class Level {
             cooldowns[i] = new Cooldown(avaliable_plants[i].getName(), avaliable_plants[i].getCooldown(), curTime);
     }
 
+    /**
+     * This method returns the number of levels 
+     * the game has. 
+     * 
+     * @return total number of levels in the game
+     */
     public int getLEVEL_NUM() {
         return LEVEL_NUM;
     }
 
+    /**
+     * 
+     * This method returns the the game's time
+     * limit. 
+     * 
+     * @return the time limit of the entire game 
+     */
     public int getTIME_LENGTH() {
         return TIME_LENGTH;
     }
 
+    /**
+     * 
+     * This method returns the maximum number of rows
+     * the initialized game grid has. 
+     * 
+     * @return the maximum number of rows in game grid
+     */
     public int getROWS() {
         return ROWS;
     }
 
+    /**
+     * This method returns the maximum number of columns
+     * the initialized game grid has. 
+     * 
+     * @return the maximum number of columns in game grid
+     */
     public int getCOLUMNS() {
         return COLUMNS;
     }
 
+    /**
+     * This method returns the number of suns that a player
+     * has not collected yet. 
+     * 
+     * 
+     * @return the number of uncollected suns by player
+     */
     public int getUnclaimed_suns() {
         return unclaimed_suns;
     }
 
+    /**
+     * This method returns the 2D array representing the 
+     * game grid where Plant objects will be placed. 
+     * 
+     * @return 2D array of Plant objects
+     */
     public Plant[][] getTiles() {
         return tiles;
     }
 
+    /**
+     * This method returns the list of zombies to be 
+     * used in the game. 
+     * 
+     * @return list of zombie objects 
+     */
     public ArrayList<Zombie> getEnemies() {
         return enemies;
     }
 
+    /**
+     * This method returns the available plant types
+     * of the game (e.g., Sunflower, Peashooter, etc)
+     * 
+     * @return array of Plant objects that contains the available
+     * plant types of the game
+     */
     public Plant[] getAvaliable_plants() {
         return avaliable_plants;
     }
 
+    /**
+     * This method checks the given plant type among 
+     * the game's available plant types. Once the plant type is 
+     * found, it returns its respective Cooldown object. 
+     * 
+     * @param n name/type of plant object
+     * @return cooldown of located plant object 
+     */
     public Cooldown getCooldown(String n) {
         int i = 0;
         int found = -1;
@@ -88,11 +153,23 @@ public class Level {
         return cooldowns[i];
     }
 
+    /**
+     * This method returns the game's array list 
+     * of Sun objects. 
+     * 
+     * @return array list of Sun objects
+     */
     public ArrayList<Sun> getSuns()
     {
         return suns;
     }
 
+    /**
+     * This method updates the number of unclaimed suns
+     * by the player. 
+     * 
+     * @param n number of suns to be 
+     */
     public void setUnclaimed_suns(int n) {
         unclaimed_suns = n;
     }
@@ -134,7 +211,10 @@ public class Level {
      * limit, false otherwise.
      */
     public boolean isGameWon(int time) {
-        return (time >= (int)Math.ceil(TIME_LENGTH * 0.945) && enemies.isEmpty()) || time >= TIME_LENGTH;
+        //if the time is still not up but there are no more zombies
+        //OR
+        // current time is more than or equal to the total time of game (time is up)
+        return (time >= (int)Math.ceil(TIME_LENGTH * 0.94) && enemies.isEmpty()) || time >= TIME_LENGTH;
     }
 
     /**
@@ -150,9 +230,13 @@ public class Level {
         int i = 0;
         boolean condition = false;
 
-        if (!enemies.isEmpty()) {
-            while (i < enemies.size() && !condition) {
-                if (enemies.get(i).isAtHouse())
+        //if there is at least 1 zombie still alive
+        if (!enemies.isEmpty()) { 
+            //go through each enemy from the list
+            while (i < enemies.size() && !condition) { 
+                //check if at least one of them has reached tehe house, indicating that
+                //the game is over
+                if (enemies.get(i).isAtHouse()) 
                     condition = true;
 
                 i++;
@@ -180,10 +264,8 @@ public class Level {
         int i, j;
         // zombies
         for (i = 0; i < enemies.size(); i++)
-            if (enemies.get(i).getHealth() == 0) {
+            if (enemies.get(i).getHealth() == 0)
                 enemies.remove(i);
-                Zombie.die();
-            }
 
         // plants
         for (i = 0; i < ROWS; i++)
@@ -192,57 +274,93 @@ public class Level {
                     tiles[i][j] = null;
     }
 
+    /**
+     * This method calls the behaviors of Zombie, Plant, and Sun
+     * objects, allowing it to perform its actions with respect
+     * to the game's time progression. 
+     * 
+     * @param currentTime the current time of the game 
+     */
     public void behaviors(int currentTime) {
         int i, j;
 
+        //calls zombie behavior
         for (i = 0; i < enemies.size(); i++)
             enemies.get(i).behaviour(tiles[(int)enemies.get(i).getRow()], currentTime);
 
+        //calls plant behavior
         for (i = 0; i < ROWS; i++)
             for (j = 0; j < COLUMNS; j++)
                 if (tiles[i][j] != null)
                     tiles[i][j].plantBehavior(this, currentTime);
 
+        //calls sun behavior
         for (i = 0; i < suns.size(); i++)
             suns.get(i).update(currentTime);
     }
 
+    /**
+     * This method executes once cycle of the game given the
+     * current time. It calls the behaviors of the other objects
+     * and decides when objects like the Zombie and Sun
+     * will be spawned in the game. 
+     * 
+     * 
+     * @param currentTime the current time of the game
+     */
     public void gameCycle(int currentTime) {
         int interval = 0;
 
         behaviors(currentTime);
 
+        //determines how frequent zombies will spawn in the game, with respect to the game's current time
         if (currentTime >= (int)Math.floor(TIME_LENGTH * 0.17) && currentTime <= (int)Math.floor(TIME_LENGTH * 0.445))
-            interval = 10;
+            interval = 10; //1 zombie every 10 seconds
         else if (currentTime >= (int)Math.floor(TIME_LENGTH * 0.45) && currentTime <= (int)Math.floor(TIME_LENGTH * 0.78))
-            interval = 5;
+            interval = 5; //1 zombie every 5 seconds
         else if (currentTime >= (int)Math.floor(TIME_LENGTH * 0.785) && currentTime <= (int)Math.floor(TIME_LENGTH * 0.945))
-            interval = 3;
-
+            interval = 3; //1 zombie every 3 seconds
+        
+        //spawns the zombie based on the given interval 
+        //internal_start is when the zombie was last spawned 
+        //if the time in between is >= the interval, it spawns a zombie
         if (interval != 0 && currentTime - internal_start >= interval) {
             spawnZombies(currentTime);
             System.out.println("Spawned Zombie at (" + (enemies.getLast().getRow() + 1) + ", " + (enemies.getLast().getCol() + 1) + ")");
             internal_start = currentTime;
         }
 
+        //spawns a falling sun after a 20 second interval
+        //sun_interval : when the last sun was spawned
         if (currentTime - sun_interval >= 20) {
             addSun(currentTime);
             sun_interval = currentTime;
         }
     }
 
-        //used for sunflower
+    /**
+     * This method allows a plant object (Sunflower) to produce
+     * a sun, adding it to the player's unclaimed suns.
+     * 
+     * @param p Plant object that produces the sun
+     * @param currentTime the current time of the game
+     */
     public void addSun(Plant p, int currentTime)
     {
         suns.add(new Sun(p.getRow(), p.getCol(), false, currentTime));
         unclaimed_suns += suns.getLast().getAmount();
     }
 
-    //used for sun falling from the sky
-    //i still need to update the random spawn since theres a better way than whatever this is
+    /**
+     * This method allows a sun to be spawned randomly
+     * within the game, adding it to the player's unclaimed
+     * suns. 
+     * 
+     * @param currentTime the current time of the game
+     */
     public void addSun(int currentTime)
     {
-        //random spawn
+        
         Random random = new Random();
 
         //generates a random number for where it will spawn/fall
@@ -253,6 +371,12 @@ public class Level {
         unclaimed_suns += suns.getLast().getAmount();
     }
 
+    /**
+     * This method removes all inactive suns from the 
+     * game. A sun is inactive if it has already reached its
+     * reached its time limit and has disappeared. 
+     * 
+     */
     public void removeInactiveSun()
     {
         int i;
@@ -268,6 +392,11 @@ public class Level {
         }
     }
 
+    /**
+     * This method removes clears out all the 
+     * sun from the array list. 
+     * 
+     */
     public void removeAllSun() {
         suns.clear();
     }
@@ -286,9 +415,14 @@ public class Level {
     private ArrayList<Zombie> enemies;
     /**current unclaimed suns*/
     private int unclaimed_suns;
+    /**available plant types */
     private Plant[] avaliable_plants;
+    /**respective cooldowns of each available plant type */
     private Cooldown[] cooldowns;
+    /**list of Sun objects used in the game */
     private ArrayList<Sun> suns;
+    /**time an object has last performned an acion */
     private int internal_start;
+    /**time a Sun object has last performed an action */
     private int sun_interval;
 }
