@@ -39,6 +39,8 @@ class LevelDriver {
                 System.out.println(m.getAvaliable_plants()[i].getName() + ": ready");
             else
                 System.out.println(m.getAvaliable_plants()[i].getName() + ": " + m.getCooldown(m.getAvaliable_plants()[i].getName()).getRemainingTime(startingTime) + " seconds cooldown");
+
+            System.out.println("Cost: " + m.getAvaliable_plants()[i].getCost());
         }
     }
 
@@ -63,7 +65,7 @@ class LevelDriver {
             System.out.println("Enter name of plant");
             input = kb.nextLine();
 
-            if (!input.equalsIgnoreCase("cancel")) {
+            if (!input.equalsIgnoreCase("cancel") && isValidName(m, input)) {
                 System.out.println("Enter row");
                 row = kb.nextInt();
                 row--;
@@ -82,6 +84,10 @@ class LevelDriver {
                             m.getCooldown(input).updateLastPlaced(startingTime);
                             System.out.println("Placed " + m.getTiles()[row][col].getName() + " at (" + (row+1) + ", " + (col+1) + ")");
                         }
+                        else if (!m.isValidCoordinate(row, col))
+                            System.out.println("Invalid coordinates");
+                        else
+                            System.out.println("There is already a plant there");
                     } else {
                         System.out.println(m.getAvaliable_plants()[findName(m, input)].getName() + " is still in cooldown (" + m.getCooldown(input).getRemainingTime(startingTime) + ")");
                     }
@@ -92,6 +98,8 @@ class LevelDriver {
                         System.out.println("Not enough suns");
                 }
             }
+            else if (!isValidName(m, input))
+                System.out.println("Invalid plant");
         }
         else if (input.equalsIgnoreCase("2")) {
             System.out.println("Enter row");

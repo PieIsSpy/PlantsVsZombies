@@ -20,7 +20,7 @@ public class Cooldown {
      * @param type plant type
      * @param cd cooldowns of each plant type
      */
-    public Cooldown(String type, int cd, int initialTime)
+    public Cooldown(String type, int cd)
     {
         cooldown = cd;
         lastPlaced = 0;

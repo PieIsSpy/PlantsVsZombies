@@ -76,7 +76,7 @@ public class Sun extends GameElement {
             else
             {
             
-                System.out.println("Sun has " + ((landedTime + LIFETIME) - currentTime) + " remaining seconds beofre it disappears.");
+                System.out.println("Sun has " + ((landedTime + LIFETIME) - currentTime) + " remaining seconds before it disappears.");
             }
 
             

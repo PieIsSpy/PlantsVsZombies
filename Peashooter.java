@@ -26,7 +26,6 @@ public class Peashooter extends Plant {
     {
         super(r, c, t);
         initializeStats();
-        peas = new ArrayList<Projectile>();
     }
 
     /** This method initializes the attributes of the
@@ -65,77 +64,11 @@ public class Peashooter extends Plant {
         if(z != null && isWithinRange(z.getCol()))
         {
             if (currentTime - getInternal_time() >= getSpeed()) {
-                shoot(z, currentTime);
+                shoot(z, currentTime, level);
                 setInternal_time(currentTime);
             }
         }
-
-         projectileLogic(level.getEnemies(), currentTime);
-
     }
-
-    /**
-     * This method handles the logic of the projectile
-     * after a peashooter releases/shoots it. If it hits
-     * the zombie object, it will be removed from the 
-     * list of projectiles. Otherwise, it will continue 
-     * moving. The current time reference is used to
-     * know if the projectile should be updating or not.
-     * 
-     * @param enemies list of zombie objects
-     * @param currentTime the current time reference
-     */
-    public void projectileLogic(ArrayList<Zombie> enemies, int currentTime)
-    {
-        int i = 0, x;
-        boolean hasHit;
-
-        //loops through the list of projectiles
-        while(i < peas.size())
-        {
-            hasHit = false;
-            //loops through the list of enemies within the same row
-            for(x = 0; x < enemies.size() && !hasHit; x++)
-            {
-                //if zombie is alive and projectile is within range of attack 
-                if(enemies.get(x).isAlive() && (enemies.get(x).getCol() - peas.get(i).getCol()) < 0.5)
-                {
-                    peas.get(i).hit(enemies.get(x));
-                    hasHit = true;
-                }
-            
-            }
-
-            //if it has not hit any zombie yet, it will continue moving
-            if(!hasHit)
-            {
-                peas.get(i).update(currentTime);
-            }
-            
-            i++;
-        }
-
-        //removes the projectiles that have already hit the zombie
-        removeInactiveProjectiles();
-    }
-
-    /**
-     * This method removes all inactive projectiles
-     * from the list. 
-     * 
-     */
-    public void removeInactiveProjectiles()
-    {
-        int i;
-        for(i = peas.size() - 1; i >= 0; i--)
-        {
-            if(!peas.get(i).isActive())
-            {
-                peas.remove(i);
-            }
-        }
-    }
-
    
     /**
      * This method checks if an object is within
@@ -178,18 +111,16 @@ public class Peashooter extends Plant {
      * 
      * @param z zombie object targeted by projectile 
      */
-    public void shoot(Zombie z, int currentTime)
+    public void shoot(Zombie z, int currentTime, Level level)
     {
         System.out.println("Pew!");
         if(isWithinDirectDamage(z.getCol()))
         {
-            System.out.println("direct");
-            peas.add(new Projectile(getRow(), getCol(), currentTime, getDirectDamage(), projectileSpeed));
+            level.getPeas().add(new Projectile(getRow(), getCol(), currentTime, getDirectDamage(), projectileSpeed));
         }
         else
         {
-            System.out.println("ranged");
-            peas.add(new Projectile(getRow(), getCol(), currentTime, getDamage(), projectileSpeed));
+            level.getPeas().add(new Projectile(getRow(), getCol(), currentTime, getDamage(), projectileSpeed));
         }
         
     }
@@ -198,7 +129,7 @@ public class Peashooter extends Plant {
      * 
      * This method searches through the list of zombie 
      * objects to find the nearest one positioned in the 
-     * front of peashooter object. If successfull it will 
+     * front of peashooter object. If successful, it will
      * return the nearest zombie object, otherwise, it 
      * will return null
      * 
@@ -250,35 +181,5 @@ public class Peashooter extends Plant {
         projectileSpeed = pSpeed;
     }
 
-    /** This method returns the arraylist of peas
-     *  created by this object
-     *
-     * @return the arraylist of peas created
-     */
-    public ArrayList<Projectile> getPeas() {
-        return peas;
-    }
-
-
-    private ArrayList<Projectile> peas;
     private float projectileSpeed;
-}
-
-class PeashooterDriver {
-    public static void main(String[] args) {
-        Peashooter p = new Peashooter(1,1,0);
-        Zombie z = new Zombie(1,0,0);
-
-        System.out.println("1");
-        z.setCol(9);
-        p.shoot(z, 1);
-        p.setInternal_time(0);
-        p.getPeas().clear();
-
-        System.out.println("2");
-        z.setCol(2);
-        p.shoot(z, 1);
-        p.setInternal_time(0);
-        p.getPeas().clear();
-    }
 }

@@ -40,13 +40,14 @@ public class Level {
 
         tiles = new Plant[r][c];
         enemies = new ArrayList<Zombie>();
-        suns = new ArrayList<>();
+        suns = new ArrayList<Sun>();
+        peas = new ArrayList<Projectile>();
 
         avaliable_plants = new Plant[]{new Sunflower(-1, -1, 0), new Peashooter(-1, -1, 0)};
         cooldowns = new Cooldown[avaliable_plants.length];
 
         for (i = 0; i < avaliable_plants.length; i++)
-            cooldowns[i] = new Cooldown(avaliable_plants[i].getName(), avaliable_plants[i].getCooldown(), curTime);
+            cooldowns[i] = new Cooldown(avaliable_plants[i].getName(), avaliable_plants[i].getCooldown());
     }
 
     /**
@@ -162,6 +163,10 @@ public class Level {
     public ArrayList<Sun> getSuns()
     {
         return suns;
+    }
+
+    public ArrayList<Projectile> getPeas() {
+        return peas;
     }
 
     /**
@@ -297,6 +302,10 @@ public class Level {
         //calls sun behavior
         for (i = 0; i < suns.size(); i++)
             suns.get(i).update(currentTime);
+
+        // calls projectile logic (or basically just behavior)
+        for (i = 0; i < peas.size(); i++)
+            peas.get(i).projectileLogic(getEnemies(), currentTime);
     }
 
     /**
@@ -340,6 +349,7 @@ public class Level {
         // remove entities that are past their life expectancy
         despawn();
         removeInactiveSun();
+        removeInactiveProjectiles();
     }
 
     /**
@@ -364,7 +374,6 @@ public class Level {
      */
     public void addSun(int currentTime)
     {
-        
         Random random = new Random();
 
         //generates a random number for where it will spawn/fall
@@ -397,6 +406,23 @@ public class Level {
     }
 
     /**
+     * This method removes all inactive projectiles
+     * from the list.
+     *
+     */
+    public void removeInactiveProjectiles()
+    {
+        int i;
+        for(i = peas.size() - 1; i >= 0; i--)
+        {
+            if(!peas.get(i).isActive())
+            {
+                peas.remove(i);
+            }
+        }
+    }
+
+    /**
      * This method removes clears out all the 
      * sun from the array list. 
      * 
@@ -425,6 +451,8 @@ public class Level {
     private Cooldown[] cooldowns;
     /**list of Sun objects used in the game */
     private ArrayList<Sun> suns;
+    /**the projectiles present in the lawn*/
+    private ArrayList<Projectile> peas;
     /**time an object has last performned an acion */
     private int internal_start;
     /**time a Sun object has last performed an action */
