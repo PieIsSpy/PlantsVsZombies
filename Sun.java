@@ -39,7 +39,7 @@ public class Sun extends GameElement {
         {
             currentRow += 1f / FALLING_SPEED;
             setRow(currentRow);
-            System.out.println("Sun is falling at (" + (getRow()+1) + ", " + (getCol()+1) + ")");
+            System.out.println("Sun is falling at (" + getRow() + ", " + getCol() + ")");
         }
     }
 
@@ -53,7 +53,7 @@ public class Sun extends GameElement {
             setRow(targetRow);
             landedTime = currentTime;
             fromSky = false;
-            System.out.println("Sun is has landed in (" + (getRow()+1) + ", " + (getCol()+1) + ")");
+            System.out.println("Sun is now in (" + (getRow() + 1) + ", " + (getCol() + 1) + ")");
         }
         
     }
@@ -76,7 +76,7 @@ public class Sun extends GameElement {
             else
             {
             
-                System.out.println("Sun has " + ((landedTime + LIFETIME) - currentTime) + " remaining seconds before it disappears.");
+                System.out.println("Sun has " + ((landedTime + LIFETIME) - currentTime) + " remaining seconds beofre it disappears.");
             }
 
             
@@ -94,18 +94,7 @@ public class Sun extends GameElement {
         return AMOUNT;
     }
 
-   /*  public static void main(String[] args)
-    {
-        Sun sun = new Sun(2, 3, false);
-        int i;
-
-        for(i = 0; i < 20 && sun.isActive(); i++)
-        {
-            sun.update(i);
-
-        }
-    }
-    */
+   
 
     private final int AMOUNT = 25;
     private final float FALLING_SPEED = 2f;
