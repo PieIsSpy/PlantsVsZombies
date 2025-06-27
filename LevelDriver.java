@@ -157,6 +157,7 @@ class LevelDriver {
             System.out.println("Invalid input");
     }
 
+    // the main method of the class
     public static void main(String[] args) {
         LevelDriver util = new LevelDriver();
         long startTime = System.currentTimeMillis();
