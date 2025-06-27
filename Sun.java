@@ -144,12 +144,27 @@ public class Sun extends GameElement {
         return landedTime;
     }
 
+    /** This method returns the sun object count.
+     *
+     * @return the sun object count
+     */
     public static int getCount() {
         return count;
     }
 
+    /** This method decrements the sun object count
+     *
+     */
     public static void despawn() {
         count--;
+    }
+
+    /** This method sets a number to the sun object count
+     *
+     * @param s the number of suns present
+     */
+    public static void setCount(int s) {
+        count = s;
     }
 
     /**the value of the sun*/

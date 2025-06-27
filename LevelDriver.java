@@ -152,6 +152,7 @@ class LevelDriver {
                 c.collectSun(m.getUnclaimed_suns());
                 m.setUnclaimed_suns(0);
                 m.removeAllSun();
+                Sun.setCount(0);
             } else
                 System.out.println("There are no suns to collect");
         }
