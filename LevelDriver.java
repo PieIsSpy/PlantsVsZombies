@@ -77,7 +77,7 @@ class LevelDriver {
         int row, col;
 
         System.out.println("Sun: " + c.getSun());
-        System.out.println("Unclaimed sun: " + m.getUnclaimed_suns());
+        System.out.println("Unclaimed sun: " + m.getSuns().size());
         System.out.println("1. Place plant");
         System.out.println("2. Use shovel");
         System.out.println("3. Collect sun");
