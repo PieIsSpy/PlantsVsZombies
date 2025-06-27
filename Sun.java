@@ -22,6 +22,7 @@ public class Sun extends GameElement {
         this.fromSky = fromSky;
         this.targetRow = targetRow;
         landedTime = -888;
+        count++;
     }
 
     /** This constructor instantiate its initial row and col positions,
@@ -38,6 +39,7 @@ public class Sun extends GameElement {
         targetRow = row; //row: 1, col: 2, targetRow = row
         this.fromSky = fromSky;
         landedTime = -888;
+        count++;
     }
 
     /** This is essentially the behavior method of the sun.
@@ -106,6 +108,7 @@ public class Sun extends GameElement {
             {
                 deactivate();
                 System.out.println("Sun has disappeared!");
+                count--;
             }
             else
             {
@@ -141,6 +144,14 @@ public class Sun extends GameElement {
         return landedTime;
     }
 
+    public static int getCount() {
+        return count;
+    }
+
+    public static void despawn() {
+        count--;
+    }
+
     /**the value of the sun*/
     private final int AMOUNT = 25;
     /**the speed of the sun falling down*/
@@ -153,4 +164,6 @@ public class Sun extends GameElement {
     private float targetRow;
     /**the time when the sun landed*/
     private int landedTime;
+    /**total number of sun objects*/
+    private static int count = 0;
 }

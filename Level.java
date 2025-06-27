@@ -146,10 +146,12 @@ public class Level {
         int i = 0;
         int found = -1;
 
-        if (cooldowns[i].getPlantType().equalsIgnoreCase(n))
-            found = i;
-        else
-            i++;
+        while (i < cooldowns.length && found == -1) {
+            if (cooldowns[i].getPlantType().equalsIgnoreCase(n))
+                found = i;
+            else
+                i++;
+        }
 
         return cooldowns[found];
     }
@@ -277,8 +279,10 @@ public class Level {
         int i, j;
         // remove dead zombies
         for (i = 0; i < enemies.size(); i++)
-            if (enemies.get(i).getHealth() == 0)
+            if (enemies.get(i).getHealth() == 0) {
+                Zombie.die();
                 enemies.remove(i);
+            }
 
         // remove dead plants
         for (i = 0; i < ROWS; i++)
@@ -288,8 +292,10 @@ public class Level {
 
         // remove inactive suns
         for (i = suns.size() - 1; i >= 0; i--)
-            if (!suns.get(i).isActive())
+            if (!suns.get(i).isActive()) {
+                Sun.despawn();
                 suns.remove(i);
+            }
 
         // remove inactive projectiles
         for (i = peas.size() - 1; i >= 0; i--)
@@ -353,7 +359,7 @@ public class Level {
         //if the time in between is >= the interval, it spawns a zombie
         if (interval != 0 && currentTime - internal_start >= interval) {
             spawnZombies(currentTime);
-            System.out.println("Spawned Zombie at (" + (enemies.getLast().getRow() + 1) + ", " + (enemies.getLast().getCol() + 1) + ")");
+            System.out.println("Spawned Zombie at (" + (enemies.get(Zombie.getCount()-1).getRow() + 1) + ", " + (enemies.get(Sun.getCount()-1).getCol() + 1) + ")");
             internal_start = currentTime;
         }
 
@@ -361,7 +367,7 @@ public class Level {
         //sun_interval : when the last sun was spawned
         if (currentTime - sun_interval >= 20) {
             addSun(currentTime);
-            System.out.println("Sun appeared in (" + (suns.getLast().getCol()+1) + "," + (suns.getLast().getRow()+1) + ")");
+            System.out.println("Sun appeared in (" + (suns.get(Sun.getCount()-1).getCol()+1) + "," + (suns.get(Sun.getCount()-1).getRow()+1) + ")");
             sun_interval = currentTime;
         }
 
@@ -385,7 +391,7 @@ public class Level {
         float targetSpawn = random.nextInt(ROWS) + random.nextFloat();
 
         suns.add(new Sun(0, columnSpawn, true, Math.max(targetSpawn, 1.5f), currentTime));
-        unclaimed_suns += suns.getLast().getAmount();
+        unclaimed_suns += suns.get(Sun.getCount()-1).getAmount();
     }
 
     /**

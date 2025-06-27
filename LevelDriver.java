@@ -191,8 +191,8 @@ class LevelDriver {
             beforeInput = System.currentTimeMillis();
             util.playerAction(control,model, correctedTime);
             afterInput = System.currentTimeMillis();
-            totalEllapse += afterInput - beforeInput;
-            correctedTime = (int)((System.currentTimeMillis() - startTime - totalEllapse)/10);
+            totalEllapse += (int)((afterInput - beforeInput) / 100);
+            correctedTime = (int)((System.currentTimeMillis() - startTime - totalEllapse)/1000);
         }
     }
 }
