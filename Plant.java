@@ -13,28 +13,15 @@ public class Plant extends Entity {
      *  @param r the row coordinate of a plant
      *  @param c the column coordinate of a plant
      */
-    Plant(float r, float c, int t) //attack plants (e.g., peashooter)
+    Plant(float r, float c, int t, String type) //attack plants (e.g., peashooter)
     {
         super(0, 0, 0, r, c, t);
-        name = "Default";
+        name = type;
         cost = 0;
         cooldown = 0;
         range = 0;
         directDamage = 0;
         directDamageRange = 0;
-
-    }
-
-    /** This method does nothing by default. Due to how different
-     *  plants have different behaviours, this method have to be
-     *  overridden for it to be used.
-     *
-     * @param level the level to be checked
-     * @param currentTime the current time frame of the game
-     */
-    public void plantBehavior(Level level, int currentTime)
-    {
-        
     }
 
     /** This method sets the name of the plant.
@@ -155,6 +142,8 @@ public class Plant extends Entity {
     {
         return directDamage;
     }
+
+
 
     /** the name of the plant */
     private String name;

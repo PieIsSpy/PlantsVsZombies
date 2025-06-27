@@ -1,4 +1,4 @@
-/** This class represents an Entity of a game.
+/** This class represents an levelPackage.Entity of a game.
  *  This can be used by either plants or zombie
  *  to inherit the attributes of health, speed, damage,
  *  and row and column coordinates.
@@ -118,7 +118,7 @@ public class Entity {
     }
 
     /** This method returns the current health of an
-     *  Entity.
+     *  levelPackage.Entity.
      *
      *  @return the current health of an entity
      */
@@ -136,7 +136,7 @@ public class Entity {
     }
 
     /** This method returns the damage output of
-     *  an Entity.
+     *  an levelPackage.Entity.
      *
      *  @return the damage output of an entity
      */

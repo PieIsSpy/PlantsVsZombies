@@ -1,8 +1,7 @@
-
 import java.util.ArrayList;
 
 /** The class Peashooter represents the behaviors of a peashooter plant.
- * It extends the Plant class and defines how it interacts with 
+ * It extends the Plant class and defines how it interacts with
  * zombie objects whether by firing projectiles or detecting nearby
  * enemies. 
  *
@@ -14,7 +13,7 @@ public class Peashooter extends Plant {
 
     /**
      * This constructor initializes the attributes of a
-     * Peashooter object and sets it to its given 
+     * Peashooter object and sets it to its given
      * position. This also initializes the internal
      * clock of the peashooter to keep track of its behavior.
      * 
@@ -24,7 +23,7 @@ public class Peashooter extends Plant {
      */
     public Peashooter(float r, float c, int t)
     {
-        super(r, c, t);
+        super(r, c, t, "Peashooter");
         initializeStats();
     }
 
@@ -51,23 +50,22 @@ public class Peashooter extends Plant {
      * behavior in response to zombie objects in the
      * level model class depending on the current
      * time reference.
-     * 
-     * @param level the level to check for zombies
+     *
      * @param currentTime the current time reference
      */
-    @Override
-    public void plantBehavior(Level level, int currentTime)
+    public Projectile peashooterBehavior(ArrayList<Zombie> z, int currentTime)
     {
-        Zombie z = findFront(level.getEnemies());
-
+        Zombie front = findFront(z);
         //System.out.println(z != null && isWithinRange(z.getCol()));
-        if(z != null && isWithinRange(z.getCol()))
+        if(front != null && isWithinRange(front.getCol()))
         {
             if (currentTime - getInternal_time() >= getSpeed()) {
-                shoot(z, currentTime, level);
                 setInternal_time(currentTime);
+                return shoot(front, currentTime);
             }
         }
+
+        return null;
     }
    
     /**
@@ -110,19 +108,20 @@ public class Peashooter extends Plant {
      *
      * @param z the zombie to be targeted
      * @param currentTime the current time reference of the game
-     * @param level the level to add peas projectile
      */
-    public void shoot(Zombie z, int currentTime, Level level)
+    public Projectile shoot(Zombie z, int currentTime)
     {
         System.out.println("Pew!");
         if(isWithinDirectDamage(z.getCol()))
         {
-            level.getPeas().add(new Projectile(getRow(), getCol(), currentTime, getDirectDamage(), projectileSpeed));
+            return new Projectile(getRow(), getCol(), currentTime, getDirectDamage(), projectileSpeed);
         }
         else if (isWithinRange(z.getCol()))
         {
-            level.getPeas().add(new Projectile(getRow(), getCol(), currentTime, getDamage(), projectileSpeed));
+            return new Projectile(getRow(), getCol(), currentTime, getDamage(), projectileSpeed);
         }
+
+        return null;
     }
 
     /**

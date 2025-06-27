@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.lang.Math;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This class represents the core game logic
@@ -17,7 +15,7 @@ public class Level {
 
     /**
      * This constructor initializes all the necessary attributes
-     * of a Level object such as its grid dimensions, enemy list, sun 
+     * of a Level object such as its grid dimensions, enemy list, sun
      * list, and the cooldowns of each plant type. 
      * 
      * 
@@ -105,9 +103,9 @@ public class Level {
 
     /**
      * This method returns the 2D array representing the 
-     * game grid where Plant objects will be placed. 
+     * game grid where levelPackage.Plant objects will be placed.
      * 
-     * @return 2D array of Plant objects
+     * @return 2D array of levelPackage.Plant objects
      */
     public Plant[][] getTiles() {
         return tiles;
@@ -125,9 +123,9 @@ public class Level {
 
     /**
      * This method returns the available plant types
-     * of the game (e.g., Sunflower, Peashooter, etc)
+     * of the game (e.g., levelPackage.Sunflower, levelPackage.Peashooter, etc)
      * 
-     * @return array of Plant objects that contains the available
+     * @return array of levelPackage.Plant objects that contains the available
      * plant types of the game
      */
     public Plant[] getAvaliable_plants() {
@@ -137,7 +135,7 @@ public class Level {
     /**
      * This method checks the given plant type among 
      * the game's available plant types. Once the plant type is 
-     * found, it returns its respective Cooldown object. 
+     * found, it returns its respective levelPackage.Cooldown object.
      * 
      * @param n name/type of plant object
      * @return cooldown of located plant object 
@@ -304,7 +302,7 @@ public class Level {
     }
 
     /**
-     * This method calls the behaviors of Zombie, Plant, Sun and Projectile
+     * This method calls the behaviors of levelPackage.Zombie, levelPackage.Plant, Sun and Projectile
      * objects, allowing it to perform its actions with respect
      * to the game's time progression. 
      * 
@@ -312,6 +310,8 @@ public class Level {
      */
     public void behaviors(int currentTime) {
         int i, j;
+        Sunflower s;
+        Peashooter p;
 
         //calls zombie behavior
         for (i = 0; i < enemies.size(); i++)
@@ -320,8 +320,17 @@ public class Level {
         //calls plant behavior
         for (i = 0; i < ROWS; i++)
             for (j = 0; j < COLUMNS; j++)
-                if (tiles[i][j] != null)
-                    tiles[i][j].plantBehavior(this, currentTime);
+                if (tiles[i][j] != null) {
+                    if (tiles[i][j].getName().equalsIgnoreCase("sunflower")) {
+                        s = (Sunflower)tiles[i][j];
+                        if (s.sunflowerBehavior(currentTime) != null)
+                            setUnclaimed_suns(getUnclaimed_suns() + 25);
+                    }
+                    else if (tiles[i][j].getName().equalsIgnoreCase("peashooter")){
+                        p = (Peashooter)tiles[i][j];
+                        p.peashooterBehavior(enemies, currentTime);
+                    }
+                }
 
         // updates sun objects
         for (i = 0; i < suns.size(); i++)
@@ -335,7 +344,7 @@ public class Level {
     /**
      * This method executes once cycle of the game given the
      * current time. It calls the behaviors of the other objects
-     * and decides when objects like the Zombie and Sun
+     * and decides when objects like the levelPackage.Zombie and Sun
      * will be spawned in the game. 
      * 
      * 
@@ -359,7 +368,7 @@ public class Level {
         //if the time in between is >= the interval, it spawns a zombie
         if (interval != 0 && currentTime - internal_start >= interval) {
             spawnZombies(currentTime);
-            System.out.println("Spawned Zombie at (" + (enemies.get(Zombie.getCount()-1).getRow() + 1) + ", " + (enemies.get(Sun.getCount()-1).getCol() + 1) + ")");
+            System.out.println("Spawned levelPackage.Zombie at (" + (enemies.get(Zombie.getCount()-1).getRow() + 1) + ", " + (enemies.get(Sun.getCount()-1).getCol() + 1) + ")");
             internal_start = currentTime;
         }
 

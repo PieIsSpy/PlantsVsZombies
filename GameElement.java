@@ -1,4 +1,6 @@
-/** This class is to be inherited by objects that exist in 
+import java.util.ArrayList;
+
+/** This class is to be inherited by objects that exist in
  * the game but do not carry entity related attributes such as
  * health or attack values. These shared attributes and 
  * methods are to be used by temporary game elements such
@@ -138,5 +140,4 @@ public class GameElement {
     private boolean isActive;
     /**internal time of the game element*/
     private int internal_time;
-
 }

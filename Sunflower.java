@@ -1,4 +1,3 @@
-
 /** This class represents a Sunflower entity
  *  that inherits a Plant class. This plant
  *  produces suns in a certain amount of rate.
@@ -8,7 +7,7 @@
  *  @version 1.0
  */
 
-public class Sunflower extends Plant{
+public class Sunflower extends Plant {
 
     /**
      *  This constructor initializes the row and column coordinates of the
@@ -21,7 +20,7 @@ public class Sunflower extends Plant{
      */
     public Sunflower(float r, float c, int t)
     {
-        super(r, c, t);
+        super(r, c, t, "Sunflower");
         initializeStats();
     }
 
@@ -37,16 +36,15 @@ public class Sunflower extends Plant{
         setSpeed(20);
     }
 
-    /** This function manages the behavior of a Sunflower 
+    /** This function manages the behavior of a Sunflower
      * object. For every given interval, it produces a sun
      * or in this case it adds a sun to the main game's array 
-     * list of Sun objects. 
+     * list of Sun objects.
      *
-     * @param level the level to access its Sun objects
      * @param currentTime the current time of the game
      */
-    @Override
-   public void plantBehavior(Level level, int currentTime)
+
+   public Sun sunflowerBehavior(int currentTime)
    {
         //same logic as peashooter
 
@@ -55,10 +53,11 @@ public class Sunflower extends Plant{
             System.out.println("Sunflower have " + (getSpeed() - (currentTime - getInternal_time())) + " remaining seconds to produce another sun");
         }
         else {
-            System.out.println("Sunflower have produced a sun!");
-            level.getSuns().add(new Sun(getRow(), getCol(), false, currentTime));
-            level.setUnclaimed_suns(level.getUnclaimed_suns() + 25);
             setInternal_time(currentTime);
+            System.out.println("Sunflower have produced a sun!");
+            return new Sun(getRow(), getCol(), false, currentTime);
         }
+
+        return null;
    }
 }
