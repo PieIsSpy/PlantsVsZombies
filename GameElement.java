@@ -31,7 +31,8 @@ public class GameElement {
     /**
      * This method updates the behavior or actions
      * of the game element for every given time. 
-     * 
+     *
+     * @param currentTime the current time frame of the game
      */
     public void update(int currentTime)
     {
