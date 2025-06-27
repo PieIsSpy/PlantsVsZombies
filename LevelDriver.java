@@ -124,7 +124,9 @@ class LevelDriver {
                         System.out.println("Not enough suns");
                 }
             }
-            else if (!isValidName(m, input))
+            else if (input.equalsIgnoreCase("cancel"))
+                System.out.println("Canceled planting");
+            else
                 System.out.println("Invalid plant");
         }
         else if (input.equalsIgnoreCase("2")) {
