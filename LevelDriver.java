@@ -150,7 +150,6 @@ class LevelDriver {
             if (m.getUnclaimed_suns() > 0) {
                 System.out.println("Collected " + m.getUnclaimed_suns() + " suns");
                 c.collectSun(m.getUnclaimed_suns());
-                m.setUnclaimed_suns(0);
                 m.removeAllSun();
             } else
                 System.out.println("There are no suns to collect");
@@ -191,8 +190,8 @@ class LevelDriver {
             beforeInput = System.currentTimeMillis();
             util.playerAction(control,model, correctedTime);
             afterInput = System.currentTimeMillis();
-            totalEllapse += afterInput - beforeInput;
-            correctedTime = (int)((System.currentTimeMillis() - startTime - totalEllapse)/10);
+            totalEllapse += (int)((afterInput - beforeInput) * 0.5);
+            correctedTime = (int)((System.currentTimeMillis() - startTime - totalEllapse)/1000);
         }
     }
 }
