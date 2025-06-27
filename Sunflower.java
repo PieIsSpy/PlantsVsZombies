@@ -43,7 +43,7 @@ public class Sunflower extends Plant{
      * list of Sun objects. 
      *
      * @param level the level to access its Sun objects
-     * @param currentTime the current time of the ga,e 
+     * @param currentTime the current time of the game
      */
     @Override
    public void plantBehavior(Level level, int currentTime)
@@ -57,7 +57,7 @@ public class Sunflower extends Plant{
         else {
             System.out.println("Sunflower have produced a sun!");
             level.getSuns().add(new Sun(getRow(), getCol(), false, currentTime));
-            level.setUnclaimed_suns(level.getUnclaimed_suns()+1);
+            level.setUnclaimed_suns(level.getUnclaimed_suns() + 25);
             setInternal_time(currentTime);
         }
    }
