@@ -52,7 +52,7 @@ public class Projectile extends GameElement{
      *
      * @param currentTime the current time reference of the game
      */
-    public void update(int currentTime)
+    public void move(int currentTime)
     {
         float pos = getCol();
 
@@ -75,7 +75,7 @@ public class Projectile extends GameElement{
      * @param enemies list of zombie objects
      * @param currentTime the current time reference
      */
-    public void projectileLogic(ArrayList<Zombie> enemies, int currentTime)
+    public void update(ArrayList<Zombie> enemies, int currentTime)
     {
         int x;
         boolean hasHit;
@@ -96,7 +96,7 @@ public class Projectile extends GameElement{
         //if it has not hit any zombie yet, it will continue moving
         if(!hasHit)
         {
-            update(currentTime);
+            move(currentTime);
         }
     }
 

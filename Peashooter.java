@@ -119,7 +119,7 @@ public class Peashooter extends Plant {
         {
             level.getPeas().add(new Projectile(getRow(), getCol(), currentTime, getDirectDamage(), projectileSpeed));
         }
-        else
+        else if (isWithinRange(z.getCol()))
         {
             level.getPeas().add(new Projectile(getRow(), getCol(), currentTime, getDamage(), projectileSpeed));
         }

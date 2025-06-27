@@ -1,5 +1,12 @@
 import java.util.Scanner;
 
+/** This class serves as a demonstration to play 1 level of the game.
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 2.0
+ *
+ */
 class LevelDriver {
     /** This method checks if the given plant name is a valid plant,
      *  regardless of letter casing.
@@ -21,6 +28,14 @@ class LevelDriver {
         return condition;
     }
 
+    /** This method searches the available plants of the level
+     *  and returns its index when found.
+     *
+     * @param l the level to be checked
+     * @param n the name to be found
+     * @return the index of the plant found in the available plants
+     * of the level
+     */
     public int findName(Level l, String n) {
         int i;
         int found = -1;
@@ -32,19 +47,31 @@ class LevelDriver {
         return found;
     }
 
-    public void displayCooldowns(Level m, int startingTime) {
+    /** This method displays the cooldown status of the plants.
+     *
+     * @param m the level to check for available plants
+     * @param currentTime the current time frame of the game
+     */
+    public void displayCooldowns(Level m, int currentTime) {
         int i;
         for (i = 0; i < m.getAvaliable_plants().length; i++) {
-            if (m.getCooldown(m.getAvaliable_plants()[i].getName()).isReady(startingTime))
+            if (m.getCooldown(m.getAvaliable_plants()[i].getName()).isReady(currentTime))
                 System.out.println(m.getAvaliable_plants()[i].getName() + ": ready");
             else
-                System.out.println(m.getAvaliable_plants()[i].getName() + ": " + m.getCooldown(m.getAvaliable_plants()[i].getName()).getRemainingTime(startingTime) + " seconds cooldown");
+                System.out.println(m.getAvaliable_plants()[i].getName() + ": " + m.getCooldown(m.getAvaliable_plants()[i].getName()).getRemainingTime(currentTime) + " seconds cooldown");
 
             System.out.println("Cost: " + m.getAvaliable_plants()[i].getCost());
         }
     }
 
-    public void playerAction(Player c, Level m, int startingTime) {
+    /** This serves as the input prompt of the Player controller class in order
+     *  to edit data in the Level model class.
+     *
+     * @param c the player controller
+     * @param m the level controller
+     * @param currentTime the current time frame of the game
+     */
+    public void playerAction(Player c, Level m, int currentTime) {
         Scanner kb = new Scanner(System.in);
         String input;
         int row, col;
@@ -59,7 +86,7 @@ class LevelDriver {
         input = kb.nextLine();
 
         if (input.equalsIgnoreCase("1")) {
-            displayCooldowns(m,startingTime);
+            displayCooldowns(m,currentTime);
             System.out.println("Type 'cancel' to cancel");
             System.out.println("Enter name of plant");
             input = kb.nextLine();
@@ -75,12 +102,12 @@ class LevelDriver {
                 // check first if its valid name and player has enough suns
                 if (isValidName(m, input) && c.getSun() >= m.getAvaliable_plants()[findName(m, input)].getCost()) {
                     // then check if the plant is ready
-                    if (m.getCooldown(input).isReady(startingTime)) {
+                    if (m.getCooldown(input).isReady(currentTime)) {
                         // lastly, check if the tile can be placed
                         if (m.isValidCoordinate(row, col) && m.canBePlaced(row, col)) {
-                            c.placePlant(m, row, col, input, startingTime);
+                            c.placePlant(m, row, col, input, currentTime);
                             c.subtractSun(m.getAvaliable_plants()[findName(m, input)].getCost());
-                            m.getCooldown(input).updateLastPlaced(startingTime);
+                            m.getCooldown(input).updateLastPlaced(currentTime);
                             System.out.println("Placed " + m.getTiles()[row][col].getName() + " at (" + (row+1) + ", " + (col+1) + ")");
                         }
                         else if (!m.isValidCoordinate(row, col))
@@ -88,7 +115,7 @@ class LevelDriver {
                         else
                             System.out.println("There is already a plant there");
                     } else {
-                        System.out.println(m.getAvaliable_plants()[findName(m, input)].getName() + " is still in cooldown (" + m.getCooldown(input).getRemainingTime(startingTime) + ")");
+                        System.out.println(m.getAvaliable_plants()[findName(m, input)].getName() + " is still in cooldown (" + m.getCooldown(input).getRemainingTime(currentTime) + ")");
                     }
                 } else {
                     if (!isValidName(m, input))
@@ -112,6 +139,10 @@ class LevelDriver {
                 System.out.println("Removed " + m.getTiles()[row][col].getName() + " at (" + (row+1) + ", " + (col+1) + ")");
                 c.useShovel(m, row, col);
             }
+            else if (!m.isValidCoordinate(row,col))
+                System.out.println("Invalid coordinates");
+            else if (m.canBePlaced(row, col))
+                System.out.println("There are no plants present in (" + (row+1) + "," + (col+1) + ")");
         }
         else if (input.equalsIgnoreCase("3")) {
             if (m.getUnclaimed_suns() > 0) {
@@ -145,7 +176,11 @@ class LevelDriver {
                 System.out.println("The zombies... are coming...");
                 startFlag = true;
             }
-            else if (correctedTime <= 170)
+
+            if (correctedTime >= 170 && !endFlag) {
+                System.out.println("A huge wave of zombies are coming!");
+                endFlag = true;
+            }
 
             model.gameCycle(correctedTime);
             System.out.println("Time: " + correctedTime + "/" + model.getTIME_LENGTH());

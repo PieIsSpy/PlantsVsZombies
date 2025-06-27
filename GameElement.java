@@ -33,7 +33,7 @@ public class GameElement {
      * of the game element for every given time. 
      * 
      */
-    public void update()
+    public void update(int currentTime)
     {
         
     }

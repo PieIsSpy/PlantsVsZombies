@@ -52,10 +52,10 @@ public class Sunflower extends Plant{
 
         //generates sun every 20 seconds
         if (currentTime - getInternal_time() < getSpeed()) {
-            System.out.println("Sunflower has " + (getSpeed() - (currentTime - getInternal_time())) + " remaining seconds to produce another sun");
+            System.out.println("Sunflower have " + (getSpeed() - (currentTime - getInternal_time())) + " remaining seconds to produce another sun");
         }
         else {
-            System.out.println("Sunflower has produced a sun!");
+            System.out.println("Sunflower have produced a sun!");
             level.getSuns().add(new Sun(getRow(), getCol(), false, currentTime));
             level.setUnclaimed_suns(level.getUnclaimed_suns()+1);
             setInternal_time(currentTime);

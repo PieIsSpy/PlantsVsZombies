@@ -45,6 +45,7 @@ public class Sun extends GameElement {
      *
      * @param currentTime the current time reference of the game
      */
+    @Override
     public void update(int currentTime)
     {
         if(fromSky) //if sun is from the sky
@@ -129,6 +130,15 @@ public class Sun extends GameElement {
     public int getAmount()
     {
         return AMOUNT;
+    }
+
+    /** This method returns the time frame of the sun
+     *  landing.
+     *
+     * @return the time frame of the sun landing
+     */
+    public int getLandedTime() {
+        return landedTime;
     }
 
     /**the value of the sun*/

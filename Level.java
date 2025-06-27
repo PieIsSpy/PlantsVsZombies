@@ -317,13 +317,13 @@ public class Level {
                 if (tiles[i][j] != null)
                     tiles[i][j].plantBehavior(this, currentTime);
 
-        //calls sun behavior (or updates its state)
+        // updates sun objects
         for (i = 0; i < suns.size(); i++)
             suns.get(i).update(currentTime);
 
-        // calls projectile logic (or behavior)
+        // updates pea objects
         for (i = 0; i < peas.size(); i++)
-            peas.get(i).projectileLogic(getEnemies(), currentTime);
+            peas.get(i).update(getEnemies(), currentTime);
     }
 
     /**
@@ -361,6 +361,7 @@ public class Level {
         //sun_interval : when the last sun was spawned
         if (currentTime - sun_interval >= 20) {
             addSun(currentTime);
+            System.out.println("Sun appeared in (" + (suns.getLast().getCol()+1) + "," + (suns.getLast().getRow()+1) + ")");
             sun_interval = currentTime;
         }
 
