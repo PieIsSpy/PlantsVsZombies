@@ -293,12 +293,7 @@ public class Level {
 
         // remove inactive projectiles
         for (i = peas.size() - 1; i >= 0; i--)
-            if (!peas.get(i).isActive())
-                peas.remove(i);
-
-        // remove out of bounds projectile
-        for (i = peas.size() - 1; i >= 0; i--)
-            if (peas.get(i).getCol() > COLUMNS)
+            if (!peas.get(i).isActive() || peas.get(i).getCol() > COLUMNS)
                 peas.remove(i);
     }
 
