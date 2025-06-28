@@ -38,9 +38,9 @@ public class Peashooter extends Plant {
         setCost(100);
         setCooldown(7);
         setRange(9);
-        setDamage(5);
+        setDamage(7);
         setHealth(100);
-        setDirectDamage(10);
+        setDirectDamage(14);
         setDirectDamageRange(2);
         setSpeed(2);
         setProjectileSpeed(1.5f);
