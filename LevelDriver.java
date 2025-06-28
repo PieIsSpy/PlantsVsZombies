@@ -193,5 +193,9 @@ class LevelDriver {
             totalEllapse += (int)((afterInput - beforeInput) * 0.5);
             correctedTime = (int)((System.currentTimeMillis() - startTime - totalEllapse)/1000);
         }
+        if (model.isGameOver())
+            System.out.println("THE ZOMBIES ATE YOUR BRAIN!");
+        else
+            System.out.println("You won!");
     }
 }
