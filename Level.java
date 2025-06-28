@@ -227,6 +227,11 @@ public class Level {
         //if the time is still not up but there are no more zombies
         //OR
         // current time is more than or equal to the total time of game (time is up)
+        if (time >= TIME_LENGTH)
+            System.out.println("The zombies lurked somewhere else...");
+        else if (time >= (int)Math.ceil(TIME_LENGTH * 0.94) && enemies.isEmpty())
+            System.out.println("All zombies have been killed!");
+
         return (time >= (int)Math.ceil(TIME_LENGTH * 0.94) && enemies.isEmpty()) || time >= TIME_LENGTH;
     }
 
@@ -385,6 +390,8 @@ public class Level {
 
         // remove dead entities and inactive game elements
         despawn();
+        if (interval != 0)
+        System.out.println("Spawn rate: 1 zombie every " + interval + " seconds" );
     }
 
     /**

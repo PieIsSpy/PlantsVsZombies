@@ -41,6 +41,7 @@ public class Projectile extends GameElement{
     public void hit(Zombie z)
     {
         z.takeDamage(damage);
+        System.out.println("HP: " + z.getHealth());
         deactivate();
 
         System.out.println("Projectile has hit zombie at (" + (z.getRow()+1) + ", " + (z.getCol()+1) + ")");

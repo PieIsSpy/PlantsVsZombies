@@ -49,7 +49,7 @@ public class Zombie extends Entity {
      *  @param p the target plant object to be damaged
      */
     public void eat(Plant p) {
-        System.out.println("Eating " + p.getName() + ": " + getHealth());
+        System.out.println("Eating " + p.getName() + ": " + p.getHealth());
         p.takeDamage(getDamage());
     }
 
