@@ -227,10 +227,13 @@ public class Level {
         //if the time is still not up but there are no more zombies
         //OR
         // current time is more than or equal to the total time of game (time is up)
+        /*
         if (time >= TIME_LENGTH)
             System.out.println("The zombies lurked somewhere else...");
         else if (time >= (int)Math.ceil(TIME_LENGTH * 0.94) && enemies.isEmpty())
             System.out.println("All zombies have been killed!");
+
+         */
 
         return (time >= (int)Math.ceil(TIME_LENGTH * 0.94) && enemies.isEmpty()) || time >= TIME_LENGTH;
     }
@@ -368,7 +371,7 @@ public class Level {
         //if the time in between is >= the interval, it spawns a zombie
         if (interval != 0 && currentTime - internal_start >= interval) {
             spawnZombies(currentTime);
-            System.out.println("Spawned Zombie at (" + (enemies.get(enemies.size()-1).getRow() + 1) + ", " + (enemies.get(enemies.size()-1).getCol() + 1) + ")");
+            //System.out.println("Spawned Zombie at (" + (enemies.get(enemies.size()-1).getRow() + 1) + ", " + (enemies.get(enemies.size()-1).getCol() + 1) + ")");
             internal_start = currentTime;
         }
 
@@ -384,14 +387,14 @@ public class Level {
         //sun_interval : when the last sun was spawned
         if (currentTime - sun_interval >= 20) {
             addSun(currentTime);
-            System.out.println("Sun appeared in (" + (suns.get(suns.size()-1).getRow()+1) + "," + (suns.get(suns.size()-1).getCol()+1) + ")");
+            //System.out.println("Sun appeared in (" + (suns.get(suns.size()-1).getRow()+1) + "," + (suns.get(suns.size()-1).getCol()+1) + ")");
             sun_interval = currentTime;
         }
 
         // remove dead entities and inactive game elements
         despawn();
-        if (interval != 0)
-        System.out.println("Spawn rate: 1 zombie every " + interval + " seconds" );
+        //if (interval != 0)
+        //  System.out.println("Spawn rate: 1 zombie every " + interval + " seconds" );
     }
 
     /**

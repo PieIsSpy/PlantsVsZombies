@@ -44,7 +44,7 @@ public class Projectile extends GameElement{
         System.out.println("HP: " + z.getHealth());
         deactivate();
 
-        System.out.println("Projectile has hit zombie at (" + (z.getRow()+1) + ", " + (z.getCol()+1) + ")");
+        //System.out.println("Projectile has hit zombie at (" + (z.getRow()+1) + ", " + (z.getCol()+1) + ")");
     }
 
     /**
@@ -61,7 +61,7 @@ public class Projectile extends GameElement{
             pos += (float) (1.0 / speed);
             setCol(pos);
             setInternal_Time(currentTime);
-            System.out.println("Projectile at (" + ((int)getRow()+1) + "," + ((int)getCol()+1) + ")");
+            //System.out.println("Projectile at (" + ((int)getRow()+1) + "," + ((int)getCol()+1) + ")");
         }
     }
 
