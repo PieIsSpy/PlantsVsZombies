@@ -12,7 +12,8 @@ public class Zombie extends Entity {
      *  This also initializes its internal clock to keep
      *  track whether to do the action or not. This constructor
      *  can also be used by variant zombies that will not be holding
-     *  any items. This also increments the static variable
+     *  any items. By default, a zombie is vulnerable, meaning it can be
+     *  damaged. This also increments the static variable
      *  "count" by 1.
      *
      *  @param r the row grid position of the Zombie
@@ -22,6 +23,7 @@ public class Zombie extends Entity {
     public Zombie(int r, int c, int t) {
         super(70, 4,10, r, c, t);
         held_item = null;
+        vulnerability = true;
 
         count++;
     }
@@ -29,7 +31,8 @@ public class Zombie extends Entity {
     /** This constructor is made for the variant zombies that will
      *  be holding items. This places them into a specific row and col
      *  and initializes their internal clock to keep track of their action
-     *  timer. This also increments the static variable "count" by 1.
+     *  timer. By default, the zombie is vulnerable, meaning it can be
+     *  damaged. This also increments the static variable "count" by 1.
      *
      * @param r the row grid position of the Zombie
      * @param c the col grid position of the Zombie
@@ -39,6 +42,7 @@ public class Zombie extends Entity {
     public Zombie (int r, int c, int t, Item i) {
         super(70, 4, 10, r, c, t);
         held_item = i;
+        vulnerability = true;
 
         count++;
     }
@@ -119,7 +123,7 @@ public class Zombie extends Entity {
                 if (currentTime - getInternal_time() >= 0.5) { // zombie should eat at a certain rate
                     eat(findFront(plants));
                     setInternal_time(currentTime);
-                    System.out.println("Damaged " + findFront(plants).getName() + " at (" + findFront(plants).getRow() + ", " + findFront(plants).getCol() + ")");
+                    //System.out.println("Damaged " + findFront(plants).getName() + " at (" + findFront(plants).getRow() + ", " + findFront(plants).getCol() + ")");
                 }
             }
         }
@@ -155,6 +159,10 @@ public class Zombie extends Entity {
             return null;
     }
 
+    public void sprite_animation() {
+
+    }
+
     /** This method returns the current Zombie counts.
      *
      *  @return the number of Zombie objects created
@@ -177,8 +185,18 @@ public class Zombie extends Entity {
         held_item = i;
     }
 
+    public boolean isVulnerable() {
+        return vulnerability;
+    }
+
+    public void setVulnerability(boolean v) {
+        vulnerability = v;
+    }
+
     /** How many zombies are created */
     private static int count = 0;
     /** What items are they currently holding */
     private Item held_item;
+    /** Checks if the zombie can be hit or not */
+    private boolean vulnerability;
 }
