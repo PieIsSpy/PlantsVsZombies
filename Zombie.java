@@ -10,8 +10,9 @@ public class Zombie extends Entity {
     /** This constructor initializes the default values
      *  of a basic zombie and places it to a given row.
      *  This also initializes its internal clock to keep
-     *  track whether to do the action or not.
-     *  This also increments the static variable
+     *  track whether to do the action or not. This constructor
+     *  can also be used by variant zombies that will not be holding
+     *  any items. This also increments the static variable
      *  "count" by 1.
      *
      *  @param r the row grid position of the Zombie
@@ -25,6 +26,16 @@ public class Zombie extends Entity {
         count++;
     }
 
+    /** This constructor is made for the variant zombies that will
+     *  be holding items. This places them into a specific row and col
+     *  and initializes their internal clock to keep track of their action
+     *  timer. This also increments the static variable "count" by 1.
+     *
+     * @param r the row grid position of the Zombie
+     * @param c the col grid position of the Zombie
+     * @param t the time of creation
+     * @param i the held item of the Zombie
+     */
     public Zombie (int r, int c, int t, Item i) {
         super(70, 4, 10, r, c, t);
         held_item = i;
