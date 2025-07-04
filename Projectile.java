@@ -41,10 +41,10 @@ public class Projectile extends GameElement{
     public void hit(Zombie z)
     {
         z.takeDamage(damage);
-        System.out.println("HP: " + z.getHealth());
+        //System.out.println("HP: " + z.getHealth());
         deactivate();
 
-        System.out.println("Projectile has hit zombie at (" + (z.getRow()+1) + ", " + (z.getCol()+1) + ")");
+        //System.out.println("Projectile has hit zombie at (" + (z.getRow()+1) + ", " + (z.getCol()+1) + ")");
     }
 
     /**
@@ -99,6 +99,10 @@ public class Projectile extends GameElement{
         {
             move(currentTime);
         }
+    }
+
+    public int getDamage() {
+        return damage;
     }
 
     /**value of damage dealt by projectile */

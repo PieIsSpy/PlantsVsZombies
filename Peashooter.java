@@ -64,7 +64,7 @@ public class Peashooter extends Plant {
         if(z != null && isWithinRange(z.getCol()))
         {
             if (currentTime - getInternal_time() >= getSpeed()) {
-                System.out.println("pew");
+                //System.out.println("pew");
                 shoot(z, currentTime, level);
                 setInternal_time(currentTime);
             }
