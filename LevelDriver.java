@@ -174,6 +174,7 @@ class LevelDriver {
 
         model.getTiles()[1][4] = new Peashooter(1,4,0);
         model.getTiles()[1][6] = new Sunflower(1,6,0);
+        model.getEnemies().add(new Zombie(2, 6, 0));
         model.getEnemies().add(new PolevaulterZombie(1,9,0));
         model.getPeas().add(new Projectile(1,5,0,1000,2));
 

@@ -39,6 +39,8 @@ public class Player {
             l.getTiles()[r][c] = new Sunflower(r,c,t);
         else if (n.equalsIgnoreCase("peashooter"))
             l.getTiles()[r][c] = new Peashooter(r,c, t);
+        else if(n.equalsIgnoreCase("wallnut"))
+            l.getTiles()[r][c] = new Wallnut(r, c, t);
     }
 
     /** This method removes a plant in a given row

@@ -44,7 +44,7 @@ public class Level {
         suns = new ArrayList<Sun>();
         peas = new ArrayList<Projectile>();
 
-        avaliable_plants = new Plant[]{new Sunflower(-1, -1, 0), new Peashooter(-1, -1, 0)};
+        avaliable_plants = new Plant[]{new Sunflower(-1, -1, 0), new Peashooter(-1, -1, 0), new Wallnut(-1, -1, 0)};
         cooldowns = new Cooldown[avaliable_plants.length];
 
         for (i = 0; i < avaliable_plants.length; i++)
