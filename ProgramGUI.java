@@ -8,6 +8,8 @@ public class ProgramGUI extends JFrame {
         setLayout(null);
         setSize(1052, 594);
         init();
+        getContentPane().setPreferredSize(new Dimension(1052, 594));
+        pack();
         setVisible(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
