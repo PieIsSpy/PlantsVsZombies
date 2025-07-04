@@ -32,7 +32,7 @@ public class Sunflower extends Plant{
     {
         setName("Sunflower");
         setCost(50);
-        setCooldown(5);
+        setCooldown(7);
         setHealth(100);
         setSpeed(20);
     }

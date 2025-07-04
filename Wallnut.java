@@ -34,7 +34,7 @@ public class Wallnut extends Plant{
     {
         setName("Wallnut");
         setCost(50);
-        setCooldown(15);
+        setCooldown(30);
         setHealth(200);
     }
 
