@@ -5,7 +5,6 @@ import java.util.Scanner;
  *  @author Karl Deejay Omandac
  *  @author Rachel Angeline Alba
  *  @version 2.0
- *
  */
 class LevelDriver {
     /** This method checks if the given plant name is a valid plant,
@@ -172,11 +171,8 @@ class LevelDriver {
         Lawn view = new Lawn(model.getROWS(), model.getCOLUMNS());
         Player control = new Player(200);
 
-        model.getTiles()[1][4] = new Peashooter(1,4,0);
-        model.getTiles()[1][6] = new Sunflower(1,6,0);
-        model.getEnemies().add(new Zombie(2, 6, 0));
-        model.getEnemies().add(new PolevaulterZombie(1,9,0));
-        model.getPeas().add(new Projectile(1,5,0,1000,2));
+        model.getTiles()[0][8] = new PotatoMine(0,8,0);
+        //model.getPeas().add(new Projectile(1,5,0,1000,2));
 
         System.out.println("Level " + model.getLEVEL_NUM());
         while (!model.isGameOver() && !model.isGameWon(correctedTime)) {
@@ -192,7 +188,7 @@ class LevelDriver {
 
             model.gameCycle(correctedTime);
             System.out.println("Time: " + correctedTime + "/" + model.getTIME_LENGTH());
-            view.displayLawn(model.getTiles(), model.getEnemies());
+            view.displayLawn(model.getTiles(), model.getEnemies(), correctedTime);
             beforeInput = System.currentTimeMillis();
             util.playerAction(control,model, correctedTime);
             afterInput = System.currentTimeMillis();

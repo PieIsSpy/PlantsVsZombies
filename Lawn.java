@@ -50,12 +50,13 @@ public class Lawn {
      *  @param z the zombies in the lawn
      *  @param r the row to be displayed
      */
-    public void displayContent(Plant[] p, ArrayList<Zombie> z, int r) {
+    public void displayContent(Plant[] p, ArrayList<Zombie> z, int r, int t) {
         int i;
         int j;
         boolean found;
         String output = String.valueOf(r);
         output = output.concat("\t");
+        PotatoMine m;
         //System.out.print(r + "\t");
 
         // display plants and zombies
@@ -65,6 +66,14 @@ public class Lawn {
                     output = output.concat("   S");
                 else if (p[i].getName().equalsIgnoreCase("peashooter"))
                     output = output.concat("   P");
+                else if (p[i].getName().equalsIgnoreCase("potato mine")) {
+                    m = (PotatoMine)p[i];
+
+                    if (m.isPrimed(t))
+                        output = output.concat("   M");
+                    else
+                        output = output.concat("   m");
+                }
             }
             else {
                 j = 0;
@@ -93,7 +102,7 @@ public class Lawn {
      *  @param p the tiles of the lawn which contains plants
      *  @param z the zombies present in the lawn
      */
-    public void displayLawn(Plant[][] p, ArrayList<Zombie> z) {
+    public void displayLawn(Plant[][] p, ArrayList<Zombie> z, int t) {
         int i;
         // print number of cols
         System.out.print("\t");
@@ -109,7 +118,7 @@ public class Lawn {
         // print out spaces in each grid
         System.out.println();
         for (i = 0; i < ROWS; i++) {
-            displayContent(p[i], z, i + 1);
+            displayContent(p[i], z, i + 1, t);
             displayLine();
             System.out.println();
         }
