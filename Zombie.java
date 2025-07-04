@@ -20,8 +20,42 @@ public class Zombie extends Entity {
      */
     public Zombie(int r, int c, int t) {
         super(70, 4,10, r, c, t);
+        held_item = null;
 
         count++;
+    }
+
+    public Zombie (int r, int c, int t, Item i) {
+        super(70, 4, 10, r, c, t);
+        held_item = i;
+
+        count++;
+    }
+
+    /** This method subtracts the health of a zombie if
+     *  they have no held items or the held item is not
+     *  breakable. However, if they have a breakable item,
+     *  it will take damage in place instead.
+     *
+     *  @param d the damage input to a zombie
+     */
+    @Override
+    public void takeDamage(int d) {
+        if (held_item != null && held_item.isBreakable()) {
+            held_item.takeDamage(d);
+
+            if (held_item.getDurability() == 0)
+                held_item = null;
+        }
+        else {
+            int cur = getHealth();
+            cur -= d;
+
+            if (cur < 0)
+                setHealth(0);
+            else
+                setHealth(cur);
+        }
     }
 
     /** This method checks if the Zombie has already
@@ -124,6 +158,16 @@ public class Zombie extends Entity {
         count--;
     }
 
+    public Item getHeld_item() {
+        return held_item;
+    }
+
+    public void setHeld_item(Item i) {
+        held_item = i;
+    }
+
     /** How many zombies are created */
     private static int count = 0;
+    /** What items are they currently holding */
+    private Item held_item;
 }
