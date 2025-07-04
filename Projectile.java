@@ -44,7 +44,7 @@ public class Projectile extends GameElement{
         System.out.println("HP: " + z.getHealth());
         deactivate();
 
-        //System.out.println("Projectile has hit zombie at (" + (z.getRow()+1) + ", " + (z.getCol()+1) + ")");
+        System.out.println("Projectile has hit zombie at (" + (z.getRow()+1) + ", " + (z.getCol()+1) + ")");
     }
 
     /**
@@ -61,7 +61,7 @@ public class Projectile extends GameElement{
             pos += (float) (1.0 / speed);
             setCol(pos);
             setInternal_Time(currentTime);
-            //System.out.println("Projectile at (" + ((int)getRow()+1) + "," + ((int)getCol()+1) + ")");
+            System.out.println("Projectile at (" + ((int)getRow()+1) + "," + ((int)getCol()+1) + ")");
         }
     }
 
@@ -85,8 +85,8 @@ public class Projectile extends GameElement{
         //loops through the list of enemies within the same row
         for(x = 0; x < enemies.size() && !hasHit; x++)
         {
-            //if zombie is alive and projectile is within range of attack
-            if(enemies.get(x).isAlive() && (enemies.get(x).getCol() - getCol()) < 0.5)
+            //if zombie is alive and vulnerable and projectile is within range of attack
+            if(enemies.get(x).isAlive() && enemies.get(x).isVulnerable() && (enemies.get(x).getCol() - getCol()) < 0.5)
             {
                 hit(enemies.get(x));
                 hasHit = true;

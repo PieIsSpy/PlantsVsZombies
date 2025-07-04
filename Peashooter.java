@@ -64,6 +64,7 @@ public class Peashooter extends Plant {
         if(z != null && isWithinRange(z.getCol()))
         {
             if (currentTime - getInternal_time() >= getSpeed()) {
+                System.out.println("pew");
                 shoot(z, currentTime, level);
                 setInternal_time(currentTime);
             }
@@ -151,7 +152,8 @@ public class Peashooter extends Plant {
                 //distance between plant and zombie
                 distance = enemies.get(i).getCol() - getCol();
 
-                if(distance >= 0 && distance < smallestDistance)
+                // if the distance between them is small and that zombie is vulnerable
+                if(distance >= 0 && distance < smallestDistance && enemies.get(i).isVulnerable())
                 {
                     smallestDistance = distance;
                     finalCol = i;
