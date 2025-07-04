@@ -4,4 +4,5 @@ public class FlagZombie extends Zombie{
         setSpeed(3);
         setHeld_item(new Item("Flag"));
     }
+
 }
