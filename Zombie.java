@@ -88,7 +88,12 @@ public class Zombie extends Entity {
      */
     public void walk() {
         float cur = getCol();
-        cur -= (float) (1.0 / getSpeed());
+
+        if (!slowed)
+            cur -= (float) (1.0 / getSpeed());
+        else
+            cur -= (float) (1.0 / (getSpeed() * 2));
+
         setCol(cur);
     }
 
@@ -98,7 +103,7 @@ public class Zombie extends Entity {
      *  @param p the target plant object to be damaged
      */
     public void eat(Plant p) {
-        System.out.println("Eating " + p.getName() + ": " + p.getHealth());
+        //System.out.println("Eating " + p.getName() + ": " + p.getHealth());
         p.takeDamage(getDamage());
     }
 
@@ -109,6 +114,9 @@ public class Zombie extends Entity {
      * @param currentTime the current time reference of the game
      */
     public void behaviour(Plant[] plants, int currentTime) {
+        // check if the zombie is slowed or not
+        //defrost(currentTime);
+
         // while zombie isn't in the house and still alive
         if (!this.isAtHouse() && this.isAlive()) {
             // if zombie is still not within attack range or there isn't any plants in front
@@ -120,10 +128,16 @@ public class Zombie extends Entity {
             }
             // else if a plant is in front of zombie
             else if (findFront(plants).isAlive()) {
-                if (currentTime - getInternal_time() >= 0.5) { // zombie should eat at a certain rate
+                // case 1: if not slowed
+                if (!slowed && currentTime - getInternal_time() >= 0.5) { // zombie should eat at a certain rate
                     eat(findFront(plants));
                     setInternal_time(currentTime);
                     //System.out.println("Damaged " + findFront(plants).getName() + " at (" + findFront(plants).getRow() + ", " + findFront(plants).getCol() + ")");
+                }
+                // case 2: if slowed
+                else if (slowed && currentTime - getInternal_time() >= 3) {
+                    eat(findFront(plants));
+                    setInternal_time(currentTime);
                 }
             }
         }
@@ -157,6 +171,11 @@ public class Zombie extends Entity {
             return plants[column];
         else
             return null;
+    }
+
+    public void defrost(int t) {
+        if (t - slowedStart >= 10)
+            slowed = false;
     }
 
     public void sprite_animation() {
@@ -211,10 +230,26 @@ public class Zombie extends Entity {
         vulnerability = v;
     }
 
+    public boolean isSlowed() {
+        return slowed;
+    }
+
+    public void setSlowed(boolean s) {
+        slowed = s;
+    }
+
+    public void setSlowedStart(int t) {
+        slowedStart = t;
+    }
+
     /** How many zombies are created */
     private static int count = 0;
     /** What items are they currently holding */
     private Item held_item;
     /** Checks if the zombie can be hit or not */
     private boolean vulnerability;
+    /** Checks if the zombie is slow or not */
+    private boolean slowed;
+    /** Time reference where the zombie started going slow */
+    private int slowedStart;
 }

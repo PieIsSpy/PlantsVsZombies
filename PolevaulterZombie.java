@@ -45,38 +45,46 @@ public class PolevaulterZombie extends Zombie{
             }
             // case 2: if a plant is in front of zombie and the zombie is still holding the item
             else if (findFront(plants).isAlive() && getHeld_item() != null) {
-                System.out.println("Pole vaulting in process, trust me bro :)");
-                // save the col where it did the action first
-                colUsage = getCol();
-
-                // should be invulnerable
-                if (isVulnerable())
-                    setVulnerability(false);
-
-                // zombie should move at a certain rate
-                if (currentTime - getInternal_time() >= 1) {
-                    walk();
-                    setInternal_time(currentTime);
-                }
-
-                // after vaulting over, remove item and give normal speed, then be vulnerable again
-                if (colUsage - getCol() >= 1) {
-                    setVulnerability(true);
-                    setHeld_item(null);
-                    setSpeed(4);
-                }
+                vaultOver(currentTime);
             }
             //case 3: if a plant is in front of zombie but does not have an item
             else if (findFront(plants).isAlive()) {
                 if (!isVulnerable())
                     setVulnerability(true);
 
-                if (currentTime - getInternal_time() >= 0.5) { // zombie should eat at a certain rate
+                // case 1: if not slowed
+                if (!isSlowed() && currentTime - getInternal_time() >= 0.5) { // zombie should eat at a certain rate
                     eat(findFront(plants));
                     setInternal_time(currentTime);
-                    System.out.println("Damaged " + findFront(plants).getName() + " at (" + findFront(plants).getRow() + ", " + findFront(plants).getCol() + ")");
+                }
+                // case 2: if slowed
+                else if (isSlowed() && currentTime - getInternal_time() >= 3) {
+                    eat(findFront(plants));
+                    setInternal_time(currentTime);
                 }
             }
+        }
+    }
+
+    public void vaultOver(int currentTime) {
+        // save the col where it did the action first
+        colUsage = getCol();
+
+        // should be invulnerable
+        if (isVulnerable())
+            setVulnerability(false);
+
+        // zombie should move at a certain rate
+        if (currentTime - getInternal_time() >= 1) {
+            walk();
+            setInternal_time(currentTime);
+        }
+
+        // after vaulting over, remove item and give normal speed, then be vulnerable again
+        if (colUsage - getCol() >= 1) {
+            setVulnerability(true);
+            setHeld_item(null);
+            setSpeed(4);
         }
     }
 
