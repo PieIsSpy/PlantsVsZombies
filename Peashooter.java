@@ -114,7 +114,7 @@ public class Peashooter extends Plant {
      */
     public void shoot(Zombie z, int currentTime, Level level)
     {
-        System.out.println("Pew!");
+        //System.out.println("Pew!");
         if(isWithinDirectDamage(z.getCol()))
         {
             level.getPeas().add(new Projectile(getRow(), getCol(), currentTime, getDirectDamage(), projectileSpeed));
