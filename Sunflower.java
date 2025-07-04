@@ -51,6 +51,7 @@ public class Sunflower extends Plant{
         //same logic as peashooter
 
         //generates sun every 20 seconds
+       /*
         if (currentTime - getInternal_time() < getSpeed()) {
             System.out.println("Sunflower have " + (getSpeed() - (currentTime - getInternal_time())) + " remaining seconds to produce another sun");
         }
@@ -60,5 +61,13 @@ public class Sunflower extends Plant{
             level.setUnclaimed_suns(level.getUnclaimed_suns() + 25);
             setInternal_time(currentTime);
         }
+
+        */
+
+       if (currentTime - getInternal_time() >= getSpeed()) {
+           level.getSuns().add(new Sun(getRow(), getCol(), false, currentTime));
+           level.setUnclaimed_suns(level.getUnclaimed_suns() + 25);
+           setInternal_time(currentTime);
+       }
    }
 }
