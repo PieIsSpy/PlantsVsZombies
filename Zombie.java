@@ -177,18 +177,36 @@ public class Zombie extends Entity {
         count--;
     }
 
+    /** This method returns the held item of the zombie.
+     *
+     * @return the held item of the zombie
+     */
     public Item getHeld_item() {
         return held_item;
     }
 
+    /** This method sets the held item of the zombie.
+     *
+     * @param i the item to be held by a zombie
+     */
     public void setHeld_item(Item i) {
         held_item = i;
     }
 
+    /** This method checks if the zombie is vulnerable
+     *  or not
+     *
+     * @return true if the zombie is vulnerable, false otherwise
+     */
     public boolean isVulnerable() {
         return vulnerability;
     }
 
+    /** This method sets the vulnerability state of
+     *  the zombie
+     *
+     * @param v the vulnerability state of the zombie
+     */
     public void setVulnerability(boolean v) {
         vulnerability = v;
     }
