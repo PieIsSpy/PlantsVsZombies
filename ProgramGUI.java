@@ -5,7 +5,7 @@ public class ProgramGUI extends JFrame {
     public ProgramGUI() {
 
         super("Plants vs Zombies");
-        setLayout(null);
+        setLayout(new BorderLayout());
         setSize(1052, 594);
         init();
         getContentPane().setPreferredSize(new Dimension(1052, 594));
