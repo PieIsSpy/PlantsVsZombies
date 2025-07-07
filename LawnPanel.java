@@ -1,23 +1,30 @@
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
+/**
+ * This class represents the background lawn image in a 
+ * Plants vs Zombies game. 
+ * 
+ */
 public class LawnPanel extends JPanel {
+    /**
+     * This constructor initializes the file image of a lawn
+     * background and sets its layout to null. 
+     * 
+     */
     public LawnPanel()
     {
-        /*File file = new File("lawnImage.png");
-        System.out.println("can execute: " + file.canExecute());
-        System.out.println("location: " + file.getAbsolutePath());
-        System.out.println("does file exist: " + file.exists());
-        */ 
-
+        //to be updated in the future since there will be different maps
+        //this constructor will probably need to accept a string pathway to allow multiple lawn images
         lawnImg = new ImageIcon(getClass().getResource("/lawnImage.png"));
-        System.out.println("image width: " + lawnImg.getImage().getWidth(null));
-        System.out.println("image height: " + lawnImg.getImage().getHeight(null));
-
         setLayout(null);
     }
 
+    /**
+     * This method overrides the paintComponent method from the JPanel class, 
+     * allowing the lawnPanel to draw/display the image. 
+     * 
+     */
     @Override
     public void paintComponent(Graphics g)
     {
@@ -26,17 +33,10 @@ public class LawnPanel extends JPanel {
         {
              g.drawImage(lawnImg.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
         }
-        else
-        {
-            System.out.println("Failed to load image!");
-        }
+       
     }
 
+    /**lawn background image to be displayed */
     private ImageIcon lawnImg;
 
-    public static void main(String[] args)
-    {
-        LawnPanel lawn = new LawnPanel();
-
-    }
 }
