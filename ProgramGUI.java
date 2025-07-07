@@ -6,10 +6,8 @@ public class ProgramGUI extends JFrame {
 
         super("Plants vs Zombies");
         setLayout(new BorderLayout());
-        setSize(1052, 594);
+        setSize(WIDTH, HEIGHT);
         init();
-        getContentPane().setPreferredSize(new Dimension(1052, 594));
-        pack();
         setVisible(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -18,14 +16,12 @@ public class ProgramGUI extends JFrame {
 
     public void init()
     {
-        //BACKGROUND IMAGE
-        background = new JLabel(new ImageIcon("lawnImage.png"), JLabel.CENTER);
-        background.setBounds(0, 0, 1052, 594);
-        add(background);
-
+        LawnPanel lawn = new LawnPanel();
+        add(lawn);
     }
 
-    private Image lawn;
-    private JLabel background;
-    //use grid layout for the center 
+
+    private static final int WIDTH = 1052, HEIGHT = 594;
+
+    
 }
