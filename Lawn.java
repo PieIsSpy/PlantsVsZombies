@@ -101,10 +101,10 @@ public class Lawn {
 
     /** This method displays the whole lawn of the player.
      *
-     *  @param p the tiles of the lawn which contains plants
+     *  @param t the tiles of the lawn which contains plants
      *  @param z the zombies present in the lawn
      */
-    public void displayLawn(Entity[][] p, ArrayList<Zombie> z, int t) {
+    public void displayLawn(Entity[][] t, ArrayList<Zombie> z, int time) {
         int i;
         // print number of cols
         System.out.print("\t");
@@ -120,7 +120,7 @@ public class Lawn {
         // print out spaces in each grid
         System.out.println();
         for (i = 0; i < ROWS; i++) {
-            displayContent(p[i], z, i + 1, t);
+            displayContent(t[i], z, i + 1, time);
             displayLine();
             System.out.println();
         }
