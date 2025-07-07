@@ -110,7 +110,7 @@ public class Level {
      * 
      * @return 2D array of Plant objects
      */
-    public Plant[][] getTiles() {
+    public Entity[][] getTiles() {
         return tiles;
     }
 
@@ -323,6 +323,7 @@ public class Level {
      */
     public void behaviors(int currentTime) {
         int i, j;
+        Plant p;
 
         //calls zombie behavior
         for (i = 0; i < enemies.size(); i++)
@@ -331,8 +332,10 @@ public class Level {
         //calls plant behavior
         for (i = 0; i < ROWS; i++)
             for (j = 0; j < COLUMNS; j++)
-                if (tiles[i][j] != null)
-                    tiles[i][j].plantBehavior(this, currentTime);
+                if (tiles[i][j] != null && tiles[i][j] instanceof Plant) {
+                    p = (Plant) tiles[i][j];
+                    p.plantBehavior(this, currentTime);
+                }
 
         // updates sun objects
         for (i = 0; i < suns.size(); i++)
@@ -435,8 +438,8 @@ public class Level {
     private final int ROWS;
     /**maximum number of columns of game grid */
     private final int COLUMNS;
-    /**2d array of plant objects to be used as game grid*/
-    private Plant[][] tiles;
+    /**2d array of entity objects to be used as game grid*/
+    private Entity[][] tiles;
     /**array list of zombie objects */
     private ArrayList<Zombie> enemies;
     /**current unclaimed suns*/

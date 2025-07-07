@@ -28,11 +28,11 @@ public class PolevaulterZombie extends Zombie{
      * @param currentTime the current time reference of the game
      */
     @Override
-    public void behaviour(Plant[] plants, int currentTime) {
+    public void behaviour(Entity[] plants, int currentTime) {
         System.out.println("isVulnerable:" + isVulnerable());
         if (!this.isAtHouse() && this.isAlive()) {
             // case 1: if zombie is still not within attack range or there isn't any plants in front
-            if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 0.5) {
+            if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 1) {
                 // should be vulnerable
                 if (!isVulnerable())
                     setVulnerability(true);

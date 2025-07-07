@@ -50,7 +50,7 @@ public class Lawn {
      *  @param z the zombies in the lawn
      *  @param r the row to be displayed
      */
-    public void displayContent(Plant[] p, ArrayList<Zombie> z, int r, int t) {
+    public void displayContent(Entity[] p, ArrayList<Zombie> z, int r, int t) {
         int i;
         int j;
         boolean found;
@@ -62,11 +62,11 @@ public class Lawn {
         // display plants and zombies
         for (i = 0; i < COLUMNS; i++) {
             if (p[i] != null) {
-                if (p[i].getName().equalsIgnoreCase("sunflower"))
+                if (p[i] instanceof Sunflower)
                     output = output.concat("   S");
-                else if (p[i].getName().equalsIgnoreCase("peashooter"))
+                else if (p[i] instanceof Peashooter)
                     output = output.concat("   P");
-                else if (p[i].getName().equalsIgnoreCase("potato mine")) {
+                else if (p[i] instanceof PotatoMine) {
                     m = (PotatoMine)p[i];
 
                     if (m.isPrimed(t))
@@ -74,6 +74,8 @@ public class Lawn {
                     else
                         output = output.concat("   m");
                 }
+                else if (p[i] instanceof Tombstone)
+                    output = output.concat("   t");
             }
             else {
                 j = 0;
@@ -102,7 +104,7 @@ public class Lawn {
      *  @param p the tiles of the lawn which contains plants
      *  @param z the zombies present in the lawn
      */
-    public void displayLawn(Plant[][] p, ArrayList<Zombie> z, int t) {
+    public void displayLawn(Entity[][] p, ArrayList<Zombie> z, int t) {
         int i;
         // print number of cols
         System.out.print("\t");

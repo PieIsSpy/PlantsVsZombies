@@ -107,7 +107,7 @@ class LevelDriver {
                             c.placePlant(m, row, col, input, currentTime);
                             c.subtractSun(m.getAvaliable_plants()[findName(m, input)].getCost());
                             m.getCooldown(input).updateLastPlaced(currentTime);
-                            System.out.println("Placed " + m.getTiles()[row][col].getName() + " at (" + (row+1) + ", " + (col+1) + ")");
+                            //System.out.println("Placed " + m.getTiles()[row][col].getName() + " at (" + (row+1) + ", " + (col+1) + ")");
                         }
                         else if (!m.isValidCoordinate(row, col))
                             System.out.println("Invalid coordinates");
@@ -137,7 +137,7 @@ class LevelDriver {
             col--;
 
             if (m.isValidCoordinate(row, col) && !m.canBePlaced(row, col)) {
-                System.out.println("Removed " + m.getTiles()[row][col].getName() + " at (" + (row+1) + ", " + (col+1) + ")");
+                //System.out.println("Removed " + m.getTiles()[row][col].getName() + " at (" + (row+1) + ", " + (col+1) + ")");
                 c.useShovel(m, row, col);
             }
             else if (!m.isValidCoordinate(row,col))
@@ -171,8 +171,10 @@ class LevelDriver {
         Lawn view = new Lawn(model.getROWS(), model.getCOLUMNS());
         Player control = new Player(200);
 
-        model.getTiles()[0][8] = new PotatoMine(0,8,0);
+        model.getTiles()[0][4] = new Sunflower(0,4,0);
+        model.getEnemies().add(new Zombie(0,6,0));
         //model.getPeas().add(new Projectile(1,5,0,1000,2));
+        //model.getTiles()[0][0] = new Tombstone(0,0);
 
         System.out.println("Level " + model.getLEVEL_NUM());
         while (!model.isGameOver() && !model.isGameWon(correctedTime)) {

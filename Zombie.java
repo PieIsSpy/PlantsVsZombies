@@ -102,7 +102,7 @@ public class Zombie extends Entity {
      *
      *  @param p the target plant object to be damaged
      */
-    public void eat(Plant p) {
+    public void eat(Entity p) {
         //System.out.println("Eating " + p.getName() + ": " + p.getHealth());
         p.takeDamage(getDamage());
     }
@@ -113,7 +113,7 @@ public class Zombie extends Entity {
      * @param plants the plant row to be checked
      * @param currentTime the current time reference of the game
      */
-    public void behaviour(Plant[] plants, int currentTime) {
+    public void behaviour(Entity[] plants, int currentTime) {
         // check if the zombie is slowed or not
         //defrost(currentTime);
 
@@ -151,14 +151,14 @@ public class Zombie extends Entity {
      *  @return the nearest plant in front of the zombie if there is one,
      *  else return null
      */
-    public Plant findFront(Plant[] plants) {
+    public Entity findFront(Entity[] plants) {
         int column = -1;
         float smallestDistance = 999;
         int i;
 
         for (i = 0; i < plants.length; i++) {
             // check plants that are only in front of zombie's current pos
-            if (plants[i] != null && plants[i].getCol() <= (int)getCol()) {
+            if (plants[i] != null && plants[i] instanceof Plant && plants[i].getCol() <= (int)getCol()) {
                 if (getCol() - plants[i].getCol() < smallestDistance) {
                     smallestDistance = getCol() - plants[i].getCol();
                     column = i;
