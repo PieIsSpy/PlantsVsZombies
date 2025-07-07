@@ -7,7 +7,7 @@
  *  @author Rachel Angeline Alba
  *  @version 1.0
  */
-public class Entity {
+abstract class Entity {
     /** This constructor initializes the starting health,
      *  damage output, and row and col coordinates
      *  of an entity. 
