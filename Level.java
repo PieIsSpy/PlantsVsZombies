@@ -39,7 +39,7 @@ public class Level {
         ROWS = r;
         COLUMNS = c;
 
-        tiles = new Plant[r][c];
+        tiles = new Entity[r][c];
         enemies = new ArrayList<Zombie>();
         suns = new ArrayList<Sun>();
         peas = new ArrayList<Projectile>();
@@ -106,9 +106,9 @@ public class Level {
 
     /**
      * This method returns the 2D array representing the 
-     * game grid where Plant objects will be placed. 
+     * game grid where Entity objects will be placed.
      * 
-     * @return 2D array of Plant objects
+     * @return 2D array of Entity objects
      */
     public Entity[][] getTiles() {
         return tiles;
