@@ -10,10 +10,10 @@ import java.util.Random;
  *
  *  @author Karl Deejay Omandac
  *  @author Rachel Angeline Alba
- *  @version 2.0
+ *  @version 2.1
  *
  */
-public class Level {
+abstract class Level {
 
     /**
      * This constructor initializes all the necessary attributes
@@ -21,32 +21,36 @@ public class Level {
      * list, and the cooldowns of each plant type. 
      * 
      * 
-     * @param n number of levels that the game has
+     * @param n the level number of the game
      * @param t total time of the entire game
      * @param r maximum number of rows in game grid
      * @param c maximum number of columns in game grid
      * @param curTime starting time of the game 
      */
     public Level(int n, int t, int r, int c, int curTime) {
-        int i;
-
-        internal_start = curTime;
-        sun_interval = curTime;
-        endFlag = false;
-
+        // initialize basic attributes
         LEVEL_NUM = n;
         TIME_LENGTH = t;
         ROWS = r;
         COLUMNS = c;
 
+        // initialize empty entities and game elements
         tiles = new Entity[r][c];
-        enemies = new ArrayList<Zombie>();
-        suns = new ArrayList<Sun>();
-        peas = new ArrayList<Projectile>();
+        enemies = new ArrayList<>();
+        suns = new ArrayList<>();
+        peas = new ArrayList<>();
 
-        avaliable_plants = new Plant[]{new Sunflower(-1, -1, 0), new Peashooter(-1, -1, 0), new Wallnut(-1, -1, 0)};
+        // initialize timers
+        internal_start = curTime;
+        sun_interval = curTime;
+        endFlag = false;
+    }
+
+    public void initializePlants(Plant[] p) {
+        int i;
+        avaliable_plants = p;
+
         cooldowns = new Cooldown[avaliable_plants.length];
-
         for (i = 0; i < avaliable_plants.length; i++)
             cooldowns[i] = new Cooldown(avaliable_plants[i].getName(), avaliable_plants[i].getCooldown());
     }
@@ -224,17 +228,6 @@ public class Level {
      * limit, false otherwise.
      */
     public boolean isGameWon(int time) {
-        //if the time is still not up but there are no more zombies
-        //OR
-        // current time is more than or equal to the total time of game (time is up)
-        /*
-        if (time >= TIME_LENGTH)
-            System.out.println("The zombies lurked somewhere else...");
-        else if (time >= (int)Math.ceil(TIME_LENGTH * 0.94) && enemies.isEmpty())
-            System.out.println("All zombies have been killed!");
-
-         */
-
         return (time >= (int)Math.ceil(TIME_LENGTH * 0.94) && enemies.isEmpty()) || time >= TIME_LENGTH;
     }
 
