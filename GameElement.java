@@ -9,7 +9,7 @@
  *  @version 1.0
  */
 
-public class GameElement {
+abstract class GameElement {
 
     /**
      * This constructor initializes the position of 

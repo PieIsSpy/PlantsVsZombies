@@ -5,7 +5,7 @@
  *  @author Rachel Angeline Alba
  *  @version 1.1
  */
-public class Plant extends Entity {
+abstract class Plant extends Entity {
     /** This constructor initializes the attributes of a plant
      *  with default values. It also initializes the row and column
      *  position of a plant given by the parameter.
