@@ -1,7 +1,7 @@
 public class PlantsVsZombies {
     public static void main(String[] args) {
-        //Level level1 = new Level(1,180,5,9,0);
+        MainModel model = new MainModel();
         ProgramGUI view = new ProgramGUI();
-        Controller controller = new Controller();
+        Controller controller = new Controller(model,view);
     }
 }

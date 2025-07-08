@@ -168,8 +168,8 @@ class LevelDriver {
         boolean startFlag = false, endFlag = false;
 
         //Level model = new Level(1, 180, 3, 9, (int)startTime/1000);
-        Level2 model = new Level2(5, 9, (int)startTime/1000);
-        //Level1 model = new Level1((int) startTime/1000);
+        //Level2 model = new Level2(5, 9, (int)startTime/1000);
+        Level1 model = new Level1((int) startTime/1000);
         Lawn view = new Lawn(model.getROWS(), model.getCOLUMNS());
         Player control = new Player(200);
 
