@@ -1,6 +1,6 @@
 public class Level3 extends Level{
-    public Level3(int r, int c, int currentTime) {
-        super(3,180,r,c,currentTime);
+    public Level3(int currentTime) {
+        super(3,180,5,9,currentTime);
 
         Plant[] p = new Plant[] {
                 new Sunflower(-1,-1,0),
@@ -12,6 +12,22 @@ public class Level3 extends Level{
         };
 
         initializePlants(p);
+        spawnGraves();
+    }
+
+    public void spawnGraves() {
+        int nRow, nCol;
+        int i;
+
+        for (i = 0; i < 5; i++) {
+            do {
+                nRow = (int)(Math.floor(Math.random() * getROWS()));
+                nCol = 4 + (int)(Math.floor(Math.random() * (getCOLUMNS() - 4)));
+            } while (!canBePlaced(nRow, nCol));
+
+            getTiles()[nRow][nCol] = new Tombstone(nRow, nCol);
+            //System.out.println("grave at row " + (nRow+1) + " col " + (nCol+1));
+        }
     }
 
     @Override

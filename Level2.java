@@ -1,6 +1,6 @@
 public class Level2 extends Level{
-    public Level2(int r, int c, int currentTime) {
-        super(2,180,r,c,currentTime);
+    public Level2(int currentTime) {
+        super(2,180,5,9,currentTime);
 
         Plant[] p = new Plant[] {
                 new Sunflower(-1,-1,0),
