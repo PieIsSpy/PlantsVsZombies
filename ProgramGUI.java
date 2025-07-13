@@ -1,47 +1,130 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class ProgramGUI extends JFrame {
     public ProgramGUI() {
 
         super("Plants vs Zombies");
         setLayout(new BorderLayout());
+        //setLayout(null);
         setSize(WIDTH, HEIGHT);
-        //init();
-        mainMenu();
+
         setVisible(true);
         setResizable(false);
-        startImg = new ImageIcon(getClass().getResource("/startImg.png"));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        init();
+        mainMenu();
+        //init();
     }
 
     public void init()
     {
+        /*
+        System.out.println("Current GUI: Init()");
         LawnPanel lawn = new LawnPanel();
         add(lawn);
+        revalidate();
+
+         */
+
+        panelSouth = new JPanel();
+        panelSouth.setLayout(new FlowLayout());
+        add(panelSouth, BorderLayout.SOUTH);
+
+        start = new JButton("Start");
+        quit = new JButton("Quit");
+
+        level1 = new JButton("Level 1");
+        level2 = new JButton("Level 2");
+        level3 = new JButton("Level 3");
     }
 
     public void mainMenu() {
-        MainMenu menu = new MainMenu();
-        add(menu);
-
+        System.out.println("Current GUI: Main Menu");
+        panelSouth.removeAll();
+        /*
         JPanel panelSouth = new JPanel();
-        panelSouth.setLayout(new BorderLayout());
-        start = new JButton("Start");
-        start.setIcon(startImg);
-        //System.out.println(startImg.getIconHeight());
+        panelSouth.setLayout(new FlowLayout());
+
+         */
+
+        MainMenu menu = new MainMenu();
+        add(menu, BorderLayout.CENTER);
+
+
+        panelSouth.add(start);
+        panelSouth.add(quit);
+
+        add(panelSouth, BorderLayout.SOUTH);
 
         /*
-        start.setBorderPainted(false);
-        start.setContentAreaFilled(false);
-        start.setFocusPainted(false);
-         */
+        start = new StartButton();
+        start.setBounds(WIDTH/2, HEIGHT, start.getWidth(), start.getHeight());
+        //start.setLocation(WIDTH/2, HEIGHT);
+        add(start);
+
+
+        JPanel panelSouth = new JPanel();
+        panelSouth.setLayout(new FlowLayout());
+        //panelSouth.setOpaque(true);
+        start = new StartButton();
+        //start = new JButton("start");
         panelSouth.add(start);
+        add(panelSouth);
+
+         */
+        /*
+        panelSouth.revalidate();
+        panelSouth.repaint();
+
+         */
+        revalidate();
+        repaint();
+    }
+
+    public void levelSelect() {
+        System.out.println("Current GUI: Level Select");
+        panelSouth.removeAll();
+        //panelSouth.removeAll();
+
+        /*
+        JPanel panelSouth = new JPanel();
+        panelSouth.setLayout(new FlowLayout());
+
+         */
+
+        panelSouth.add(level1);
+        panelSouth.add(level2);
+        panelSouth.add(level3);
+        JButton balls = new JButton("Balls");
+        panelSouth.add(balls);
+
         add(panelSouth, BorderLayout.SOUTH);
-        validate();
+
+        /*
+        panelSouth.revalidate();
+        panelSouth.repaint();
+
+         */
+        revalidate();
+        repaint();
+    }
+
+    public void setActionListener(ActionListener listener) {
+        start.addActionListener(listener);
+        quit.addActionListener(listener);
+        level1.addActionListener(listener);
+        level2.addActionListener(listener);
+        level3.addActionListener(listener);
     }
 
     private JButton start;
-    private ImageIcon startImg;
+    private JButton quit;
+    private JButton level1;
+    private JButton level2;
+    private JButton level3;
+    private JPanel panelSouth;
     private static final int WIDTH = 1052, HEIGHT = 594;
 }
