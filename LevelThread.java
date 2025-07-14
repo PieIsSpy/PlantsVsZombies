@@ -33,14 +33,14 @@ public class LevelThread extends Thread {
 
     public int checkGameStatus() {
         if (level.isGameWon(levelTimer)) {
-            System.out.println(2);
+            //System.out.println(2);
             return 2;
         }
         else if (level.isGameOver()) {
-            System.out.println(1);
+            //System.out.println(1);
             return 1;
         } else {
-            System.out.println(0);
+            //System.out.println(0);
             return 0;
         }
     }
