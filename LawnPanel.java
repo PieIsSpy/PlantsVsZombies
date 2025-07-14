@@ -16,8 +16,13 @@ public class LawnPanel extends JPanel {
     {
         //to be updated in the future since there will be different maps
         //this constructor will probably need to accept a string pathway to allow multiple lawn images
-        lawnImg = new ImageIcon(getClass().getResource("/img/lawnImage.png"));
-        setLayout(null);
+        try {
+            lawnImg = new ImageIcon(getClass().getResource("/img/lawnImage.png"));
+            setLayout(null);
+        }
+        catch (Exception e) {
+            System.out.println("Image cannot be loaded");
+        }
     }
 
     /**

@@ -3,8 +3,13 @@ import java.awt.*;
 
 public class MainMenu extends JPanel {
     public MainMenu() {
-        bgImg = new ImageIcon(getClass().getResource("/img/MainMenuImage.png"));
-        logoImg = new ImageIcon(getClass().getResource("/img/GameLogo.png"));
+        try {
+            bgImg = new ImageIcon(getClass().getResource("/img/MainMenuImage.png"));
+            logoImg = new ImageIcon(getClass().getResource("/img/GameLogo.png"));
+        }
+        catch (Exception e) {
+            System.out.println("Image cannot be loaded");
+        }
     }
 
     @Override
