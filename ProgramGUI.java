@@ -21,14 +21,6 @@ public class ProgramGUI extends JFrame {
 
     public void init()
     {
-        /*
-        System.out.println("Current GUI: Init()");
-        LawnPanel lawn = new LawnPanel();
-        add(lawn);
-        revalidate();
-
-         */
-
         panelSouth = new JPanel();
         panelSouth.setLayout(new FlowLayout());
         add(panelSouth, BorderLayout.SOUTH);
@@ -39,6 +31,7 @@ public class ProgramGUI extends JFrame {
         level1 = new JButton("Level 1");
         level2 = new JButton("Level 2");
         level3 = new JButton("Level 3");
+        forfeit = new JButton("Forfeit");
     }
 
     public void mainMenu() {
@@ -98,8 +91,8 @@ public class ProgramGUI extends JFrame {
         panelSouth.add(level1);
         panelSouth.add(level2);
         panelSouth.add(level3);
-        JButton balls = new JButton("Balls");
-        panelSouth.add(balls);
+
+        panelSouth.add(forfeit);
 
         add(panelSouth, BorderLayout.SOUTH);
 
@@ -118,6 +111,7 @@ public class ProgramGUI extends JFrame {
         level1.addActionListener(listener);
         level2.addActionListener(listener);
         level3.addActionListener(listener);
+        forfeit.addActionListener(listener);
     }
 
     private JButton start;
@@ -126,5 +120,6 @@ public class ProgramGUI extends JFrame {
     private JButton level2;
     private JButton level3;
     private JPanel panelSouth;
+    private JButton forfeit;
     private static final int WIDTH = 1052, HEIGHT = 594;
 }

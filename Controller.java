@@ -50,6 +50,12 @@ public class Controller implements ActionListener {
             else
                 System.out.println("A level is already running!");
         }
+
+        // pretermination
+        else if (e.getActionCommand().equals("Forfeit")) {
+            System.out.println("Pressed Forfeit");
+            model.endLevel();
+        }
     }
 
     private MainModel model;
