@@ -3,8 +3,8 @@ import java.awt.*;
 
 public class MainMenu extends JPanel {
     public MainMenu() {
-        bgImg = new ImageIcon(getClass().getResource("/MainMenuImage.png"));
-        logoImg = new ImageIcon(getClass().getResource("/GameLogo.png"));
+        bgImg = new ImageIcon(getClass().getResource("/img/MainMenuImage.png"));
+        logoImg = new ImageIcon(getClass().getResource("/img/GameLogo.png"));
     }
 
     @Override
