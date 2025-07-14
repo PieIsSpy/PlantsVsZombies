@@ -22,16 +22,21 @@ public class MainModel {
             inProgress = true;
 
             // check if the game is over
-            while (t.isAlive()) {
-                if (((LevelThread) t).checkGameStatus() > 0) {
-                    if (((LevelThread) t).checkGameStatus() == 2) {
-                        System.out.println("Level won");
-                        levelProgress++;
-                    } else
-                        System.out.println("Level lost");
+            try {
+                while (t.isAlive()) {
+                    if (((LevelThread) t).checkGameStatus() > 0) {
+                        if (((LevelThread) t).checkGameStatus() == 2) {
+                            System.out.println("Level won");
+                            levelProgress++;
+                        } else
+                            System.out.println("Level lost");
 
-                    endLevel();
+                        endLevel();
+                    }
                 }
+            }
+            catch (NullPointerException e) {
+                System.out.println("Game ended, ending check for game state");
             }
         }
         else
