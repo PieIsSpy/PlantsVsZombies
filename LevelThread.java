@@ -10,8 +10,6 @@ public class LevelThread extends Thread {
         int lastPrint = -1;
         System.out.println("Level driver running");
 
-        level.getEnemies().add(new Zombie(0,0,0));
-
         do {
             levelTimer = (int)System.currentTimeMillis()/1000 - levelStart;
 
