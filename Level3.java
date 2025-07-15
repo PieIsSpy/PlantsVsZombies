@@ -1,6 +1,6 @@
 public class Level3 extends Level{
-    public Level3(int currentTime) {
-        super(3,180,5,9,currentTime);
+    public Level3() {
+        super(3,180,5,9);
 
         Plant[] p = new Plant[] {
                 new Sunflower(-1,-1,0),
@@ -31,9 +31,9 @@ public class Level3 extends Level{
     }
 
     @Override
-    public void spawnZombies(int currentTime) {
+    public void spawnZombies() {
         float x = (float)Math.random();
-
+        System.out.println("Spawned zombie");
         /*
             Time: Below 45% of Time limit
             Spawn rates:
@@ -41,13 +41,13 @@ public class Level3 extends Level{
                 Conehead Zombie: 20%
                 Buckethead Zombie: 10%
          */
-        if (currentTime < (int)Math.floor(getTIME_LENGTH() * 0.45)) {
+        if (getInternal_time() < (int)Math.floor(getTIME_LENGTH() * 0.45)) {
             if (x > .3f)
-                getEnemies().add(new Zombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1, currentTime));
+                getEnemies().add(new Zombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1));
             else if (x > .1f)
-                getEnemies().add(new ConeheadZombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1, currentTime));
+                getEnemies().add(new ConeheadZombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1));
             else
-                getEnemies().add(new BucketheadZombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1, currentTime));
+                getEnemies().add(new BucketheadZombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1));
         }
         /*
             Time: 45% of Time limit and above
@@ -59,13 +59,13 @@ public class Level3 extends Level{
          */
         else {
             if (x > .5f)
-                getEnemies().add(new Zombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1, currentTime));
+                getEnemies().add(new Zombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1));
             else if (x >= .3f)
-                getEnemies().add(new ConeheadZombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1, currentTime));
+                getEnemies().add(new ConeheadZombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1));
             else if (x >= .15f)
-                getEnemies().add(new BucketheadZombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1, currentTime));
+                getEnemies().add(new BucketheadZombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1));
             else
-                getEnemies().add(new PolevaulterZombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1, currentTime));
+                getEnemies().add(new PolevaulterZombie((int)(Math.floor(Math.random() * getROWS())), getCOLUMNS() + 1));
         }
     }
 }

@@ -17,15 +17,14 @@ abstract class Entity {
      *  @param d the damage output of an entity
      *  @param r the row coordinate of an entity
      *  @param c the col coordinate of an entity
-     * @param t the time of creation
      */
-    public Entity (int h, int s, int d, float r, float c, int t) {
+    public Entity (int h, int s, int d, float r, float c) {
         health = h;
         speed = s;
         damage = d;
         row = r;
         col = c;
-        internal_time = t;
+        behavior_interval = (float)(System.currentTimeMillis() / 1000.0);
     }
 
     /**
@@ -34,14 +33,13 @@ abstract class Entity {
      * @param h the health point of an entity
      * @param s the speed of an entity
      * @param d the damage output of an entity
-     * @param t the time of creation
      */
-    public Entity(int h, int s, int d, int t)
+    public Entity(int h, int s, int d)
     {
         health = h;
         speed = s;
         damage = d;
-        internal_time = t;
+        behavior_interval = (float)(System.currentTimeMillis() / 1000.0);
     }
 
     /** This method subtracts the health of an entity
@@ -113,8 +111,8 @@ abstract class Entity {
      *
      * @param t the current time of an entity
      */
-    public void setInternal_time(int t) {
-        internal_time = t;
+    public void setBehavior_interval(float t) {
+        behavior_interval = t;
     }
 
     /** This method returns the current health of an
@@ -167,8 +165,8 @@ abstract class Entity {
      *
      * @return the current internal time of the entity
      */
-    public int getInternal_time() {
-        return internal_time;
+    public float getBehavior_interval() {
+        return behavior_interval;
     }
 
     /** How much damage it can sustain */
@@ -181,6 +179,6 @@ abstract class Entity {
     private float row;
     /** The column positon of the zombie */
     private float col;
-    /** The internal time of the enemy*/
-    private int internal_time;
+    /** The starting time of the enemy*/
+    private float behavior_interval;
 }

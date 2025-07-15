@@ -9,19 +9,16 @@
 public class Zombie extends Entity {
     /** This constructor initializes the default values
      *  of a basic zombie and places it to a given row.
-     *  This also initializes its internal clock to keep
-     *  track whether to do the action or not. This constructor
-     *  can also be used by variant zombies that will not be holding
-     *  any items. By default, a zombie is vulnerable, meaning it can be
-     *  damaged. This also increments the static variable
+     *  This constructor can also be used by variant zombies
+     *  that will not be holding any items. By default, a zombie is vulnerable,
+     *  meaning it can be damaged. This also increments the static variable
      *  "count" by 1.
      *
      *  @param r the row grid position of the Zombie
      *  @param c the col grid position of the zombie
-     *  @param t the time of creation
      */
-    public Zombie(int r, int c, int t) {
-        super(70, 4,10, r, c, t);
+    public Zombie(int r, int c) {
+        super(70, 4,10, r, c);
         held_item = null;
         vulnerability = true;
 
@@ -29,20 +26,18 @@ public class Zombie extends Entity {
     }
 
     /** This constructor is made for the variant zombies that will
-     *  be holding items. This places them into a specific row and col
-     *  and initializes their internal clock to keep track of their action
-     *  timer. By default, the zombie is vulnerable, meaning it can be
+     *  be holding items. By default, the zombie is vulnerable, meaning it can be
      *  damaged. This also increments the static variable "count" by 1.
      *
      * @param r the row grid position of the Zombie
      * @param c the col grid position of the Zombie
-     * @param t the time of creation
      * @param i the held item of the Zombie
      */
-    public Zombie (int r, int c, int t, Item i) {
-        super(70, 4, 10, r, c, t);
+    public Zombie (int r, int c, Item i) {
+        super(70, 4, 10, r, c);
         held_item = i;
         vulnerability = true;
+        setBehavior_interval((float)(System.currentTimeMillis() / 1000.0));
 
         count++;
     }
@@ -111,33 +106,33 @@ public class Zombie extends Entity {
      *  of a zombie and turns it into a behaviour.
      *
      * @param plants the plant row to be checked
-     * @param currentTime the current time reference of the game
      */
-    public void behaviour(Entity[] plants, int currentTime) {
+    public void behaviour(Entity[] plants) {
         // check if the zombie is slowed or not
+        float currentTime = (float)(System.currentTimeMillis() / 1000.0);
         //defrost(currentTime);
 
         // while zombie isn't in the house and still alive
         if (!this.isAtHouse() && this.isAlive()) {
             // if zombie is still not within attack range or there isn't any plants in front
             if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 0.5) {
-                if (currentTime - getInternal_time() >= 1) { // zombie should walk at a certain rate
+                if (currentTime - getBehavior_interval() >= 1) { // zombie should walk at a certain rate
                     walk();
-                    setInternal_time(currentTime);
+                    setBehavior_interval(currentTime);
                 }
             }
             // else if a plant is in front of zombie
             else if (findFront(plants).isAlive()) {
                 // case 1: if not slowed
-                if (!slowed && currentTime - getInternal_time() >= 0.5) { // zombie should eat at a certain rate
+                if (!slowed && currentTime - getBehavior_interval() >= 0.5) { // zombie should eat at a certain rate
                     eat(findFront(plants));
-                    setInternal_time(currentTime);
+                    setBehavior_interval(currentTime);
                     //System.out.println("Damaged " + findFront(plants).getName() + " at (" + findFront(plants).getRow() + ", " + findFront(plants).getCol() + ")");
                 }
                 // case 2: if slowed
-                else if (slowed && currentTime - getInternal_time() >= 3) {
+                else if (slowed && currentTime - getBehavior_interval() >= 3) {
                     eat(findFront(plants));
-                    setInternal_time(currentTime);
+                    setBehavior_interval(currentTime);
                 }
             }
         }

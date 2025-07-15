@@ -18,15 +18,15 @@ public class Projectile extends GameElement{
      * 
      * @param row row position of  a projectile
      * @param col column position of a projectile
-     * @param time the time of creation of the projectile
      * @param dmg damage it deals to another object
      * @param s speed of projectile 
      */
-    Projectile(float row, float col, int time, int dmg, float s)
+    Projectile(float row, float col, int dmg, float s)
     {
-        super(row, col, time);
+        super(row, col);
         speed = s;
         damage = dmg;
+        movement_interval = 0;
     }
 
     /**
@@ -49,18 +49,16 @@ public class Projectile extends GameElement{
 
     /**
      * This method is updates the movement
-     * of a projectile after it is released. 
-     *
-     * @param currentTime the current time reference of the game
+     * of a projectile after it is released.
      */
-    public void move(int currentTime)
+    public void move()
     {
         float pos = getCol();
 
-        if (currentTime - getInternal_Time() >= 1) {
+        if (((float)(System.currentTimeMillis() / 1000.0) - getINTERNAL_START()) - movement_interval >= 1) {
             pos += (float) (1.0 / speed);
             setCol(pos);
-            setInternal_Time(currentTime);
+            movement_interval = ((float)(System.currentTimeMillis() / 1000.0) - getINTERNAL_START());
             System.out.println("Projectile at (" + ((int)getRow()+1) + "," + ((int)getCol()+1) + ")");
         }
     }
@@ -74,9 +72,8 @@ public class Projectile extends GameElement{
      * know if the projectile should be updating or not.
      *
      * @param enemies list of zombie objects
-     * @param currentTime the current time reference
      */
-    public void update(ArrayList<Zombie> enemies, int currentTime)
+    public void update(ArrayList<Zombie> enemies)
     {
         int x;
         boolean hasHit;
@@ -97,7 +94,7 @@ public class Projectile extends GameElement{
         //if it has not hit any zombie yet, it will continue moving
         if(!hasHit)
         {
-            move(currentTime);
+            move();
         }
     }
 
@@ -109,4 +106,6 @@ public class Projectile extends GameElement{
     private int damage;
     /**how fast the projectile moves once released */
     private float speed;
+    /**determines when has the projectile last moved */
+    private float movement_interval;
 }

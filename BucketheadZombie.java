@@ -7,14 +7,13 @@
  */
 public class BucketheadZombie extends Zombie{
     /** This constructor initializes the zombie's row and column position,
-     *  its time of creation and the item it is holding.
+     *  and the item it is holding.
      *
      * @param r the row coordinate of the zombie
      * @param c the col coordinate of the zombie
-     * @param t the time of its creation
      */
-    public BucketheadZombie(int r, int c, int t) {
-        super(r, c, t, new Item("Bucket", 420));
+    public BucketheadZombie(int r, int c) {
+        super(r, c, new Item("Bucket", 420));
     }
 
     @Override
