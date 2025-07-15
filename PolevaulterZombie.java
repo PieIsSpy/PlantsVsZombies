@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 /** This class represents the Pole Vaulter Zombie variant
  *  of the Zombie class. It uses a long pole in order to
  *  vault over the first plant it is in range with.
@@ -8,13 +9,14 @@
  */
 public class PolevaulterZombie extends Zombie{
     /** This constructor initializes the zombie's row and column position,
-     *  and the item it is holding.
+     *  its time of creation and the item it is holding.
      *
      * @param r the row coordinate of the zombie
      * @param c the col coordinate of the zombie
+     * @param t the time of its creation
      */
-    public PolevaulterZombie(float r, float c) {
-        super(r, c, new Item("Pole"));
+    public PolevaulterZombie(int r, int c, int t) {
+        super(r, c, t, new Item("Pole"));
         setSpeed(3);
     }
 
@@ -23,11 +25,11 @@ public class PolevaulterZombie extends Zombie{
      *  It also discards the item when used.
      *
      * @param plants the plant row to be checked
+     * @param currentTime the current time reference of the game
      */
     @Override
-    public void behaviour(Entity[] plants) {
-        float currentTime = (float)(System.currentTimeMillis() / 1000.0);
-
+    public void behaviour(Entity[] plants, int currentTime) {
+        System.out.println("isVulnerable:" + isVulnerable());
         if (!this.isAtHouse() && this.isAlive()) {
             // case 1: if zombie is still not within attack range or there isn't any plants in front
             if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 1) {
@@ -36,9 +38,9 @@ public class PolevaulterZombie extends Zombie{
                     setVulnerability(true);
 
                 // zombie should walk at a certain rate
-                if (currentTime - getBehavior_interval() >= 1) {
+                if (currentTime - getInternal_time() >= 1) {
                     walk();
-                    setBehavior_interval(currentTime);
+                    setInternal_time(currentTime);
                 }
             }
             // case 2: if a plant is in front of zombie and the zombie is still holding the item
@@ -51,20 +53,20 @@ public class PolevaulterZombie extends Zombie{
                     setVulnerability(true);
 
                 // case 1: if not slowed
-                if (!isSlowed() && currentTime - getBehavior_interval() >= 0.5) { // zombie should eat at a certain rate
+                if (!isSlowed() && currentTime - getInternal_time() >= 0.5) { // zombie should eat at a certain rate
                     eat(findFront(plants));
-                    setBehavior_interval(currentTime);
+                    setInternal_time(currentTime);
                 }
                 // case 2: if slowed
-                else if (isSlowed() && currentTime - getBehavior_interval() >= 3) {
+                else if (isSlowed() && currentTime - getInternal_time() >= 3) {
                     eat(findFront(plants));
-                    setBehavior_interval(currentTime);
+                    setInternal_time(currentTime);
                 }
             }
         }
     }
 
-    public void vaultOver(float currentTime) {
+    public void vaultOver(int currentTime) {
         // save the col where it did the action first
         colUsage = getCol();
 
@@ -73,9 +75,9 @@ public class PolevaulterZombie extends Zombie{
             setVulnerability(false);
 
         // zombie should move at a certain rate
-        if (currentTime - getBehavior_interval() >= 1) {
+        if (currentTime - getInternal_time() >= 1) {
             walk();
-            setBehavior_interval(currentTime);
+            setInternal_time(currentTime);
         }
 
         // after vaulting over, remove item and give normal speed, then be vulnerable again

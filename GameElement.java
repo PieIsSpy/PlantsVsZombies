@@ -6,7 +6,7 @@
  *
  *  @author Karl Deejay Omandac
  *  @author Rachel Angeline Alba
- *  @version 2.0
+ *  @version 1.0
  */
 
 abstract class GameElement {
@@ -14,27 +14,30 @@ abstract class GameElement {
     /**
      * This constructor initializes the position of 
      * the game element. It also sets it as an active
-     * object.
+     * objective. 
      * 
      * @param r row position
      * @param c column position
+     * @param t internal time of a gameElement
      */
-    public GameElement(float r, float c)
+    public GameElement(float r, float c, int t)
     {
         row = r;
         col = c;
-        INTERNAL_START = (float)(System.currentTimeMillis() / 1000.0);
+        internal_time = t;
         isActive = true;
     }
  
     /**
      * This method updates the behavior or actions
-     * of the game element.
+     * of the game element for every given time. 
+     *
+     * @param currentTime the current time frame of the game
      */
-    public void update() {
-
+    public void update(int currentTime)
+    {
+        
     }
-
     /**
      * This method deactivates a game element, allowing it to
      * be removed from the game. 
@@ -82,20 +85,12 @@ abstract class GameElement {
     }
 
     /**
-     * This method returns the internal starting point time of
+     * This method returns the internal time of
      * a game element
      * 
      * @return internal time of game element
      */
-    public float getINTERNAL_START() {
-        return INTERNAL_START;
-    }
-
-    /** This method returns the current time of the game element
-     *
-     * @return the current time of the game element
-     */
-    public float getInternal_time() {
+    public int getInternal_Time() {
         return internal_time;
     }
 
@@ -131,7 +126,7 @@ abstract class GameElement {
      * @param t current game time to be set as the 
      * game element's internal time
      */
-    public void setInternal_Time(float t) {
+    public void setInternal_Time(int t) {
         internal_time = t;
     }
 
@@ -141,8 +136,7 @@ abstract class GameElement {
     private float col;
     /**active status of game element */
     private boolean isActive;
-    /**internal start time of the game element*/
-    private final float INTERNAL_START;
-    /**current time of the game element*/
-    private float internal_time;
+    /**internal time of the game element*/
+    private int internal_time;
+
 }

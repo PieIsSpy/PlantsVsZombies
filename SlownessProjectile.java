@@ -13,11 +13,12 @@ public class SlownessProjectile extends Projectile{
      *
      * @param row the row position of the slowness projectile
      * @param col the col position of the slowness projectile
+     * @param time the time of creation of the slowness projectile
      * @param dmg the damage it deals to zombie objects
      * @param s the speed of the slowless projectile
      */
-    public SlownessProjectile(float row, float col, int dmg, float s) {
-        super(row,col,dmg,s);
+    public SlownessProjectile(float row, float col, int time, int dmg, float s) {
+        super(row,col,time,dmg,s);
     }
 
     /**

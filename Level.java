@@ -10,7 +10,7 @@ import java.util.Random;
  *
  *  @author Karl Deejay Omandac
  *  @author Rachel Angeline Alba
- *  @version 3.0
+ *  @version 2.1
  *
  */
 abstract class Level {
@@ -25,8 +25,9 @@ abstract class Level {
      * @param t total time of the entire game
      * @param r maximum number of rows in game grid
      * @param c maximum number of columns in game grid
+     * @param curTime starting time of the game 
      */
-    public Level(int n, int t, int r, int c) {
+    public Level(int n, int t, int r, int c, int curTime) {
         // initialize basic attributes
         LEVEL_NUM = n;
         TIME_LENGTH = t;
@@ -40,9 +41,8 @@ abstract class Level {
         peas = new ArrayList<>();
 
         // initialize timers
-        internal_start = (float)(System.currentTimeMillis() / 1000.0);
-        sun_interval = (float)(System.currentTimeMillis() / 1000.0);
-        spawn_inverval = (float)(System.currentTimeMillis() / 1000.0);
+        internal_start = curTime;
+        sun_interval = curTime;
         endFlag = false;
     }
 
@@ -74,14 +74,6 @@ abstract class Level {
      */
     public int getTIME_LENGTH() {
         return TIME_LENGTH;
-    }
-
-    /** This method returns the game's current time.
-     *
-     * @return the current time of the game
-     */
-    public float getInternal_time() {
-        return internal_time;
     }
 
     /**
@@ -230,12 +222,13 @@ abstract class Level {
      * array list is empty) or if a certain amount of
      * time has passed.
      *
+     * @param time the current time
      * @return true if there are no enemies left
      * or if the current time has reached the time
      * limit, false otherwise.
      */
-    public boolean isGameWon() {
-        return (internal_time >= (int)Math.ceil(TIME_LENGTH * 0.94) && enemies.isEmpty()) || internal_time >= TIME_LENGTH;
+    public boolean isGameWon(int time) {
+        return (time >= (int)Math.ceil(TIME_LENGTH * 0.94) && enemies.isEmpty()) || time >= TIME_LENGTH;
     }
 
     /**
@@ -255,7 +248,7 @@ abstract class Level {
         if (!enemies.isEmpty()) { 
             //go through each enemy from the list
             while (i < enemies.size() && !condition) { 
-                //check if at least one of them has reached the house, indicating that
+                //check if at least one of them has reached tehe house, indicating that
                 //the game is over
                 if (enemies.get(i).isAtHouse()) 
                     condition = true;
@@ -271,10 +264,11 @@ abstract class Level {
      * This method spawns a new zombie at a random row
      * and in the rightmost column. It is then added
      * to the enemies array list.
+     *
+     * @param currentTime the current time frame of the game
      */
-    public void spawnZombies() {
-        System.out.println("Spawned zombie");
-        enemies.add(new Zombie((int)(Math.floor(Math.random() * ROWS)), COLUMNS + 1));
+    public void spawnZombies(int currentTime) {
+        enemies.add(new Zombie((int)(Math.floor(Math.random() * ROWS)), COLUMNS + 1, currentTime));
     }
 
     /** This method searches for entities
@@ -316,99 +310,97 @@ abstract class Level {
     /**
      * This method calls the behaviors of Zombie, Plant, Sun and Projectile
      * objects, allowing it to perform its actions with respect
-     * to the game's time progression.
+     * to the game's time progression. 
+     * 
+     * @param currentTime the current time of the game 
      */
-    public void behaviors() {
+    public void behaviors(int currentTime) {
         int i, j;
         Plant p;
 
-        //System.out.println("i am running");
-
         //calls zombie behavior
         for (i = 0; i < enemies.size(); i++)
-            enemies.get(i).behaviour(tiles[(int)enemies.get(i).getRow()]);
+            enemies.get(i).behaviour(tiles[(int)enemies.get(i).getRow()], currentTime);
 
         //calls plant behavior
         for (i = 0; i < ROWS; i++)
             for (j = 0; j < COLUMNS; j++)
                 if (tiles[i][j] != null && tiles[i][j] instanceof Plant) {
                     p = (Plant) tiles[i][j];
-                    p.plantBehavior(this);
+                    p.plantBehavior(this, currentTime);
                 }
 
         // updates sun objects
         for (i = 0; i < suns.size(); i++)
-            suns.get(i).update();
+            suns.get(i).update(currentTime);
 
         // updates pea objects
         for (i = 0; i < peas.size(); i++)
-            peas.get(i).update(getEnemies());
+            peas.get(i).update(getEnemies(), currentTime);
     }
 
     /**
      * This method executes once cycle of the game given the
      * current time. It calls the behaviors of the other objects
      * and decides when objects like the Zombie and Sun
-     * will be spawned in the game.
+     * will be spawned in the game. 
+     * 
+     * 
+     * @param currentTime the current time of the game
      */
-    public void gameCycle() {
+    public void gameCycle(int currentTime) {
         int interval = 0;
         int i;
 
-        internal_time = (float)(System.currentTimeMillis() / 1000.0) - internal_start;
-
-        if (System.currentTimeMillis() % 1000 == 0 && internal_time != last_print) {
-            System.out.println((int) (System.currentTimeMillis() / 1000));
-            System.out.println("Level " + LEVEL_NUM + " running: " + internal_time);
-            System.out.println("Spawn rate: 1 zombie every " + interval + " seconds" );
-            last_print = internal_time;
-        }
-
-        behaviors();
+        behaviors(currentTime);
 
         //determines how frequent zombies will spawn in the game, with respect to the game's current time
-        if (internal_time >= (int)Math.floor(TIME_LENGTH * 0.17) && internal_time <= (int)Math.floor(TIME_LENGTH * 0.445))
+        if (currentTime >= (int)Math.floor(TIME_LENGTH * 0.17) && currentTime <= (int)Math.floor(TIME_LENGTH * 0.445))
             interval = 10; //1 zombie every 10 seconds
-        else if (internal_time >= (int)Math.floor(TIME_LENGTH * 0.45) && internal_time <= (int)Math.floor(TIME_LENGTH * 0.78))
+        else if (currentTime >= (int)Math.floor(TIME_LENGTH * 0.45) && currentTime <= (int)Math.floor(TIME_LENGTH * 0.78))
             interval = 5; //1 zombie every 5 seconds
-        else if (internal_time >= (int)Math.floor(TIME_LENGTH * 0.785) && internal_time <= (int)Math.floor(TIME_LENGTH * 0.945))
+        else if (currentTime >= (int)Math.floor(TIME_LENGTH * 0.785) && currentTime <= (int)Math.floor(TIME_LENGTH * 0.945))
             interval = 3; //1 zombie every 3 seconds
         
         //spawns the zombie based on the given interval 
-        //spawn_interval is when the zombie was last spawned
+        //internal_start is when the zombie was last spawned 
         //if the time in between is >= the interval, it spawns a zombie
-        if (interval != 0 && internal_time - spawn_inverval >= interval) {
-            spawnZombies();
-            System.out.println("Spawned Zombie at (" + (enemies.get(enemies.size()-1).getRow() + 1) + ", " + (enemies.get(enemies.size()-1).getCol() + 1) + ")");
-            spawn_inverval = internal_time;
+        if (interval != 0 && currentTime - internal_start >= interval) {
+            spawnZombies(currentTime);
+            //System.out.println("Spawned Zombie at (" + (enemies.get(enemies.size()-1).getRow() + 1) + ", " + (enemies.get(enemies.size()-1).getCol() + 1) + ")");
+            internal_start = currentTime;
         }
 
         // spawns the hoard of zombies
-        if (internal_time > (int)Math.floor(TIME_LENGTH * 0.945) && !endFlag) {
+        if (currentTime > (int)Math.floor(TIME_LENGTH * 0.945) && !endFlag) {
             for (i = 0; i < 5 + 2 * (LEVEL_NUM-1); i++)
-                spawnZombies();
+                spawnZombies(currentTime);
 
             endFlag = true;
         }
 
         //spawns a falling sun after a 20-second interval
         //sun_interval : when the last sun was spawned
-        if (internal_time - sun_interval >= 20) {
-            addSun();
+        if (currentTime - sun_interval >= 20) {
+            addSun(currentTime);
             //System.out.println("Sun appeared in (" + (suns.get(suns.size()-1).getRow()+1) + "," + (suns.get(suns.size()-1).getCol()+1) + ")");
-            sun_interval = internal_time;
+            sun_interval = currentTime;
         }
 
         // remove dead entities and inactive game elements
         despawn();
+        //if (interval != 0)
+        //  System.out.println("Spawn rate: 1 zombie every " + interval + " seconds" );
     }
 
     /**
      * This method allows a sun to be spawned randomly
      * within the game, adding it to the player's unclaimed
-     * suns.
+     * suns. 
+     * 
+     * @param currentTime the current time of the game
      */
-    public void addSun()
+    public void addSun(int currentTime)
     {
         Random random = new Random();
 
@@ -416,7 +408,7 @@ abstract class Level {
         float columnSpawn = random.nextInt(COLUMNS) + random.nextFloat();
         float targetSpawn = random.nextInt(ROWS) + random.nextFloat();
 
-        suns.add(new Sun(0, columnSpawn, true, Math.max(targetSpawn, 1.5f)));
+        suns.add(new Sun(0, columnSpawn, true, Math.max(targetSpawn, 1.5f), currentTime));
         unclaimed_suns += suns.get(suns.size()-1).getAmount();
     }
 
@@ -453,16 +445,10 @@ abstract class Level {
     private ArrayList<Sun> suns;
     /**the projectiles present in the lawn*/
     private ArrayList<Projectile> peas;
-    /**the starting time of a level*/
-    private float internal_start;
-    /**the current time of a level*/
-    private float internal_time;
-    /**time when a message is last printed*/
-    private float last_print;
+    /**time an object has last performned an acion */
+    private int internal_start;
     /**time a Sun object has last performed an action */
-    private float sun_interval;
-    /**the time where a zombie spawn was last done*/
-    private float spawn_inverval;
+    private int sun_interval;
     /**dictates whether to spawn a hoard of zombie*/
     private boolean endFlag;
 }

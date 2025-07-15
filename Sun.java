@@ -7,17 +7,18 @@
  */
 public class Sun extends GameElement {
     /** This constructor instantiate its initial row and col positions,
-     *  and the target row to land on. This also
+     *  the target row to land on and its creation time. This also
      *  determines if it came from the sky or not.
      *
      * @param row the row coordinate of the sun
      * @param col the col coordinate of the sun
      * @param fromSky determines if it came from the sky
      * @param targetRow the target row to land on
+     * @param time time of creation
      */
-    public Sun(float row, float col, boolean fromSky, float targetRow)
+    public Sun(float row, float col, boolean fromSky, float targetRow, int time)
     {
-        super(row, col);
+        super(row, col, time);
         this.fromSky = fromSky;
         this.targetRow = targetRow;
         landedTime = -888;
@@ -29,10 +30,11 @@ public class Sun extends GameElement {
      * @param row the row coordinate of the sun
      * @param col the col coordinate of the sun
      * @param fromSky determines if it came from the sky
+     * @param time time of creation
      */
-    public Sun(float row, float col, boolean fromSky)
+    public Sun(float row, float col, boolean fromSky, int time)
     {
-        super(row, col);
+        super(row, col, time);
         targetRow = row; //row: 1, col: 2, targetRow = row
         this.fromSky = fromSky;
         landedTime = -888;
@@ -40,25 +42,31 @@ public class Sun extends GameElement {
 
     /** This is essentially the behavior method of the sun.
      *  It updates its current position and state.
+     *
+     * @param currentTime the current time reference of the game
      */
-    public void update()
+    @Override
+    public void update(int currentTime)
     {
         if(fromSky) //if sun is from the sky
         {
-            fallFromSky();
+            fallFromSky(currentTime);
         }
 
-        landAtTargetRow();
-        disappear();
+        landAtTargetRow(currentTime);
+        disappear(currentTime);
     }
 
     /** This updates the position of the sun going down.
+     *
+     * @param currentTime the current time reference of the game
      */
-    public void fallFromSky()
+    public void fallFromSky(int currentTime)
     {
+        
         float currentRow = getRow();
 
-        if(fromSky && !hasLanded() && ((float)(System.currentTimeMillis() / 1000.0) - getINTERNAL_START() >= 1))
+        if(fromSky && !hasLanded() && (currentTime - getInternal_Time() >= 1))
         {
             currentRow += 1f / FALLING_SPEED;
             setRow(currentRow);
@@ -69,13 +77,15 @@ public class Sun extends GameElement {
     /** This initializes the position state of the sun if it has
      *  landed or not. This also initializes the landTime of the sun.
      *  and changes it's row to the targetRow.
+     *
+     * @param currentTime the current time reference of the game
      */
-    public void landAtTargetRow() //where it will land or its final position
+    public void landAtTargetRow(int currentTime) //where it will land or its final position
     {
         if(hasLanded() && landedTime < 0)
         {
             setRow(targetRow);
-            landedTime = (float)(System.currentTimeMillis() / 1000.0) - getINTERNAL_START();
+            landedTime = currentTime;
             fromSky = false;
             //System.out.println("Sun is now in (" + (getRow() + 1) + ", " + (getCol() + 1) + ")");
         }
@@ -83,14 +93,16 @@ public class Sun extends GameElement {
 
     /** This method deactivates the active state of the sun object
      *  after 10 seconds when landed.
+     *
+     * @param currentTime the current time reference of the game
      */
-    public void disappear()
+    public void disappear(int currentTime)
     {
         //after 10 seconds, sun should deactivate/disappear
         if(landedTime >= 0)
         {
             //if it's time for sun to disappear
-            if((float)(System.currentTimeMillis() / 1000.0) >= (LIFETIME + landedTime))
+            if(currentTime >= (LIFETIME + landedTime))
             {
                 deactivate();
                 //System.out.println("Sun has disappeared!");
@@ -125,7 +137,7 @@ public class Sun extends GameElement {
      *
      * @return the time frame of the sun landing
      */
-    public float getLandedTime() {
+    public int getLandedTime() {
         return landedTime;
     }
 
@@ -163,7 +175,7 @@ public class Sun extends GameElement {
     /**the target row of the sun when falling down*/
     private float targetRow;
     /**the time when the sun landed*/
-    private float landedTime;
+    private int landedTime;
     /**the amount of sun objects created*/
     private static int count = 0;
 }
