@@ -255,7 +255,7 @@ abstract class Level {
         if (!enemies.isEmpty()) { 
             //go through each enemy from the list
             while (i < enemies.size() && !condition) { 
-                //check if at least one of them has reached tehe house, indicating that
+                //check if at least one of them has reached the house, indicating that
                 //the game is over
                 if (enemies.get(i).isAtHouse()) 
                     condition = true;

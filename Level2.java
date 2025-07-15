@@ -1,4 +1,12 @@
+/** This class represents the second level of the game.
+ *
+ */
 public class Level2 extends Level{
+    /** This constructor initializes the basic attributes of its
+     *  super class such as the level number, the max timer, and
+     *  the number of rows and col of the lawn. It also initializes
+     *  the available plants of the level.
+     */
     public Level2() {
         super(2,180,5,9);
 
@@ -12,6 +20,11 @@ public class Level2 extends Level{
         initializePlants(p);
     }
 
+    /**
+     * This method spawns a new zombie at a random row
+     * and in the rightmost column. It is then added
+     * to the enemies array list.
+     */
     @Override
     public void spawnZombies() {
         float x = (float)Math.random();
