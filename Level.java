@@ -46,6 +46,10 @@ abstract class Level {
         endFlag = false;
     }
 
+    /** This method initializes the available plants' cooldowns to be used in the game.
+     *
+     * @param p the available plants that will be initialized
+     */
     public void initializePlants(Plant[] p) {
         int i;
         avaliable_plants = p;
@@ -352,6 +356,13 @@ abstract class Level {
         int interval = 0;
         int i;
 
+        //System.out.println(currentTime == lastPrint);
+
+        if (currentTime != lastPrint) {
+            System.out.println("Level " + LEVEL_NUM + " running: " + (currentTime));
+            lastPrint = currentTime;
+        }
+
         behaviors(currentTime);
 
         //determines how frequent zombies will spawn in the game, with respect to the game's current time
@@ -367,7 +378,7 @@ abstract class Level {
         //if the time in between is >= the interval, it spawns a zombie
         if (interval != 0 && currentTime - internal_start >= interval) {
             spawnZombies(currentTime);
-            //System.out.println("Spawned Zombie at (" + (enemies.get(enemies.size()-1).getRow() + 1) + ", " + (enemies.get(enemies.size()-1).getCol() + 1) + ")");
+            System.out.println("Spawned Zombie at (" + (enemies.get(enemies.size()-1).getRow() + 1) + ", " + (enemies.get(enemies.size()-1).getCol() + 1) + ")");
             internal_start = currentTime;
         }
 
@@ -383,7 +394,7 @@ abstract class Level {
         //sun_interval : when the last sun was spawned
         if (currentTime - sun_interval >= 20) {
             addSun(currentTime);
-            //System.out.println("Sun appeared in (" + (suns.get(suns.size()-1).getRow()+1) + "," + (suns.get(suns.size()-1).getCol()+1) + ")");
+            System.out.println("Sun appeared in (" + (suns.get(suns.size()-1).getRow()+1) + "," + (suns.get(suns.size()-1).getCol()+1) + ")");
             sun_interval = currentTime;
         }
 
@@ -451,4 +462,6 @@ abstract class Level {
     private int sun_interval;
     /**dictates whether to spawn a hoard of zombie*/
     private boolean endFlag;
+    /**the time of the last printed timer message*/
+    private int lastPrint;
 }

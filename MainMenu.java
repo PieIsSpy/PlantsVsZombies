@@ -18,7 +18,7 @@ public class MainMenu extends JPanel {
 
         if (bgImg != null && logoImg != null) {
             g.drawImage(bgImg.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
-            g.drawImage(logoImg.getImage(), (int)(this.getWidth()/2.7), 0, (int)(logoImg.getIconWidth() / 1.5), (int)(logoImg.getIconHeight() / 1.5),null);
+            g.drawImage(logoImg.getImage(), (int)(this.getWidth()/3), 0, (int)(logoImg.getIconWidth() / 1.5), (int)(logoImg.getIconHeight() / 1.5),null);
         }
     }
 

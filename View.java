@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class ProgramGUI extends JFrame {
-    public ProgramGUI() {
+public class View extends JFrame {
+    public View() {
 
         super("Plants vs Zombies");
         setLayout(new BorderLayout());
@@ -121,5 +121,5 @@ public class ProgramGUI extends JFrame {
     private JButton level3;
     private JPanel panelSouth;
     private JButton forfeit;
-    private static final int WIDTH = 1052, HEIGHT = 594;
+    private static final int WIDTH = 800, HEIGHT = 600;
 }

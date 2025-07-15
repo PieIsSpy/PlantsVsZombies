@@ -1,7 +1,7 @@
 public class PlantsVsZombies {
     public static void main(String[] args) {
-        MainModel model = new MainModel();
-        ProgramGUI view = new ProgramGUI();
+        Model model = new Model();
+        View view = new View();
         Controller controller = new Controller(model,view);
     }
 }

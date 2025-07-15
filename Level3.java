@@ -1,4 +1,17 @@
+/** This class represents the third level of the game.
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 1.0
+ */
 public class Level3 extends Level{
+    /** This constructor initializes the basic attributes of its
+     *  super class such as the level number, the max timer, and
+     *  the number of rows and col of the lawn. It also initializes
+     *  the available plants of the level.
+     *
+     * @param currentTime the starting time frame of the level
+     */
     public Level3(int currentTime) {
         super(3,180,5,9,currentTime);
 
@@ -15,6 +28,9 @@ public class Level3 extends Level{
         spawnGraves();
     }
 
+    /** This method spawns 5 graves at the start of the game.
+     *
+     */
     public void spawnGraves() {
         int nRow, nCol;
         int i;
@@ -30,6 +46,13 @@ public class Level3 extends Level{
         }
     }
 
+    /**
+     * This method spawns a new zombie at a random row
+     * and in the rightmost column. It is then added
+     * to the enemies array list.
+     *
+     * @param currentTime the current time frame of the level
+     */
     @Override
     public void spawnZombies(int currentTime) {
         float x = (float)Math.random();
