@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 /** This class represents the Pole Vaulter Zombie variant
  *  of the Zombie class. It uses a long pole in order to
  *  vault over the first plant it is in range with.
@@ -66,6 +65,10 @@ public class PolevaulterZombie extends Zombie{
         }
     }
 
+    /** This method makes the zombie invulnerable for a few seconds, skipping over a tile containing a plant.
+     *
+     * @param currentTime the current time frame of the game
+     */
     public void vaultOver(int currentTime) {
         // save the col where it did the action first
         colUsage = getCol();

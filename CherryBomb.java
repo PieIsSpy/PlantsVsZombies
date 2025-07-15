@@ -4,8 +4,10 @@ import java.util.ArrayList;
  * This class represents a Cherry Bomb plant. 
  * Once used, it will immediately explode and cause high
  * damage to its surrounding enemies. 
- * 
- * 
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 1.0
  */
 public class CherryBomb extends Plant {
 
