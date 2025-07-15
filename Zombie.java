@@ -24,6 +24,7 @@ public class Zombie extends Entity {
         super(70, 4,10, r, c, t);
         held_item = null;
         vulnerability = true;
+        slowed = false;
 
         count++;
     }
@@ -43,6 +44,7 @@ public class Zombie extends Entity {
         super(70, 4, 10, r, c, t);
         held_item = i;
         vulnerability = true;
+        slowed = false;
 
         count++;
     }
@@ -115,7 +117,7 @@ public class Zombie extends Entity {
      */
     public void behaviour(Entity[] plants, int currentTime) {
         // check if the zombie is slowed or not
-        //defrost(currentTime);
+        defrost(currentTime);
 
         // while zombie isn't in the house and still alive
         if (!this.isAtHouse() && this.isAlive()) {
@@ -174,7 +176,7 @@ public class Zombie extends Entity {
     }
 
     public void defrost(int t) {
-        if (t - slowedStart >= 10)
+        if (slowed && t - slowedStart >= 10)
             slowed = false;
     }
 
