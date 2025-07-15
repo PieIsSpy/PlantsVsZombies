@@ -8,7 +8,7 @@ public class FlagZombie extends Zombie{
      * @param r the row coordinate
      * @param c the col coordinate
      */
-    public FlagZombie (int r, int c) {
+    public FlagZombie (float r, float c) {
         super(r, c, new Item("Flag"));
         setSpeed(3);
     }

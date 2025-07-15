@@ -13,7 +13,7 @@ public class PolevaulterZombie extends Zombie{
      * @param r the row coordinate of the zombie
      * @param c the col coordinate of the zombie
      */
-    public PolevaulterZombie(int r, int c) {
+    public PolevaulterZombie(float r, float c) {
         super(r, c, new Item("Pole"));
         setSpeed(3);
     }

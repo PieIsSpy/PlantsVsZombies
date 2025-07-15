@@ -17,7 +17,7 @@ public class Zombie extends Entity {
      *  @param r the row grid position of the Zombie
      *  @param c the col grid position of the zombie
      */
-    public Zombie(int r, int c) {
+    public Zombie(float r, float c) {
         super(70, 4,10, r, c);
         held_item = null;
         vulnerability = true;
@@ -33,7 +33,7 @@ public class Zombie extends Entity {
      * @param c the col grid position of the Zombie
      * @param i the held item of the Zombie
      */
-    public Zombie (int r, int c, Item i) {
+    public Zombie (float r, float c, Item i) {
         super(70, 4, 10, r, c);
         held_item = i;
         vulnerability = true;

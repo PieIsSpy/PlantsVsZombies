@@ -13,7 +13,7 @@ public class ConeheadZombie extends Zombie{
      * @param r the row coordinate of the zombie
      * @param c the col coordinate of the zombie
      */
-    public ConeheadZombie(int r, int c) {
+    public ConeheadZombie(float r, float c) {
         super(r, c, new Item("Traffic Cone", 140));
     }
 

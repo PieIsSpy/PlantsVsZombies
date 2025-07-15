@@ -12,7 +12,7 @@ public class BucketheadZombie extends Zombie{
      * @param r the row coordinate of the zombie
      * @param c the col coordinate of the zombie
      */
-    public BucketheadZombie(int r, int c) {
+    public BucketheadZombie(float r, float c) {
         super(r, c, new Item("Bucket", 420));
     }
 
