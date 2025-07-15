@@ -13,11 +13,6 @@ public class Controller implements MouseListener{
         view.setMouseListener(this);
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e)
-    {
-        System.out.println("Mouse clicked at (" + e.getX() + ", " + e.getY() + ")");
-    }
 
 
     public void updateView() {
@@ -74,7 +69,12 @@ public class Controller implements MouseListener{
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+        /**
+         * 1.) convert field coordinates to row and column
+         * 2.) need to measure first where the field is 
+         * 
+         * 
+         */
     }
 
     @Override
@@ -95,8 +95,48 @@ public class Controller implements MouseListener{
         
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // TODO Auto-generated method stub
+        if(isWithinField(e.getX(), e.getY()))
+        {
+            System.out.println("You are in the field!");
+        }
+        else
+        {
+            System.out.println("You are NOT in the field!");
+        }
+
+        //convert mouse coordinates to row and column values in field
+        /* 
+        if(e.getX() < view.getLawn().getFieldPosX() || e.getX() > view.getLawn().getFieldPosX())
+        {
+            System.out.println("");
+        }
+        */
+    }
+
+    
+    public boolean isWithinField(int x, int y)
+    {
+        boolean isXValid = false, isYValid = false;
+
+        if(x >= view.getLawn().getFieldPosX() && x <= (view.getLawn().getFieldPosX() + view.getLawn().getFieldWidth()))
+        {
+            isXValid = true;
+        }
+        if(y >= view.getLawn().getFieldPosY() && y <= (view.getLawn().getFieldPosY() + view.getLawn().getFieldHeight()))
+        {
+            isYValid = true;
+        }
+
+        return isXValid && isYValid;
+    }
+        
+
     private MainModel model;
     private ProgramGUI view;
+
 
 
 }

@@ -25,6 +25,18 @@ public class ProgramGUI extends JFrame {
     {
         lawn = new LawnPanel();
         add(lawn);
+
+        /* 
+        JLabel measure = new JLabel("HI");
+        measure.setSize(712, 460);
+        measure.setBackground(Color.GREEN);
+        measure.setOpaque(true);
+        measure.setLocation(253,72);
+
+        lawn.add(measure);
+        */ 
+        
+        
         /* 
         panelSouth = new JPanel();
         panelSouth.setLayout(new FlowLayout());

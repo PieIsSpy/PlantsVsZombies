@@ -48,7 +48,33 @@ public class LawnPanel extends JPanel {
        
     }
 
+
+    public int getFieldWidth()
+    {
+        return FIELD_WIDTH;
+    }
+
+    public int getFieldHeight()
+    {
+        return FIELD_HEIGHT;
+    }
+
+    public int getFieldPosX()
+    {
+        return FIELD_X;
+    }
+
+    public int getFieldPosY()
+    {
+        return FIELD_Y;
+    }
+
     /**lawn background image to be displayed */
     private ImageIcon lawnImg;
+    private final int FIELD_WIDTH = 712;
+    private final int FIELD_HEIGHT = 460;
+    private final int FIELD_X = 253;
+    private final int FIELD_Y = 72;
+
 
 }
