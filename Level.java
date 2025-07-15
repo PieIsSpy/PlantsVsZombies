@@ -354,7 +354,7 @@ abstract class Level {
      */
     public void gameCycle(int currentTime) {
         int interval = 0;
-        int i;
+        int i,j;
 
         //System.out.println(currentTime == lastPrint);
 
@@ -384,8 +384,16 @@ abstract class Level {
 
         // spawns the hoard of zombies
         if (currentTime > (int)Math.floor(TIME_LENGTH * 0.945) && !endFlag) {
-            for (i = 0; i < 5 + 2 * (LEVEL_NUM-1); i++)
+            enemies.add(new FlagZombie((int)(Math.floor(Math.random() * ROWS)), COLUMNS + 1, currentTime));
+
+            for (i = 0; i < 4 + 2 * (LEVEL_NUM-1); i++)
                 spawnZombies(currentTime);
+
+            //spawn zombies on the gravestones
+            for (i = 0; i < ROWS; i++)
+                for (j = 0; j < COLUMNS; j++)
+                    if (tiles[i][j] != null && tiles[i][j] instanceof Tombstone)
+                        enemies.add(((Tombstone)tiles[i][j]).spawn(currentTime));
 
             endFlag = true;
         }
