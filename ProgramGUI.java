@@ -10,17 +10,21 @@ public class ProgramGUI extends JFrame {
         //setLayout(null);
         setSize(WIDTH, HEIGHT);
 
+        init();
         setVisible(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        init();
+
         mainMenu();
         //init();
     }
 
     public void init()
     {
+        lawn = new LawnPanel();
+        add(lawn);
+        /* 
         panelSouth = new JPanel();
         panelSouth.setLayout(new FlowLayout());
         add(panelSouth, BorderLayout.SOUTH);
@@ -32,6 +36,7 @@ public class ProgramGUI extends JFrame {
         level2 = new JButton("Level 2");
         level3 = new JButton("Level 3");
         forfeit = new JButton("Forfeit");
+        */ 
     }
 
     public void mainMenu() {
@@ -114,6 +119,11 @@ public class ProgramGUI extends JFrame {
         forfeit.addActionListener(listener);
     }
 
+    public LawnPanel getLawn()
+    {
+        return lawn;
+    }
+
     private JButton start;
     private JButton quit;
     private JButton level1;
@@ -121,5 +131,6 @@ public class ProgramGUI extends JFrame {
     private JButton level3;
     private JPanel panelSouth;
     private JButton forfeit;
+    private LawnPanel lawn;
     private static final int WIDTH = 1052, HEIGHT = 594;
 }

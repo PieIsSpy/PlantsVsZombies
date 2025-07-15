@@ -1,4 +1,6 @@
 import java.awt.Graphics;
+import java.awt.event.MouseListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 /**
@@ -24,6 +26,8 @@ public class LawnPanel extends JPanel {
             System.out.println("Image cannot be loaded");
         }
     }
+
+
 
     /**
      * This method overrides the paintComponent method from the JPanel class, 

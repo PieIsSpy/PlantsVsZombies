@@ -1,18 +1,20 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class Controller implements ActionListener {
+public class Controller {
     public Controller(MainModel m, ProgramGUI v) {
         model = m;
         view = v;
-        view.setActionListener(this);
     }
 
     public void updateView() {
 
     }
 
+    /* 
     @Override
     public void actionPerformed(ActionEvent e) {
         // menu
@@ -57,7 +59,12 @@ public class Controller implements ActionListener {
             model.endLevel();
         }
     }
+*/ 
+
+
 
     private MainModel model;
     private ProgramGUI view;
+
+
 }
