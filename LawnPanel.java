@@ -1,5 +1,8 @@
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -25,8 +28,8 @@ public class LawnPanel extends JPanel {
         catch (Exception e) {
             System.out.println("Image cannot be loaded");
         }
-    }
 
+    }
 
 
     /**

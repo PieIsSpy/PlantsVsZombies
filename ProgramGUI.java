@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 public class ProgramGUI extends JFrame {
     public ProgramGUI() {
@@ -16,7 +17,7 @@ public class ProgramGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        mainMenu();
+        //mainMenu();
         //init();
     }
 
@@ -39,14 +40,15 @@ public class ProgramGUI extends JFrame {
         */ 
     }
 
+    /* 
     public void mainMenu() {
         System.out.println("Current GUI: Main Menu");
-        panelSouth.removeAll();
+        //panelSouth.removeAll();
         /*
         JPanel panelSouth = new JPanel();
         panelSouth.setLayout(new FlowLayout());
 
-         */
+        
 
         MainMenu menu = new MainMenu();
         add(menu, BorderLayout.CENTER);
@@ -72,15 +74,16 @@ public class ProgramGUI extends JFrame {
         panelSouth.add(start);
         add(panelSouth);
 
-         */
-        /*
+         
+        
         panelSouth.revalidate();
         panelSouth.repaint();
 
-         */
+         
         revalidate();
         repaint();
     }
+    */
 
     public void levelSelect() {
         System.out.println("Current GUI: Level Select");
@@ -117,6 +120,11 @@ public class ProgramGUI extends JFrame {
         level2.addActionListener(listener);
         level3.addActionListener(listener);
         forfeit.addActionListener(listener);
+    }
+
+    public void setMouseListener(MouseListener l)
+    {
+        lawn.addMouseListener(l);
     }
 
     public LawnPanel getLawn()
