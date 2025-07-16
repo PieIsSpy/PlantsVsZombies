@@ -33,6 +33,7 @@ public class Controller implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        /*
         // menu
         if (e.getActionCommand().equals("Start")) {
             System.out.println("Pressed start");
@@ -43,6 +44,9 @@ public class Controller implements ActionListener {
             view.dispose();
         }
 
+         */
+
+        /*
         // level selector
         else if(e.getActionCommand().equals("Level 1")) {
             if (model.getLevelThread().getLevel() == null) {
@@ -74,6 +78,8 @@ public class Controller implements ActionListener {
             System.out.println("Pressed Forfeit");
             model.endLevel();
         }
+
+         */
     }
 
     /**the model class of the program*/
