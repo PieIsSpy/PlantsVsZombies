@@ -1,12 +1,25 @@
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/** This class represents the Controller of the MVC design structure.
+ *  It is responsible for the interaction between the Model and the View.
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 1.0
+ *
+ */
 public class Controller implements ActionListener, MouseListener{
-    public Controller(MainModel m, ProgramGUI v) {
+    /** This constructor initializes the Model and the View classes that will
+     *  be interacting inside the Controller class.
+     *
+     * @param m the model class of the controller
+     * @param v the view class of the controller
+     */
+    public Controller(Model m, View v) {
         model = m;
         view = v;
 
@@ -19,7 +32,11 @@ public class Controller implements ActionListener, MouseListener{
 
     }
 
-    
+    /** This method is responsible for communicating the events done in the View
+     *  class to the Model class.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // menu
@@ -34,7 +51,7 @@ public class Controller implements ActionListener, MouseListener{
 
         // level selector
         else if(e.getActionCommand().equals("Level 1")) {
-            if (!model.isInProgress()) {
+            if (model.getLevelThread().getLevel() == null) {
                 System.out.println("Pressed Level 1");
                 model.selectLevel(1);
             }
@@ -42,7 +59,7 @@ public class Controller implements ActionListener, MouseListener{
                 System.out.println("A level is already running!");
         }
         else if (e.getActionCommand().equals("Level 2")) {
-            if (!model.isInProgress()) {
+            if (model.getLevelThread().getLevel() == null) {
                 System.out.println("Pressed Level 2");
                 model.selectLevel(2);
             }
@@ -50,7 +67,7 @@ public class Controller implements ActionListener, MouseListener{
                 System.out.println("A level is already running!");
         }
         else if (e.getActionCommand().equals("Level 3")) {
-            if (!model.isInProgress()) {
+            if (model.getLevelThread().getLevel() == null) {
                 System.out.println("Pressed Level 3");
                 model.selectLevel(3);
             }
@@ -158,9 +175,12 @@ public class Controller implements ActionListener, MouseListener{
         return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
     }
 
-    private MainModel model;
-    private ProgramGUI view;
+   
 
 
 
+    /**the model class of the program*/
+    private Model model;
+    /**the view class of the program*/
+    private View view;
 }

@@ -3,8 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
-public class ProgramGUI extends JFrame {
-    public ProgramGUI() {
+public class View extends JFrame {
+    public View() {
 
         super("Plants vs Zombies");
         setLayout(new BorderLayout());
@@ -153,5 +153,5 @@ public class ProgramGUI extends JFrame {
     private JPanel panelSouth;
     private JButton forfeit;
     private LawnPanel lawn;
-    private static final int WIDTH = 1052, HEIGHT = 594;
+    private static final int WIDTH = 800, HEIGHT = 600;
 }

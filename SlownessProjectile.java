@@ -36,6 +36,7 @@ public class SlownessProjectile extends Projectile{
     {
         z.takeDamage(getDamage());
         z.setSlowed(true);
+        z.setSlowedStart((int)((System.currentTimeMillis())/1000) - getInternal_Time());
         deactivate();
     }
 }

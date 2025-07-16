@@ -46,6 +46,10 @@ abstract class Level {
         endFlag = false;
     }
 
+    /** This method initializes the available plants' cooldowns to be used in the game.
+     *
+     * @param p the available plants that will be initialized
+     */
     public void initializePlants(Plant[] p) {
         int i;
         avaliable_plants = p;
@@ -350,7 +354,14 @@ abstract class Level {
      */
     public void gameCycle(int currentTime) {
         int interval = 0;
-        int i;
+        int i,j;
+
+        //System.out.println(currentTime == lastPrint);
+
+        if (currentTime != lastPrint) {
+            System.out.println("Level " + LEVEL_NUM + " running: " + (currentTime));
+            lastPrint = currentTime;
+        }
 
         behaviors(currentTime);
 
@@ -367,14 +378,22 @@ abstract class Level {
         //if the time in between is >= the interval, it spawns a zombie
         if (interval != 0 && currentTime - internal_start >= interval) {
             spawnZombies(currentTime);
-            //System.out.println("Spawned Zombie at (" + (enemies.get(enemies.size()-1).getRow() + 1) + ", " + (enemies.get(enemies.size()-1).getCol() + 1) + ")");
+            System.out.println("Spawned Zombie at (" + (enemies.get(enemies.size()-1).getRow() + 1) + ", " + (enemies.get(enemies.size()-1).getCol() + 1) + ")");
             internal_start = currentTime;
         }
 
         // spawns the hoard of zombies
         if (currentTime > (int)Math.floor(TIME_LENGTH * 0.945) && !endFlag) {
-            for (i = 0; i < 5 + 2 * (LEVEL_NUM-1); i++)
+            enemies.add(new FlagZombie((int)(Math.floor(Math.random() * ROWS)), COLUMNS + 1, currentTime));
+
+            for (i = 0; i < 4 + 2 * (LEVEL_NUM-1); i++)
                 spawnZombies(currentTime);
+
+            //spawn zombies on the gravestones
+            for (i = 0; i < ROWS; i++)
+                for (j = 0; j < COLUMNS; j++)
+                    if (tiles[i][j] != null && tiles[i][j] instanceof Tombstone)
+                        enemies.add(((Tombstone)tiles[i][j]).spawn(currentTime));
 
             endFlag = true;
         }
@@ -383,7 +402,7 @@ abstract class Level {
         //sun_interval : when the last sun was spawned
         if (currentTime - sun_interval >= 20) {
             addSun(currentTime);
-            //System.out.println("Sun appeared in (" + (suns.get(suns.size()-1).getRow()+1) + "," + (suns.get(suns.size()-1).getCol()+1) + ")");
+            System.out.println("Sun appeared in (" + (suns.get(suns.size()-1).getRow()+1) + "," + (suns.get(suns.size()-1).getCol()+1) + ")");
             sun_interval = currentTime;
         }
 
@@ -451,4 +470,6 @@ abstract class Level {
     private int sun_interval;
     /**dictates whether to spawn a hoard of zombie*/
     private boolean endFlag;
+    /**the time of the last printed timer message*/
+    private int lastPrint;
 }
