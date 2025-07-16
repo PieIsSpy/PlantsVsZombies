@@ -123,8 +123,8 @@ public class Controller implements ActionListener, MouseListener{
         if(isWithinField(e.getX(), e.getY()))
         {
             //mouseX - fieldX / tileHeight
-            row = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
-            col = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
+            col = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
+            row = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
 
             //place a plant
     

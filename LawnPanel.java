@@ -31,6 +31,9 @@ public class LawnPanel extends JPanel {
         }
 
         field = new JPanel(new GridLayout());
+        TILE_HEIGHT = FIELD_HEIGHT / 5;
+        TILE_WIDTH = FIELD_WIDTH / 9;
+
 
     }
 
@@ -93,13 +96,13 @@ public class LawnPanel extends JPanel {
 
     JPanel field;
 
-    private final int FIELD_WIDTH = 712;
+    private final int FIELD_WIDTH = 534;
     private final int FIELD_HEIGHT = 460;
-    private final int FIELD_X = 253;
-    private final int FIELD_Y = 72;
+    private final int FIELD_X = 191;
+    private final int FIELD_Y = 75;
 
-    private final int TILE_WIDTH = 70;
-    private final int TILE_HEIGHT = 85;
+    private final int TILE_WIDTH;
+    private final int TILE_HEIGHT;
 
 
 }
