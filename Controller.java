@@ -5,7 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Controller implements MouseListener{
+public class Controller implements ActionListener, MouseListener{
     public Controller(MainModel m, ProgramGUI v) {
         model = m;
         view = v;
@@ -19,7 +19,7 @@ public class Controller implements MouseListener{
 
     }
 
-    /* 
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         // menu
@@ -64,7 +64,7 @@ public class Controller implements MouseListener{
             model.endLevel();
         }
     }
-*/ 
+
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -109,6 +109,10 @@ public class Controller implements MouseListener{
             row = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
             col = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
 
+            //place a plant
+    
+        
+            
             
             System.out.println("Position: (" + row + ", " + col + ")");
         }
@@ -143,7 +147,16 @@ public class Controller implements MouseListener{
 
         return isXValid && isYValid;
     }
-        
+
+    public int rowToPixel(int row)
+    {
+        return row * view.getLawn().getTileHeight() + view.getLawn().getFieldPosY();
+    }
+
+    public int columnToPixel(int col)
+    {
+        return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
+    }
 
     private MainModel model;
     private ProgramGUI view;
