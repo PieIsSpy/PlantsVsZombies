@@ -26,6 +26,7 @@ public class ProgramGUI extends JFrame {
         lawn = new LawnPanel();
         add(lawn);
 
+
         /* 
         JLabel measure = new JLabel("HI");
         measure.setSize(712, 460);

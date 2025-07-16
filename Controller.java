@@ -75,6 +75,8 @@ public class Controller implements MouseListener{
          * 
          * 
          */
+
+         System.out.println("Mouse pressed at (" + e.getX() + ", " + e.getY() + ")");
     }
 
     @Override
@@ -98,14 +100,23 @@ public class Controller implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
+
+        int row, col;
+        
         if(isWithinField(e.getX(), e.getY()))
         {
-            System.out.println("You are in the field!");
+            //mouseX - fieldX / tileHeight
+            row = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
+            col = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
+
+            
+            System.out.println("Position: (" + row + ", " + col + ")");
         }
         else
         {
             System.out.println("You are NOT in the field!");
         }
+        
 
         //convert mouse coordinates to row and column values in field
         /* 
@@ -116,7 +127,7 @@ public class Controller implements MouseListener{
         */
     }
 
-    
+    //not sure if this is supposed to be in controller or gui
     public boolean isWithinField(int x, int y)
     {
         boolean isXValid = false, isYValid = false;

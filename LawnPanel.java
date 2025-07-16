@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
@@ -29,6 +30,13 @@ public class LawnPanel extends JPanel {
             System.out.println("Image cannot be loaded");
         }
 
+        field = new JPanel(new GridLayout());
+
+    }
+
+    public void init()
+    {
+        //make a hhheno bdgetd
     }
 
 
@@ -69,12 +77,29 @@ public class LawnPanel extends JPanel {
         return FIELD_Y;
     }
 
+    public int getTileWidth()
+    {
+        return TILE_WIDTH;
+    }
+
+    public int getTileHeight()
+    {
+        return TILE_HEIGHT;
+    }
+
+
     /**lawn background image to be displayed */
     private ImageIcon lawnImg;
+
+    JPanel field;
+
     private final int FIELD_WIDTH = 712;
     private final int FIELD_HEIGHT = 460;
     private final int FIELD_X = 253;
     private final int FIELD_Y = 72;
+
+    private final int TILE_WIDTH = 70;
+    private final int TILE_HEIGHT = 85;
 
 
 }
