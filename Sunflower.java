@@ -24,7 +24,7 @@ public class Sunflower extends Plant{
     {
         super(r, c, t);
         initializeStats();
-        setImage("/img/sunflower.gif");
+        setImagePath("/img/sunflower.gif");
     }
 
 
