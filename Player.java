@@ -38,6 +38,7 @@ public class Player {
         if (n.equalsIgnoreCase("sunflower"))
         {
             l.getTiles()[r][c] = new Sunflower(r,c,t);
+            //l.getTiles()[r][c].setImage("/img/sunflower.gif");
             System.out.println("You have placed a Sunflower!!");
         }
         else if (n.equalsIgnoreCase("peashooter"))

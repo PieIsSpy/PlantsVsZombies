@@ -3,14 +3,14 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class GameImage {
-    public GameImage(Image image, int pixelX, int pixelY)
+    public GameImage(ImageIcon image, int pixelX, int pixelY)
     {
         this.image = image;
         this.pixelX = pixelX;
         this.pixelY = pixelY;
     }
 
-    public Image getImage()
+    public ImageIcon getIcon()
     {
         return image;
     }
@@ -26,7 +26,7 @@ public class GameImage {
     }
 
 
-    private Image image;
+    private ImageIcon image;
     private int pixelX, pixelY;
     
 }

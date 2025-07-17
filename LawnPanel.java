@@ -3,6 +3,7 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 /**
  * This class represents the background lawn image in a 
@@ -32,14 +33,24 @@ public class LawnPanel extends JPanel {
 
         images = new ArrayList<>();
 
+        init();
+
     }
 
+    
     public void init()
     {
-        //make a hhheno bdgetd
+
+        /* 
+        ImageIcon image = new ImageIcon(getClass().getResource("/img/sunflower.gif"));
+        JLabel flower = new JLabel(image);
+        flower.setSize(TILE_WIDTH, TILE_HEIGHT);
+        flower.setLocation(191, 75);
+        
+        add(flower);
+        */ 
+       
     }
-
-
 
     /**
      * This method overrides the paintComponent method from the JPanel class, 
@@ -54,16 +65,17 @@ public class LawnPanel extends JPanel {
 
         for(int i = 0; i < images.size(); i++)
         {
-             g.drawImage(images.get(i).getImage(), images.get(i).getPixelX(), images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+             g.drawImage(images.get(i).getIcon().getImage(), images.get(i).getPixelX(), images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
         }
-
         
     }
-
+    
     public void addImage(GameImage image)
     {
         images.add(image);
-        System.out.println("Added image!");
+        System.out.println("Added image!" + image.getPixelX());
+
+        //repaint();
     }
 
     public int getFieldWidth()

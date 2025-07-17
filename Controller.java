@@ -4,6 +4,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
+
 /** This class represents the Controller of the MVC design structure.
  *  It is responsible for the interaction between the Model and the View.
  *
@@ -128,14 +131,51 @@ public class Controller implements ActionListener, MouseListener{
             //mouseX - fieldX / tileHeight
             col = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
             row = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
+                //ROW
+            //1   2    3    4
+        //1
+  //C   //2
+        //3
+        //4
 
             //place a plant
             if(level.canBePlaced(row, col))
             {
-
                 player.placePlant(level, row, col, "sunflower", 1);
                 System.out.println("Plant position: " + level.getTiles()[row][col].getRow() + ", " + level.getTiles()[row][col].getCol());
-                view.getLawn().addImage(new GameImage(level.getTiles()[row][col].getImage(), columnToPixel(row), rowToPixel(col)));
+                ImageIcon image = new ImageIcon(getClass().getResource("/img/sunflower.gif"));
+                //why tf doesnt it show the image when i get the image from the entity, and it only works when i hardcode it here??????????SJBBDJND
+
+                //it doesnt load fast enough??
+
+                //image.getImage().flush();
+                //view.getLawn().addImage(new GameImage(image, 300, 300));
+
+                if(level.getTiles()[row][col].getImage() == null)
+                {
+                    System.out.println("NOT LOADED");
+                }
+
+                //ImageIcon image = level.getTiles()[row][col].getImage();
+                //new ImageIcon(image);
+                //ImageIcon image = level.getTiles()[row][col].getImage();
+               // image.getImage().flush();
+
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        //view.getLawn().addImage(new GameImage(image, rowToPixel(row), columnToPixel(col)));
+                        view.getLawn().addImage(new GameImage(image, columnToPixel(col), rowToPixel(row)));
+                    }
+
+                });
+                
+                view.getLawn().repaint(); 
+                //view.getLawn().addImage(new GameImage(level.getTiles()[row][col].getImage(), rowToPixel(row), columnToPixel(col)));
+                //System.out.println(rowToPixel(row) + ", " + columnToPixel(col));
+                //view.repaint();
+                //it doesnt work if i do a repaint here
+                //it worked when i created the imageicon here 
 
             }
             else
@@ -144,8 +184,7 @@ public class Controller implements ActionListener, MouseListener{
             }
             
             //System.out.println("Position: (" + row + ", " + col + ")");
-            view.getLawn().revalidate();
-            view.getLawn().repaint();
+        
         }
         else
         {

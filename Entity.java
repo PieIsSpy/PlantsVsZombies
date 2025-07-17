@@ -179,7 +179,7 @@ abstract class Entity {
     {
         try
         {
-           this.image = new ImageIcon(path).getImage();
+           this.image = new ImageIcon(path);
            
         }
         catch(Exception e)
@@ -188,7 +188,7 @@ abstract class Entity {
         }
     }
 
-    public Image getImage()
+    public ImageIcon getImage()
     {
         return image;
     }
@@ -208,5 +208,5 @@ abstract class Entity {
     /** The internal time of the enemy*/
     private int internal_time;
 
-    private Image image;
+    private ImageIcon image;
 }
