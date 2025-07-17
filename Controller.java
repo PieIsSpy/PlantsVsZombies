@@ -149,7 +149,7 @@ public class Controller implements ActionListener, MouseListener{
             {
                 player.placePlant(level, row, col, "sunflower", 1);
                 System.out.println("Plant position: " + level.getTiles()[row][col].getRow() + ", " + level.getTiles()[row][col].getCol());
-                ImageIcon image = new ImageIcon(getClass().getResource("/img/sunflower.gif"));
+                ImageIcon image = new ImageIcon(getClass().getResource(level.getTiles()[row][col].getImagePath()));
                 //why tf doesnt it show the image when i get the image from the entity, and it only works when i hardcode it here??????????SJBBDJND
 
                 //it doesnt load fast enough??
@@ -157,10 +157,6 @@ public class Controller implements ActionListener, MouseListener{
                 //image.getImage().flush();
                 //view.getLawn().addImage(new GameImage(image, 300, 300));
 
-                if(level.getTiles()[row][col].getImage() == null)
-                {
-                    System.out.println("NOT LOADED");
-                }
 
                 //ImageIcon image = level.getTiles()[row][col].getImage();
                 //new ImageIcon(image);

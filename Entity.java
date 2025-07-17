@@ -175,22 +175,14 @@ abstract class Entity {
         return internal_time;
     }
 
-    public void setImage(String path)
+    public void setImagePath(String path)
     {
-        try
-        {
-           this.image = new ImageIcon(path);
-           
-        }
-        catch(Exception e)
-        {
-            System.out.println("Image cannot be loaded");
-        }
+        imagePath = path;
     }
 
-    public ImageIcon getImage()
+    public String getImagePath()
     {
-        return image;
+        return imagePath;
     }
 
 
@@ -208,5 +200,5 @@ abstract class Entity {
     /** The internal time of the enemy*/
     private int internal_time;
 
-    private ImageIcon image;
+    private String imagePath;
 }
