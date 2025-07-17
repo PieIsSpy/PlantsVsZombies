@@ -44,16 +44,20 @@ public class Controller implements ActionListener, MouseListener{
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
         // menu
         if (e.getActionCommand().equals("Start")) {
             System.out.println("Pressed start");
-            view.levelSelect();
+            //view.levelSelect();
         }
         else if (e.getActionCommand().equals("Quit")) {
             System.out.println("Pressed quit");
+            model.getLevelThread().interrupt();
             view.dispose();
+            System.exit(0);
         }
 
+        /*
         // level selector
         else if(e.getActionCommand().equals("Level 1")) {
             if (model.getLevelThread().getLevel() == null) {
@@ -85,6 +89,8 @@ public class Controller implements ActionListener, MouseListener{
             System.out.println("Pressed Forfeit");
             model.endLevel();
         }
+
+         */
     }
 
 
