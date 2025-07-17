@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 /** This class represents the Controller of the MVC design structure.
  *  It is responsible for the interaction between the Model and the View.
@@ -30,11 +31,19 @@ public class Controller implements ActionListener, MouseListener{
         player = new Player(200);
         model.selectLevel(1);
         //level = model.getLevelThread().getLevel();
+        updateView();
     }
-
 
     public void updateView() {
 
+        Timer timer = new Timer(40, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                view.getLawn().repaint();
+            }
+        });
+        timer.start();
     }
 
     /** This method is responsible for communicating the events done in the View
@@ -172,7 +181,7 @@ public class Controller implements ActionListener, MouseListener{
 
                 });
                 
-                view.getLawn().repaint(); 
+                //view.getLawn().repaint(); 
                 //view.getLawn().addImage(new GameImage(level.getTiles()[row][col].getImage(), rowToPixel(row), columnToPixel(col)));
                 //System.out.println(rowToPixel(row) + ", " + columnToPixel(col));
                 //view.repaint();
