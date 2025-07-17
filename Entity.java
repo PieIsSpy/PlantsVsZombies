@@ -1,3 +1,7 @@
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 /** This class represents an Entity of a game.
  *  This can be used by either plants or zombie
  *  to inherit the attributes of health, speed, damage,
@@ -171,6 +175,26 @@ abstract class Entity {
         return internal_time;
     }
 
+    public void setImage(String path)
+    {
+        try
+        {
+           this.image = new ImageIcon(path).getImage();
+           
+        }
+        catch(Exception e)
+        {
+            System.out.println("Image cannot be loaded");
+        }
+    }
+
+    public Image getImage()
+    {
+        return image;
+    }
+
+
+
     /** How much damage it can sustain */
     private int health;
     /** How fast an entity attacks or walks */
@@ -183,4 +207,6 @@ abstract class Entity {
     private float col;
     /** The internal time of the enemy*/
     private int internal_time;
+
+    private Image image;
 }

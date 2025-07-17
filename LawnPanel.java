@@ -1,9 +1,6 @@
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -30,10 +27,10 @@ public class LawnPanel extends JPanel {
             System.out.println("Image cannot be loaded");
         }
 
-        field = new JPanel(new GridLayout());
         TILE_HEIGHT = FIELD_HEIGHT / 5;
         TILE_WIDTH = FIELD_WIDTH / 9;
 
+        images = new ArrayList<>();
 
     }
 
@@ -41,6 +38,7 @@ public class LawnPanel extends JPanel {
     {
         //make a hhheno bdgetd
     }
+
 
 
     /**
@@ -52,13 +50,21 @@ public class LawnPanel extends JPanel {
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        if(lawnImg != null)
+        g.drawImage(lawnImg.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+
+        for(int i = 0; i < images.size(); i++)
         {
-             g.drawImage(lawnImg.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+             g.drawImage(images.get(i).getImage(), images.get(i).getPixelX(), images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
         }
-       
+
+        
     }
 
+    public void addImage(GameImage image)
+    {
+        images.add(image);
+        System.out.println("Added image!");
+    }
 
     public int getFieldWidth()
     {
@@ -91,6 +97,8 @@ public class LawnPanel extends JPanel {
     }
 
 
+
+
     /**lawn background image to be displayed */
     private ImageIcon lawnImg;
 
@@ -103,6 +111,8 @@ public class LawnPanel extends JPanel {
 
     private final int TILE_WIDTH;
     private final int TILE_HEIGHT;
+
+    private ArrayList<GameImage> images;
 
 
 }

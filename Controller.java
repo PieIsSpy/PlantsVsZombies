@@ -22,10 +22,12 @@ public class Controller implements ActionListener, MouseListener{
     public Controller(Model m, View v) {
         model = m;
         view = v;
-
         view.setMouseListener(this);
-    }
 
+        player = new Player(200);
+        model.selectLevel(1);
+        //level = model.getLevelThread().getLevel();
+    }
 
 
     public void updateView() {
@@ -119,6 +121,7 @@ public class Controller implements ActionListener, MouseListener{
         // TODO Auto-generated method stub
 
         int row, col;
+        Level level = model.getLevelThread().getLevel();
         
         if(isWithinField(e.getX(), e.getY()))
         {
@@ -127,11 +130,22 @@ public class Controller implements ActionListener, MouseListener{
             row = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
 
             //place a plant
-    
-        
+            if(level.canBePlaced(row, col))
+            {
+
+                player.placePlant(level, row, col, "sunflower", 1);
+                System.out.println("Plant position: " + level.getTiles()[row][col].getRow() + ", " + level.getTiles()[row][col].getCol());
+                view.getLawn().addImage(new GameImage(level.getTiles()[row][col].getImage(), columnToPixel(row), rowToPixel(col)));
+
+            }
+            else
+            {
+                System.out.println("Tile occupied!");
+            }
             
-            
-            System.out.println("Position: (" + row + ", " + col + ")");
+            //System.out.println("Position: (" + row + ", " + col + ")");
+            view.getLawn().revalidate();
+            view.getLawn().repaint();
         }
         else
         {
@@ -175,12 +189,11 @@ public class Controller implements ActionListener, MouseListener{
         return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
     }
 
-   
-
-
-
     /**the model class of the program*/
     private Model model;
     /**the view class of the program*/
     private View view;
+
+    private Player player;
+
 }

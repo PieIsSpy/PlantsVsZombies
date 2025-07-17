@@ -1,3 +1,4 @@
+import javax.swing.ImageIcon;
 
 /** This class represents a Sunflower entity
  *  that inherits a Plant class. This plant
@@ -23,7 +24,9 @@ public class Sunflower extends Plant{
     {
         super(r, c, t);
         initializeStats();
+        setImage("/img/sunflower.gif");
     }
+
 
     /** This method initializes the default stats of the sunflower.
      *
