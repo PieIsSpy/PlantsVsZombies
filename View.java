@@ -1,15 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 public class View extends JFrame {
     public View() {
+
         super("Plants vs Zombies");
         setLayout(new BorderLayout());
+        //setLayout(null);
         setSize(WIDTH, HEIGHT);
 
         init();
-        mainMenu();
+        //mainMenu();
 
         setVisible(true);
         setResizable(false);
@@ -18,6 +21,8 @@ public class View extends JFrame {
 
     public void init()
     {
+        lawn = new LawnPanel();
+        add(lawn);
         /*
         panelSouth = new JPanel();
         panelSouth.setLayout(new FlowLayout());
@@ -31,12 +36,10 @@ public class View extends JFrame {
         level2 = new JButton("Level 2");
         level3 = new JButton("Level 3");
         forfeit = new JButton("Forfeit");
-
-        menu = new MainMenu();
-
          */
     }
 
+    /*
     public void mainMenu() {
         System.out.println("Current GUI: Main Menu");
 
@@ -124,11 +127,11 @@ public class View extends JFrame {
         revalidate();
         repaint();
     }
+    */
 
     public void levelSelect() {
         /*
         System.out.println("Current GUI: Level Select");
-
         panelSouth.removeAll();
 
         panelSouth.add(level1);
@@ -141,12 +144,10 @@ public class View extends JFrame {
 
         revalidate();
         repaint();
-
          */
     }
 
     public void setActionListener(ActionListener listener) {
-
         start.addActionListener(listener);
         quit.addActionListener(listener);/*
         level1.addActionListener(listener);
@@ -157,13 +158,22 @@ public class View extends JFrame {
          */
     }
 
+    public void setMouseListener(MouseListener l)
+    {
+        lawn.addMouseListener(l);
+    }
+
+    public LawnPanel getLawn()
+    {
+        return lawn;
+    }
+
     private JButton start;
     private JButton quit;
     private JButton level1;
     private JButton level2;
     private JButton level3;
     private JButton forfeit;
-    //private JPanel panelSouth;
-    //private MainMenu menu;
+    private LawnPanel lawn;
     private static final int WIDTH = 800, HEIGHT = 600;
 }
