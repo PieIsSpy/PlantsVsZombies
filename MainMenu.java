@@ -29,8 +29,23 @@ public class MainMenu extends JPanel {
         if (logoImg != null) {
             g.drawImage(logoImg.getImage(), (int)(this.getWidth()/17), (int)(this.getHeight()/12), (int)(logoImg.getIconWidth() / 1.5), (int)(logoImg.getIconHeight() / 1.5),null);
         }
+
+        /*
+        if (startImg != null) {
+            g.drawImage(startImg.getImage(), (int)(this.getWidth()/2.05), (int)(this.getWidth()/5.5),startImg.getIconWidth(), startImg.getIconHeight(), null);
+        }
+
+         */
     }
+
+    /*
+    public ImageIcon getStartImg() {
+        return startImg;
+    }
+
+     */
 
     private ImageIcon bgImg;
     private ImageIcon logoImg;
+    //private ImageIcon startImg;
 }

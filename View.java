@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 public class View extends JFrame {
     public View() {
         super("Plants vs Zombies");
-        setLayout(null);
+        setLayout(new BorderLayout());
         setSize(WIDTH, HEIGHT);
 
         init();
@@ -24,9 +24,9 @@ public class View extends JFrame {
         add(panelSouth, BorderLayout.SOUTH);
         */
         start = new JButton("Start");
-        /*
         quit = new JButton("Quit");
 
+        /*
         level1 = new JButton("Level 1");
         level2 = new JButton("Level 2");
         level3 = new JButton("Level 3");
@@ -40,37 +40,86 @@ public class View extends JFrame {
     public void mainMenu() {
         System.out.println("Current GUI: Main Menu");
 
-        // place a background image
+        // Main menu background acting as center border
         MainMenu menu = new MainMenu();
-        menu.setBounds(0,0,WIDTH,HEIGHT);
+        menu.setLayout(new BorderLayout());
         add(menu);
 
-        // get image of start button
-        ImageIcon startImg = null;
+        // Left side borders
+        JPanel left = new JPanel(new BorderLayout());
+        left.setBackground(new Color(255,0,0,200));
+        left.setPreferredSize(new Dimension(getWidth()/2, getHeight()));
+        left.setOpaque(false);
+
+        JPanel upperLeft = new JPanel(new BorderLayout());
+        upperLeft.setBackground(new Color(0,255,0,200));
+        upperLeft.setPreferredSize(new Dimension(getWidth()/2, 300));
+        upperLeft.setOpaque(false);
+
+        JPanel innerLeft = new JPanel(new BorderLayout());
+        innerLeft.setBackground(new Color(0,100,255,200));
+        innerLeft.setPreferredSize(new Dimension(getWidth()/2,150));
+        innerLeft.setOpaque(false);
+
+        JPanel buttonContainerL = new JPanel(new BorderLayout());
+        buttonContainerL.setBackground(new Color(10,10,10,180));
+        buttonContainerL.setPreferredSize(new Dimension(320,innerLeft.getHeight()));
+        buttonContainerL.setOpaque(false);
+
+        ImageIcon startImg;
         try {
             startImg = new ImageIcon(getClass().getResource("/img/startImg.png"));
+            start.setIcon(startImg);
         }
         catch (NullPointerException e) {
             System.out.println("startImg.png cannot be loaded");
         }
 
-        if (startImg != null)
-            start.setIcon(startImg);
-
-        start.setBounds(WIDTH/2, HEIGHT/5,start.getIcon().getIconWidth(),start.getIcon().getIconHeight());
-        //start.setOpaque(false);
-        //start.setContentAreaFilled(false);
+        start.setOpaque(false);
+        start.setContentAreaFilled(false);
         start.setBorderPainted(false);
         start.setFocusPainted(false);
-        start.setFocusable(false);
-        add(start);
 
-        /*
-        panelSouth.add(start);
-        panelSouth.add(quit);
-        add(panelSouth, BorderLayout.SOUTH);
+        // add everything from left side
+        buttonContainerL.add(start,BorderLayout.CENTER);
+        innerLeft.add(buttonContainerL, BorderLayout.WEST);
+        upperLeft.add(innerLeft, BorderLayout.SOUTH);
+        left.add(upperLeft,BorderLayout.NORTH);
+        menu.add(left, BorderLayout.EAST);
 
-         */
+        // right side boarders
+        JPanel right = new JPanel(new BorderLayout());
+        right.setBackground(new Color(250, 0, 0, 180));
+        right.setPreferredSize(new Dimension(getWidth()/2, getHeight()));
+        right.setOpaque(false);
+
+        JPanel bottomRight = new JPanel(new BorderLayout());
+        bottomRight.setBackground(new Color(250,0,0,180));
+        bottomRight.setPreferredSize(new Dimension(getWidth()/2, 225));
+        bottomRight.setOpaque(false);
+
+        JPanel innerRight = new JPanel(new BorderLayout());
+        innerRight.setBackground(new Color(0,0,250,180));
+        innerRight.setPreferredSize(new Dimension(125, getHeight()/4));
+        innerRight.setOpaque(false);
+
+        JPanel buttonContainerR = new JPanel(new BorderLayout());
+        buttonContainerR.setBackground(new Color(0,250,0,180));
+        buttonContainerR.setPreferredSize(new Dimension(70,100));
+        buttonContainerR.setOpaque(false);
+
+        quit.setFont(new Font("Lucida Handwriting", Font.BOLD, 30));
+        quit.setOpaque(false);
+        quit.setContentAreaFilled(false);
+        quit.setBorderPainted(false);
+        quit.setFocusPainted(false);
+
+        // add everything from the right side
+        buttonContainerR.add(quit,BorderLayout.CENTER);
+        innerRight.add(buttonContainerR, BorderLayout.NORTH);
+        bottomRight.add(innerRight, BorderLayout.WEST);
+        right.add(bottomRight,BorderLayout.SOUTH);
+        menu.add(right,BorderLayout.WEST);
 
         revalidate();
         repaint();
@@ -97,9 +146,9 @@ public class View extends JFrame {
     }
 
     public void setActionListener(ActionListener listener) {
-        /*
+
         start.addActionListener(listener);
-        quit.addActionListener(listener);
+        quit.addActionListener(listener);/*
         level1.addActionListener(listener);
         level2.addActionListener(listener);
         level3.addActionListener(listener);

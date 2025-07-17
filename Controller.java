@@ -33,18 +33,18 @@ public class Controller implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        /*
+
         // menu
         if (e.getActionCommand().equals("Start")) {
             System.out.println("Pressed start");
-            view.levelSelect();
+            //view.levelSelect();
         }
         else if (e.getActionCommand().equals("Quit")) {
             System.out.println("Pressed quit");
+            model.getLevelThread().interrupt();
             view.dispose();
+            System.exit(0);
         }
-
-         */
 
         /*
         // level selector
