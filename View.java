@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 public class View extends JFrame {
     public View() {
@@ -11,8 +12,9 @@ public class View extends JFrame {
         //setLayout(null);
         setSize(WIDTH, HEIGHT);
 
-        init();
+        //init();
         //mainMenu();
+        levelGUI();
 
         setVisible(true);
         setResizable(false);
@@ -21,8 +23,6 @@ public class View extends JFrame {
 
     public void init()
     {
-        lawn = new LawnPanel();
-        add(lawn);
         /*
         panelSouth = new JPanel();
         panelSouth.setLayout(new FlowLayout());
@@ -37,6 +37,25 @@ public class View extends JFrame {
         level3 = new JButton("Level 3");
         forfeit = new JButton("Forfeit");
          */
+    }
+
+    public void levelGUI() {
+        // lawn gui acting as center border
+        lawn = new LawnPanel();
+        lawn.setLayout(new BorderLayout());
+
+        // top border
+        JPanel left = new JPanel(new BorderLayout(10,10));
+        left.setBackground(new Color(255,0,0,180));
+        left.setPreferredSize(new Dimension(150,getHeight()));
+
+        JPanel innerLeft = new JPanel(new BorderLayout());
+        innerLeft.setBackground(new Color(0,255,0,180));
+        innerLeft.setPreferredSize(new Dimension(150, 400));
+
+        left.add(innerLeft, BorderLayout.CENTER);
+        lawn.add(left, BorderLayout.WEST);
+        add(lawn);
     }
 
     /*
@@ -158,9 +177,13 @@ public class View extends JFrame {
          */
     }
 
-    public void setMouseListener(MouseListener l)
+    public void setMouseListener(MouseListener listener)
     {
-        lawn.addMouseListener(l);
+        lawn.addMouseListener(listener);
+    }
+
+    public void setMouseMotionListener(MouseMotionListener listener) {
+        lawn.addMouseMotionListener(listener);
     }
 
     public LawnPanel getLawn()

@@ -1,5 +1,4 @@
-import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -21,25 +20,19 @@ public class LawnPanel extends JPanel {
         //this constructor will probably need to accept a string pathway to allow multiple lawn images
         try {
             lawnImg = new ImageIcon(getClass().getResource("/img/lawnImg.png"));
-            setLayout(null);
+            //setLayout(null);
         }
         catch (Exception e) {
             System.out.println("Image cannot be loaded");
         }
+        //setLayout(new BorderLayout());
+        //init();
 
         TILE_HEIGHT = FIELD_HEIGHT / 5;
         TILE_WIDTH = FIELD_WIDTH / 9;
 
         images = new ArrayList<>();
-
     }
-
-    public void init()
-    {
-        //make a hhheno bdgetd
-    }
-
-
 
     /**
      * This method overrides the paintComponent method from the JPanel class, 
@@ -113,6 +106,5 @@ public class LawnPanel extends JPanel {
     private final int TILE_HEIGHT;
 
     private ArrayList<GameImage> images;
-
-
+    private ImageIcon[] seedPackets;
 }
