@@ -6,27 +6,35 @@
  * @version 1.0
  */
 public class Item {
-    /** This constructor initializes the name and durability of an item.
-     *  This also makes the item breakable.
+    /** This constructor initializes the name, durability of an item,
+     *  and its stat changes to a zombie. This also makes the item breakable.
      *
      * @param n the name of the item
-     * @param d the durability of the item
+     * @param h the durability of the item
+     * @param s the speed stat change to a zombie holding this item
+     * @param d the damage stat change to a zombie holding this item
      */
-    public Item (String n, int d) {
+    public Item (String n, int h, int s, int d) {
         NAME = n;
-        durability = d;
+        durability = h;
         breakableStatus = true;
+        speedChange = s;
+        damageChange = d;
     }
 
-    /** This constructor initializes the name of an item.
-     *  Since the durability of the item is not initialized,
-     *  the item is made to be unbreakable.
+    /** This constructor initializes the name of an item and
+     *  its stat changes to a zombie. Since the durability of
+     *  the item is not initialized, the item is made to be unbreakable.
      *
      * @param n the name of the item
+     * @param s the speed stat change to a zombie holding this item
+     * @param d the damage stat change to a zombie holding this item
      */
-    public Item (String n) {
+    public Item (String n, int s, int d) {
         NAME = n;
         breakableStatus = false;
+        speedChange = s;
+        damageChange = d;
     }
 
     /** This method returns the name of the item.
@@ -35,6 +43,26 @@ public class Item {
      */
     public String getNAME() {
         return NAME;
+    }
+
+    /** This method returns the speed stat change
+     *  of a zombie. If the int is positive, the speed
+     *  increases. Otherwise, the speed decreases.
+     *
+     * @return the speed stat change of a zombie
+     */
+    public int getSpeedChange() {
+        return speedChange;
+    }
+
+    /** This method returns the damage stat change
+     *  of a zombie. If the int is positive, the damage
+     *  increases. Otherwise, the damage decreases.
+     *
+     * @return the damage stat change of a zombie
+     */
+    public int getDamageChange() {
+        return damageChange;
     }
 
     /** This method returns the durability of the item.
@@ -79,4 +107,8 @@ public class Item {
     private int durability;
     /** Determines if the item can be broken down */
     private boolean breakableStatus;
+    /** The change in speed when equipped*/
+    private int speedChange;
+    /** The change in damage when equipped*/
+    private int damageChange;
 }

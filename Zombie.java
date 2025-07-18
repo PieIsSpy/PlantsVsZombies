@@ -90,11 +90,15 @@ public class Zombie extends Entity {
      */
     public void walk() {
         float cur = getCol();
+        int speedChange = 0;
+
+        if (held_item != null)
+            speedChange = held_item.getSpeedChange();
 
         if (!slowed)
-            cur -= (float) (1.0 / getSpeed());
+            cur -= (float) (1.0 / (getSpeed() - speedChange));
         else
-            cur -= (float) (1.0 / (getSpeed() * 2));
+            cur -= (float) (1.0 / ((getSpeed() - speedChange) * 2));
 
         setCol(cur);
     }
@@ -106,7 +110,12 @@ public class Zombie extends Entity {
      */
     public void eat(Entity p) {
         //System.out.println("Eating " + p.getName() + ": " + p.getHealth());
-        p.takeDamage(getDamage());
+        int damageChange = 0;
+
+        if (held_item != null)
+            damageChange = held_item.getDamageChange();
+
+        p.takeDamage(getDamage() + damageChange);
     }
 
     /** This method compiles basic action methods
