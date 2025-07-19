@@ -12,9 +12,7 @@ public class View extends JFrame {
         //setLayout(null);
         setSize(WIDTH, HEIGHT);
 
-        //init();
-        //mainMenu();
-        levelGUI();
+        init();
 
         setVisible(true);
         setResizable(false);
@@ -23,13 +21,18 @@ public class View extends JFrame {
 
     public void init()
     {
-        /*
-        panelSouth = new JPanel();
-        panelSouth.setLayout(new FlowLayout());
-        add(panelSouth, BorderLayout.SOUTH);
-        */
+        // buttons
         start = new JButton("Start");
         quit = new JButton("Quit");
+
+        // panels
+        cardLayout = new CardLayout();
+        currentPanel = new JPanel(cardLayout);
+        menu = new MenuPanel(WIDTH,HEIGHT,start,quit);
+        lawn = new LawnPanel(WIDTH,HEIGHT);
+        currentPanel.add(menu, "menu");
+        currentPanel.add(lawn, "lawn");
+        add(currentPanel);
 
         /*
         level1 = new JButton("Level 1");
@@ -39,46 +42,15 @@ public class View extends JFrame {
          */
     }
 
-    public void levelGUI() {
-        // lawn gui acting as center border
-        lawn = new LawnPanel(WIDTH, HEIGHT);
-        add(lawn, BorderLayout.CENTER);
-        /*
-        lawn.setLayout(new BorderLayout());
-
-        JPanel left = new JPanel(new BorderLayout());
-        left.setPreferredSize(new Dimension(getWidth()/5, getHeight()));
-        left.setBackground(new Color(255,255,100,150));
-        left.setOpaque(false);
-
-        JLabel sunCount = new JLabel();
-        //sunCount.setText();
-
-        ImageIcon source = new ImageIcon(getClass().getResource("/img/seedSlotImg.png"));
-        Image scaled = source.getImage().getScaledInstance((int)(source.getIconWidth()*0.8),(int)(source.getIconHeight()*0.8), Image.SCALE_SMOOTH);
-        ImageIcon seedSlot = new ImageIcon(scaled);
-        JLabel container = new JLabel();
-        container.setIcon(seedSlot);
-        container.setHorizontalAlignment(JLabel.CENTER);
-
-        // add components to jframe
-        left.add(container, BorderLayout.CENTER);
-        lawn.add(left, BorderLayout.WEST);
-        add(lawn, BorderLayout.CENTER);
-
-         */
-
-        // repaint and revalidate
-        validate();
-        repaint();
-    }
-
-    public void mainMenu() {
-        MenuPanel menu = new MenuPanel(WIDTH,HEIGHT,start,quit);
-        add(menu, BorderLayout.CENTER);
-
-        validate();
-        repaint();
+    public void changePanel(String panel) {
+        if (panel.equalsIgnoreCase("menu")) {
+            System.out.println("Current GUI: Main Menu");
+            cardLayout.show(currentPanel, "menu");
+        }
+        else if (panel.equalsIgnoreCase("lawn")) {
+            System.out.println("Current GUI: Level Select");
+            cardLayout.show(currentPanel, "lawn");
+        }
     }
 
     public void levelSelect() {
@@ -130,6 +102,10 @@ public class View extends JFrame {
     private JButton level2;
     private JButton level3;
     private JButton forfeit;
+
+    private CardLayout cardLayout;
+    private JPanel currentPanel;
+    private MenuPanel menu;
     private LawnPanel lawn;
     private static final int WIDTH = 800, HEIGHT = 600;
 }

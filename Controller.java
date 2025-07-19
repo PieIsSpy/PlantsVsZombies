@@ -22,16 +22,12 @@ public class Controller implements ActionListener, MouseListener{
     public Controller(Model m, View v) {
         model = m;
         view = v;
-        view.setMouseListener(this);
+        //view.setMouseListener(this);
+        view.setActionListener(this);
 
-        player = new Player(200);
-        model.selectLevel(1);
+        //player = new Player(200);
+        //model.selectLevel(1);
         //level = model.getLevelThread().getLevel();
-    }
-
-
-    public void updateView() {
-
     }
 
     /** This method is responsible for communicating the events done in the View
@@ -45,6 +41,9 @@ public class Controller implements ActionListener, MouseListener{
         // menu
         if (e.getActionCommand().equals("Start")) {
             System.out.println("Pressed start");
+            view.changePanel("lawn");
+            view.setMouseListener(this);
+            model.selectLevel(1);
             //view.levelSelect();
         }
         else if (e.getActionCommand().equals("Quit")) {
@@ -193,6 +192,10 @@ public class Controller implements ActionListener, MouseListener{
     public int columnToPixel(int col)
     {
         return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
+    }
+
+    public void updateSunCount() {
+
     }
 
     /**the model class of the program*/
