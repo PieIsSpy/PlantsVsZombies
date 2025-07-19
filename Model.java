@@ -28,6 +28,7 @@ public class Model {
 
         // check if there are no levels running
         if (thread.getLevel() == null) {
+            player = new Player(200);
             // make a new level
             if (levelNum <= levelProgress) {
                 switch (levelNum) {
@@ -61,6 +62,7 @@ public class Model {
             thread.setRunningLevel(false);
             thread.cleanUp();
             level = null;
+            player = null;
         }
         else
             System.out.println("There is no level currently running");
@@ -87,4 +89,6 @@ public class Model {
     private LevelThread thread;
     /**the level being played*/
     private Level level;
+    /**the player object playing the game*/
+    private Player player;
 }
