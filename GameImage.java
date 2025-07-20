@@ -15,6 +15,11 @@ public class GameImage {
         return image;
     }
 
+    public String getImagePath()
+    {
+        return imagePath;
+    }
+
     public int getPixelX()
     {
         return pixelX;
@@ -25,8 +30,24 @@ public class GameImage {
         return pixelY;
     }
 
+    public void setPixelX(int x)
+    {
+        pixelX = x;
+    }
+
+    public void setPixelY(int y)
+    {
+        pixelY = y;
+    }
+
+    public void setImagePath(String path)
+    {
+        imagePath = path;
+    }
+
 
     private ImageIcon image;
     private int pixelX, pixelY;
+    private String imagePath;
     
 }
