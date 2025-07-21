@@ -30,6 +30,7 @@ abstract class Entity {
         row = r;
         col = c;
         internal_time = t;
+        gameImage = null;
     }
 
     /**
@@ -185,7 +186,15 @@ abstract class Entity {
         this.image = image;
     }
 
+    public GameImage getGameImage()
+    {
+        return gameImage;
+    }
 
+    public void setGameImage(GameImage g)
+    {
+        gameImage = g;
+    }
 
     /** How much damage it can sustain */
     private int health;
@@ -201,4 +210,6 @@ abstract class Entity {
     private int internal_time;
 
     private ImageIcon image;
+
+    private GameImage gameImage;
 }

@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+
 /** The class Zombie represents a basic zombie object that inherits an Entity class
  *  that can be used by other child classes that represent
  *  variant zombies.
@@ -25,6 +27,16 @@ public class Zombie extends Entity {
         held_item = null;
         vulnerability = true;
         slowed = false;
+
+        try
+        {
+            setImageIcon(new ImageIcon(getClass().getResource("/img/normalZombie.gif")));
+        }
+        catch(Exception e)
+        {
+            System.out.println("Image cannot be loaded");
+        }
+        
 
         count++;
     }

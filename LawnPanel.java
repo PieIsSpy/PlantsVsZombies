@@ -32,6 +32,7 @@ public class LawnPanel extends JPanel {
         TILE_WIDTH = FIELD_WIDTH / 9;
 
         images = new ArrayList<>();
+        zombieImages = new ArrayList<>();
 
         init();
 
@@ -65,9 +66,14 @@ public class LawnPanel extends JPanel {
 
         for(int i = 0; i < images.size(); i++)
         {
-             g.drawImage(images.get(i).getImageIcon().getImage(), images.get(i).getPixelX(), images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+             g.drawImage(images.get(i).getImageIcon().getImage(), (int)images.get(i).getPixelX(), (int)images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
         }
         
+        for(int i = 0; i < zombieImages.size(); i++)
+        {
+            g.drawImage(zombieImages.get(i).getImageIcon().getImage(), (int)zombieImages.get(i).getPixelX(), (int)zombieImages.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+            System.out.println("Updated image x: " + (int) zombieImages.get(i).getPixelX());
+        }
     }
     
     public void addImage(GameImage image)
@@ -76,6 +82,13 @@ public class LawnPanel extends JPanel {
         System.out.println("Added image!" + image.getPixelX());
 
         //repaint();
+    }
+
+    public void addZombieImage(GameImage image)
+    {
+        zombieImages.add(image);
+        System.out.println("Added zombie image!");
+
     }
 
     public int getFieldWidth()
@@ -125,6 +138,7 @@ public class LawnPanel extends JPanel {
     private final int TILE_HEIGHT;
 
     private ArrayList<GameImage> images;
+    private ArrayList<GameImage> zombieImages;
 
 
 }

@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
@@ -40,6 +41,7 @@ public class Controller implements ActionListener, MouseListener{
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                zombieUpdate();
                 view.getLawn().repaint();
             }
         });
@@ -194,19 +196,46 @@ public class Controller implements ActionListener, MouseListener{
         return isXValid && isYValid;
     }
 
-    public int rowToPixel(int row)
+    public double rowToPixel(double row)
     {
         return row * view.getLawn().getTileHeight() + view.getLawn().getFieldPosY();
     }
 
-    public int columnToPixel(int col)
+    public double columnToPixel(double col)
     {
         return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
     }
 
+ 
     public void zombieUpdate()
     {
+        //access zombie array list in level
+        ArrayList<Zombie> z = model.getLevelThread().getLevel().getEnemies();
+        int i;
+        double pixelX, pixelY;
 
+        for(i = 0; i < z.size(); i++)
+        {
+            pixelY = rowToPixel(z.get(i).getRow());
+            pixelX = columnToPixel(z.get(i).getCol());
+
+            if(z.get(i).getGameImage() == null)
+            {
+                GameImage image = new GameImage(z.get(i).getImageIcon(), pixelX, pixelY);
+                view.getLawn().addZombieImage(image);
+                z.get(i).setGameImage(image);
+            }
+            else
+            {
+                //System.out.println("Update position!");
+                System.out.println("col: " + z.get(i).getCol());
+                z.get(i).getGameImage().setPixelX(pixelX);
+                //System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
+                
+            }
+
+        }
+    
     }
 
     /**the model class of the program*/
@@ -222,7 +251,11 @@ public class Controller implements ActionListener, MouseListener{
         View v = new View();
         Controller c = new Controller(m, v);
 
+        //it works, it only stopped (returned null) because zombie has reached the house
         m.getLevelThread().getLevel().getEnemies().add(new Zombie(0, 8, 0));
+        //m.getLevelThread().getLevel().getEnemies().add(new Zombie(1, 7, 0));
+        //m.getLevelThread().getLevel().getEnemies().add(new Zombie(2, 5, 0));
+        //m.getLevelThread().getLevel().getEnemies().add(new Zombie(3, 4, 0));
     }
 
 }
