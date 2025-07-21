@@ -159,6 +159,7 @@ public class LawnPanel extends JPanel {
         System.out.println(plants.length);
         for (i = 0; i < plants.length; i++) {
             seedPackets[i] = new SeedPacket(plants[i].getName(), seedPacketsImg[findSeedPacket(plants[i].getName())], x, y);
+            System.out.println(seedPackets[i].getName());
             try {
                 ImageIcon found = seedPacketsImg[findSeedPacket(plants[i].getName())];
                 seedPackets[i] = new SeedPacket(plants[i].getName(), found, x, y);
