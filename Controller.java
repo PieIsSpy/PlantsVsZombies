@@ -25,6 +25,9 @@ public class Controller implements ActionListener, MouseListener{
         view.setActionListener(this);
         view.setMouseListener(this);
 
+        System.out.println("Main Thread: " + Thread.currentThread().getName());
+        System.out.println("Level Thread: " + m.getLevelThread().getName());
+
         //player = new Player(200);
         //model.selectLevel(1);
         //level = model.getLevelThread().getLevel();

@@ -2,17 +2,21 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SeedPacket extends JPanel {
-    public SeedPacket(String name, ImageIcon image, int x, int y) {
-        this.name = name;
+    public SeedPacket(String n, ImageIcon i, int x, int y) {
+        name = n;
+        image = i;
+        System.out.println(image.getIconWidth());
+        System.out.println(image.getIconHeight());
         image_corner = new Point(x,y);
-        setPreferredSize(new Dimension(10,10));
-        setBounds(x,y,10,10);
-        setBackground(Color.red);
+        setPreferredSize(new Dimension(image.getIconWidth(),image.getIconHeight()));
+        setBounds(x,y,1000,1000);
+        //setBackground(Color.red);
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        image.paintIcon(this,g,image_corner.x,image_corner.y);
+        image.paintIcon(this,g,0,0);
     }
 
     public void setPreviousPoint(Point p) {

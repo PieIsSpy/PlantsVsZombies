@@ -1,8 +1,8 @@
 import java.awt.*;
 import java.io.File;
-import java.net.URL;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -18,10 +18,8 @@ public class LawnPanel extends JPanel {
      */
     public LawnPanel(int width, int height, JButton forfeit)
     {
-        int i;
+        // array list initialization
         images = new ArrayList<>();
-        //seedPackets = new SeedPacket[6];
-        //seedPacketImgs = new ImageIcon[6];
 
         // get lawn bg
         try {
@@ -38,49 +36,25 @@ public class LawnPanel extends JPanel {
             System.out.println(e.getMessage());
         }
 
-        // get entity images
-        try {
-            String url = getClass().getResource("/img/lawn/entities").getPath();
-            System.out.println(url);
-            File path = new File(url);
-            entitiesFiles = path.listFiles();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        // read image files
+        entitiesImg = readFiles("/img/lawn/entities");
+        System.out.println("entitiesImg size: " + entitiesImg.length);
+        System.out.println();
 
-        // get game element images
-        try {
-            String url = getClass().getResource("/img/lawn/gameElements").getPath();
-            System.out.println(url);
-            File path = new File(url);
-            gameElementsFiles = path.listFiles();
+        gameElementsImg = readFiles("/img/lawn/gameElements");
+        System.out.println("gameElementsImg size: " + gameElementsImg.length);
+        System.out.println();
 
-            if (gameElementsFiles != null)
-                listFiles(gameElementsFiles);
-            else
-                System.out.println("no");
-        }  catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        seedPacketsImg = readFiles("/img/lawn/seedPackets");
+        System.out.println("seedPacketsImg size: " + seedPacketsImg.length);
+        System.out.println();
 
-        // get seed packet images
-        try {
-            String url = getClass().getResource("/img/lawn/seedPackets").getPath();
-            System.out.println(url);
-            File path = new File(url);
-            seedPacketsFiles = path.listFiles();
-
-            if (seedPacketsFiles != null)
-                listFiles(seedPacketsFiles);
-            else
-                System.out.println("no");
-        }  catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
+        // lawn area
         TILE_HEIGHT = FIELD_HEIGHT / 5;
         TILE_WIDTH = FIELD_WIDTH / 9;
 
+        // layout and components
+        layeredPane = new JLayeredPane();
         setLayout(null);
         addComponents(width, height, forfeit);
     }
@@ -107,20 +81,113 @@ public class LawnPanel extends JPanel {
                 g.drawImage(images.get(i).getImage(), images.get(i).getPixelX(), images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
     }
 
-    public void listFiles(File[] files) {
-        int i;
+    public ImageIcon[] readFiles(String folderPath) {
+        int i = 0;
 
-        for (File f : files)
-            System.out.println(f.getName());
+        try {
+            String url = getClass().getResource(folderPath).getPath();
+            System.out.println(url);
+            File path = new File(url);
+            File[] files = path.listFiles();
+
+            // read and store images
+            if (files !=null) {
+                if (folderPath.equalsIgnoreCase("/img/lawn/seedPackets")) {
+                    plantNames = new String[files.length];
+                    readPlantNames(files);
+                }
+
+                System.out.println("Files read: " + files.length);
+                ImageIcon[] container = new ImageIcon[files.length];
+                readImages(files, container);
+
+                System.out.println("Final check: ");
+                while (i < container.length && container[i] != null) {
+                    System.out.println(container[i].toString());
+                    i++;
+                }
+
+                System.out.println("Returning " + i + " elements");
+
+                return container;
+            }
+        } catch (Exception e) {
+            System.out.println("readFiles()");
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void readPlantNames(File[] files) {
+        int i = 0;
+        String name;
+
+        for (File f : files) {
+            try {
+                name = f.getName();
+                plantNames[i] = name.substring(0,name.lastIndexOf("."));
+                i++;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void readImages(File[] files, ImageIcon[] container) {
+        int i = 0;
+
+        for (File f : files) {
+            try {
+                System.out.println(f.getName());
+                container[i] = new ImageIcon(ImageIO.read(files[i]));
+                i++;
+            } catch (Exception e) {
+                System.out.println("readImages()");
+                System.out.println(e.getMessage());
+            }
+        }
+
+        System.out.println("Images read: " + i);
     }
 
     public void initializeSeedPackets(Plant[] plants) {
         int i;
+        int x = 100, y = 100;
+
+        seedPackets = new SeedPacket[plants.length];
+        System.out.println(plants.length);
+        for (i = 0; i < plants.length; i++) {
+            seedPackets[i] = new SeedPacket(plants[i].getName(), seedPacketsImg[findSeedPacket(plants[i].getName())], x, y);
+            try {
+                ImageIcon found = seedPacketsImg[findSeedPacket(plants[i].getName())];
+                seedPackets[i] = new SeedPacket(plants[i].getName(), found, x, y);
+                layeredPane.add(seedPackets[i]);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            y += 200;
+        }
+
+        System.out.println("Seed packets: " + seedPackets.length);
+    }
+
+    public int findSeedPacket(String name) {
+        int i;
+        int found = -1;
+
+        for (i = 0; i < plantNames.length & found == -1; i++)
+            if (name.equalsIgnoreCase(plantNames[i])) {
+                System.out.println(i + ") Found " + plantNames[i]);
+                found = i;
+            }
+
+        return i;
     }
 
     public void addComponents(int width, int height, JButton forfeit) {
         // JLayeredPane to make way for drag and drop
-        JLayeredPane layeredPane = new JLayeredPane();
+
         layeredPane.setBounds(0,0, width, height);
         add(layeredPane);
 
@@ -145,8 +212,15 @@ public class LawnPanel extends JPanel {
     }
 
     public void clearImages() {
+        int i;
         images.clear();
-        //seedPackets = null;
+
+        /*
+        for (i = 0; i < seedPackets.length; i++)
+            seedPackets[i] = null;
+
+         */
+        seedPackets = null;
     }
 
     public void addImage(GameImage image)
@@ -200,8 +274,12 @@ public class LawnPanel extends JPanel {
     private final int TILE_WIDTH;
     private final int TILE_HEIGHT;
 
+    JLayeredPane layeredPane;
+
     private ArrayList<GameImage> images;
-    File[] entitiesFiles;
-    File[] gameElementsFiles;
-    File[] seedPacketsFiles;
+    private SeedPacket[] seedPackets;
+    private ImageIcon[] entitiesImg;
+    private ImageIcon[] gameElementsImg;
+    private ImageIcon[] seedPacketsImg;
+    private String[] plantNames;
 }

@@ -49,10 +49,12 @@ public class View extends JFrame {
 
     public void changePanel(String panel) {
         if (panel.equalsIgnoreCase("menu")) {
+            System.out.println();
             System.out.println("Current GUI: Main Menu");
             cardLayout.show(currentPanel, "menu");
         }
         else if (panel.equalsIgnoreCase("lawn")) {
+            System.out.println();
             System.out.println("Current GUI: Level Select");
             cardLayout.show(currentPanel, "lawn");
         }

@@ -1,8 +1,8 @@
 import java.awt.Image;
 
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
-public class GameImage {
+public class GameImage extends JPanel {
     public GameImage(Image image, int pixelX, int pixelY)
     {
         this.image = image;
