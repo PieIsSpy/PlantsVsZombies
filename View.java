@@ -8,8 +8,8 @@ public class View extends JFrame {
     public View() {
 
         super("Plants vs Zombies");
-        setLayout(new BorderLayout());
-        //setLayout(null);
+        //setLayout(new BorderLayout());
+        setLayout(null);
         setSize(WIDTH, HEIGHT);
 
         init();
@@ -24,22 +24,27 @@ public class View extends JFrame {
         // buttons
         start = new JButton("Start");
         quit = new JButton("Quit");
+        forfeit = new JButton("Forfeit");
 
         // panels
         cardLayout = new CardLayout();
         currentPanel = new JPanel(cardLayout);
-        menu = new MenuPanel(WIDTH,HEIGHT,start,quit);
-        lawn = new LawnPanel(WIDTH,HEIGHT);
+        menu = new MenuPanel(WIDTH, HEIGHT, start, quit);
+        lawn = new LawnPanel(WIDTH, HEIGHT, forfeit);
+
+        // add panels
         currentPanel.add(menu, "menu");
         currentPanel.add(lawn, "lawn");
+        currentPanel.setBounds(0,0,getWidth(),getHeight());
         add(currentPanel);
 
         /*
         level1 = new JButton("Level 1");
         level2 = new JButton("Level 2");
         level3 = new JButton("Level 3");
-        forfeit = new JButton("Forfeit");
          */
+
+
     }
 
     public void changePanel(String panel) {
@@ -51,6 +56,10 @@ public class View extends JFrame {
             System.out.println("Current GUI: Level Select");
             cardLayout.show(currentPanel, "lawn");
         }
+    }
+
+    public void clearLawn() {
+        lawn.clearImages();
     }
 
     public void levelSelect() {
@@ -73,12 +82,12 @@ public class View extends JFrame {
 
     public void setActionListener(ActionListener listener) {
         start.addActionListener(listener);
-        quit.addActionListener(listener);/*
+        quit.addActionListener(listener);
+        forfeit.addActionListener(listener);
+        /*
         level1.addActionListener(listener);
         level2.addActionListener(listener);
         level3.addActionListener(listener);
-        forfeit.addActionListener(listener);
-
          */
     }
 

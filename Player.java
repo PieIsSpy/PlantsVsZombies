@@ -36,14 +36,17 @@ public class Player {
      */
     public void placePlant(Level l, int r, int c, String n, int t) {
         if (n.equalsIgnoreCase("sunflower"))
-        {
             l.getTiles()[r][c] = new Sunflower(r,c,t);
-            System.out.println("You have placed a Sunflower!!");
-        }
         else if (n.equalsIgnoreCase("peashooter"))
             l.getTiles()[r][c] = new Peashooter(r,c, t);
         else if(n.equalsIgnoreCase("wallnut"))
             l.getTiles()[r][c] = new Wallnut(r, c, t);
+        else if (n.equalsIgnoreCase("potato mine"))
+            l.getTiles()[r][c] = new PotatoMine(r,c,t);
+        else if (n.equalsIgnoreCase("cherry bomb"))
+            l.getTiles()[r][c] = new CherryBomb(r,c,t);
+        else if (n.equalsIgnoreCase("snow pea"))
+            l.getTiles()[r][c] = new SnowPea(r,c,t);
     }
 
     /** This method removes a plant in a given row

@@ -22,7 +22,6 @@ abstract class Plant extends Entity {
         range = 0;
         directDamage = 0;
         directDamageRange = 0;
-
     }
 
     /** This method does nothing by default. Due to how different

@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -14,24 +16,73 @@ public class LawnPanel extends JPanel {
      * background and sets its layout to null. 
      * 
      */
-    public LawnPanel(int width, int height)
+    public LawnPanel(int width, int height, JButton forfeit)
     {
-        //to be updated in the future since there will be different maps
-        //this constructor will probably need to accept a string pathway to allow multiple lawn images
+        int i;
+        images = new ArrayList<>();
+        //seedPackets = new SeedPacket[6];
+        //seedPacketImgs = new ImageIcon[6];
+
+        // get lawn bg
         try {
-            lawnImg = new ImageIcon(getClass().getResource("/img/lawnImg.png"));
+            lawnImg = new ImageIcon(getClass().getResource("/img/lawn/lawnImg.png"));
         }
         catch (Exception e) {
-            System.out.println("Image cannot be loaded");
+            System.out.println(e.getMessage());
+        }
+
+        // get seed slot img
+        try {
+            seedSlotImg = new ImageIcon(getClass().getResource("img/lawn/seedSlotImg.png"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        // get entity images
+        try {
+            String url = getClass().getResource("/img/lawn/entities").getPath();
+            System.out.println(url);
+            File path = new File(url);
+            entitiesFiles = path.listFiles();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        // get game element images
+        try {
+            String url = getClass().getResource("/img/lawn/gameElements").getPath();
+            System.out.println(url);
+            File path = new File(url);
+            gameElementsFiles = path.listFiles();
+
+            if (gameElementsFiles != null)
+                listFiles(gameElementsFiles);
+            else
+                System.out.println("no");
+        }  catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        // get seed packet images
+        try {
+            String url = getClass().getResource("/img/lawn/seedPackets").getPath();
+            System.out.println(url);
+            File path = new File(url);
+            seedPacketsFiles = path.listFiles();
+
+            if (seedPacketsFiles != null)
+                listFiles(seedPacketsFiles);
+            else
+                System.out.println("no");
+        }  catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
         TILE_HEIGHT = FIELD_HEIGHT / 5;
         TILE_WIDTH = FIELD_WIDTH / 9;
 
-        images = new ArrayList<>();
-
-        setLayout(new BorderLayout());
-        addComponents(width, height);
+        setLayout(null);
+        addComponents(width, height, forfeit);
     }
 
     /**
@@ -42,44 +93,60 @@ public class LawnPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g)
     {
+        int i;
         super.paintComponent(g);
-        g.drawImage(lawnImg.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
 
-        for(int i = 0; i < images.size(); i++)
-        {
-             g.drawImage(images.get(i).getImage(), images.get(i).getPixelX(), images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
-        }
+        if (lawnImg != null)
+            g.drawImage(lawnImg.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+
+        if (seedSlotImg != null)
+            g.drawImage(seedSlotImg.getImage(), 10,10, (int)(seedSlotImg.getIconWidth()*0.8),(int)(seedSlotImg.getIconHeight()*0.8), null);
+
+        for (i = 0; i < images.size(); i++)
+            if (images.get(i) != null)
+                g.drawImage(images.get(i).getImage(), images.get(i).getPixelX(), images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
     }
 
-    public void addComponents(int width, int height) {
-        // set border for seed slots
-        JPanel left = new JPanel(new BorderLayout());
-        left.setPreferredSize(new Dimension(width/5, height));
-        left.setBackground(new Color(255,255,100,150));
-        left.setOpaque(false);
+    public void listFiles(File[] files) {
+        int i;
 
-        // get seed slots image
-        ImageIcon source = new ImageIcon(getClass().getResource("/img/seedSlotImg.png"));
-        Image scaled = source.getImage().getScaledInstance((int)(source.getIconWidth()*0.8),(int)(source.getIconHeight()*0.8), Image.SCALE_SMOOTH);
-        ImageIcon seedSlot = new ImageIcon(scaled);
-        JLabel container = new JLabel();
-        container.setIcon(seedSlot);
-        container.setHorizontalAlignment(JLabel.CENTER);
+        for (File f : files)
+            System.out.println(f.getName());
+    }
 
-        // sun count text
-        /*
-        JPanel test = new JPanel(new BorderLayout());
-        test.setBackground(new Color(100,100,100,180));
-        test.setPreferredSize(new Dimension(width/5, 200));
-        container.add(test, BorderLayout.NORTH);
+    public void initializeSeedPackets(Plant[] plants) {
+        int i;
+    }
 
-         */
-        //JLabel sunCount = new JLabel("0");
-        //container.add(sunCount, BorderLayout.NORTH);
+    public void addComponents(int width, int height, JButton forfeit) {
+        // JLayeredPane to make way for drag and drop
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setBounds(0,0, width, height);
+        add(layeredPane);
 
-        // add components
-        left.add(container, BorderLayout.CENTER);
-        add(left, BorderLayout.WEST);
+        // sun count
+        JLabel sunCount = new JLabel("0");
+        sunCount.setFont(new Font("D050000L", Font.PLAIN,20));
+        sunCount.setForeground(Color.WHITE);
+        sunCount.setHorizontalTextPosition(JLabel.CENTER);
+        sunCount.setBounds(87,20,100,30);
+        layeredPane.add(sunCount);
+
+        // drag and drop
+
+        // forfeit button
+        forfeit.setBounds(width - 150, 0, 100, 60);
+        forfeit.setFont(new Font("Lucida Handwriting", Font.BOLD, 15));
+        forfeit.setOpaque(true);
+        forfeit.setBackground(Color.lightGray);
+        forfeit.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 10));
+        forfeit.setHorizontalTextPosition(JLabel.CENTER);
+        layeredPane.add(forfeit);
+    }
+
+    public void clearImages() {
+        images.clear();
+        //seedPackets = null;
     }
 
     public void addImage(GameImage image)
@@ -123,6 +190,7 @@ public class LawnPanel extends JPanel {
 
     /**lawn background image to be displayed */
     private ImageIcon lawnImg;
+    private ImageIcon seedSlotImg;
 
     private final int FIELD_WIDTH = 534;
     private final int FIELD_HEIGHT = 460;
@@ -133,5 +201,7 @@ public class LawnPanel extends JPanel {
     private final int TILE_HEIGHT;
 
     private ArrayList<GameImage> images;
-    private ImageIcon[] seedPackets;
+    File[] entitiesFiles;
+    File[] gameElementsFiles;
+    File[] seedPacketsFiles;
 }

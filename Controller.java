@@ -22,8 +22,8 @@ public class Controller implements ActionListener, MouseListener{
     public Controller(Model m, View v) {
         model = m;
         view = v;
-        //view.setMouseListener(this);
         view.setActionListener(this);
+        view.setMouseListener(this);
 
         //player = new Player(200);
         //model.selectLevel(1);
@@ -41,10 +41,10 @@ public class Controller implements ActionListener, MouseListener{
         // menu
         if (e.getActionCommand().equals("Start")) {
             System.out.println("Pressed start");
+            model.selectLevel(model.getLevelProgress());
+            view.getLawn().initializeSeedPackets(model.getLevelThread().getLevel().getAvaliable_plants());
             view.changePanel("lawn");
-            view.setMouseListener(this);
-            model.selectLevel(1);
-            //view.levelSelect();
+            System.out.println("Level " + model.getLevelThread().getLevel().getLEVEL_NUM());
         }
         else if (e.getActionCommand().equals("Quit")) {
             System.out.println("Pressed quit");
@@ -53,40 +53,13 @@ public class Controller implements ActionListener, MouseListener{
             System.exit(0);
         }
 
-        /*
-        // level selector
-        else if(e.getActionCommand().equals("Level 1")) {
-            if (model.getLevelThread().getLevel() == null) {
-                System.out.println("Pressed Level 1");
-                model.selectLevel(1);
-            }
-            else
-                System.out.println("A level is already running!");
-        }
-        else if (e.getActionCommand().equals("Level 2")) {
-            if (model.getLevelThread().getLevel() == null) {
-                System.out.println("Pressed Level 2");
-                model.selectLevel(2);
-            }
-            else
-                System.out.println("A level is already running!");
-        }
-        else if (e.getActionCommand().equals("Level 3")) {
-            if (model.getLevelThread().getLevel() == null) {
-                System.out.println("Pressed Level 3");
-                model.selectLevel(3);
-            }
-            else
-                System.out.println("A level is already running!");
-        }
-
         // pretermination
         else if (e.getActionCommand().equals("Forfeit")) {
             System.out.println("Pressed Forfeit");
             model.endLevel();
+            view.clearLawn();
+            view.changePanel("menu");
         }
-
-         */
     }
 
 
@@ -126,21 +99,21 @@ public class Controller implements ActionListener, MouseListener{
         // TODO Auto-generated method stub
 
         int row, col;
-        Level level = model.getLevelThread().getLevel();
+        //Level level = model.getLevelThread().getLevel();
         
-        if(isWithinField(e.getX(), e.getY()))
+        if(model.getLevelThread().getLevel() != null && isWithinField(e.getX(), e.getY()))
         {
             //mouseX - fieldX / tileHeight
             col = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
             row = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
 
             //place a plant
-            if(level.canBePlaced(row, col))
+            if(model.getLevelThread().getLevel().canBePlaced(row, col))
             {
 
-                player.placePlant(level, row, col, "sunflower", 1);
-                System.out.println("Plant position: " + level.getTiles()[row][col].getRow() + ", " + level.getTiles()[row][col].getCol());
-                view.getLawn().addImage(new GameImage(level.getTiles()[row][col].getImage(), columnToPixel(row), rowToPixel(col)));
+                model.getPlayer().placePlant(model.getLevelThread().getLevel(), row, col, "sunflower",0);
+                System.out.println("Plant position: " + model.getLevelThread().getLevel().getTiles()[row][col].getRow() + ", " + model.getLevelThread().getLevel().getTiles()[row][col].getCol());
+                view.getLawn().addImage(new GameImage(model.getLevelThread().getLevel().getTiles()[row][col].getImage(), columnToPixel(row), rowToPixel(col)));
 
             }
             else
@@ -202,7 +175,7 @@ public class Controller implements ActionListener, MouseListener{
     private Model model;
     /**the view class of the program*/
     private View view;
-
-    private Player player;
+    //private Level level;
+    //private Player player;
 
 }

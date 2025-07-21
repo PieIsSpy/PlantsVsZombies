@@ -23,7 +23,6 @@ public class LevelThread extends Thread {
     public void run() {
         while (this.isAlive()) {
             if (runningLevel) {
-
                 // run the level's game cycle
                 do {
                     levelTimer = (int)((System.currentTimeMillis() - levelStart)/1000);
@@ -69,8 +68,12 @@ public class LevelThread extends Thread {
      *
      */
     public void cleanUp() {
-        levelStart = 0;
+        levelTimer = 0;
+
+        /*levelStart = 0;
         this.levelTimer = -1;
+
+         */
         level = null;
         runningLevel = false;
     }

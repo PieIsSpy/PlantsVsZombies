@@ -61,7 +61,6 @@ public class Model {
             System.out.println("Level has ended");
             thread.setRunningLevel(false);
             thread.cleanUp();
-            level = null;
             player = null;
         }
         else
@@ -81,6 +80,14 @@ public class Model {
      */
     public LevelThread getLevelThread() {
         return thread;
+    }
+
+    public int getLevelProgress() {
+        return levelProgress;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     /**the progress of the player in the game*/
