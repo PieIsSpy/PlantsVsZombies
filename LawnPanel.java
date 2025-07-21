@@ -119,21 +119,6 @@ public class LawnPanel extends JPanel {
         return null;
     }
 
-    public void readPlantNames(File[] files) {
-        int i = 0;
-        String name;
-
-        for (File f : files) {
-            try {
-                name = f.getName();
-                plantNames[i] = name.substring(0,name.lastIndexOf("."));
-                i++;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
     public void readImages(File[] files, ImageIcon[] container) {
         int i = 0;
 
@@ -151,9 +136,24 @@ public class LawnPanel extends JPanel {
         System.out.println("Images read: " + i);
     }
 
+    public void readPlantNames(File[] files) {
+        int i = 0;
+        String name;
+
+        for (File f : files) {
+            try {
+                name = f.getName();
+                plantNames[i] = name.substring(0,name.lastIndexOf("."));
+                i++;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public void initializeSeedPackets(Plant[] plants) {
         int i;
-        int x = 100, y = 100;
+        int x = 22, y = 75;
 
         seedPackets = new SeedPacket[plants.length];
         System.out.println(plants.length);
@@ -166,7 +166,7 @@ public class LawnPanel extends JPanel {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            y += 200;
+            y += 65;
         }
 
         System.out.println("Seed packets: " + seedPackets.length);
@@ -182,7 +182,7 @@ public class LawnPanel extends JPanel {
                 found = i;
             }
 
-        return i;
+        return found;
     }
 
     public void addComponents(int width, int height, JButton forfeit) {

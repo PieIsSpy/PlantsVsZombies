@@ -10,6 +10,7 @@ public class SeedPacket extends JPanel {
         image_corner = new Point(x,y);
         setPreferredSize(new Dimension(image.getIconWidth(),image.getIconHeight()));
         setBounds(x,y,1000,1000);
+        setOpaque(false);
         //setBackground(Color.red);
     }
 
