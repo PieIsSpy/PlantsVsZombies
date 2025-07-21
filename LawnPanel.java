@@ -65,7 +65,7 @@ public class LawnPanel extends JPanel {
 
         for(int i = 0; i < images.size(); i++)
         {
-             g.drawImage(images.get(i).getIcon().getImage(), images.get(i).getPixelX(), images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+             g.drawImage(images.get(i).getImageIcon().getImage(), images.get(i).getPixelX(), images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
         }
         
     }

@@ -175,14 +175,14 @@ abstract class Entity {
         return internal_time;
     }
 
-    public void setImagePath(String path)
+    public ImageIcon getImageIcon()
     {
-        imagePath = path;
+        return image;
     }
 
-    public String getImagePath()
+    public void setImageIcon(ImageIcon image)
     {
-        return imagePath;
+        this.image = image;
     }
 
 
@@ -200,5 +200,5 @@ abstract class Entity {
     /** The internal time of the enemy*/
     private int internal_time;
 
-    private String imagePath;
+    private ImageIcon image;
 }

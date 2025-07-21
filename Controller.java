@@ -146,47 +146,21 @@ public class Controller implements ActionListener, MouseListener{
             //mouseX - fieldX / tileHeight
             col = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
             row = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
-                //ROW
-            //1   2    3    4
-        //1
-  //C   //2
-        //3
-        //4
 
             //place a plant
             if(level.canBePlaced(row, col))
             {
                 player.placePlant(level, row, col, "sunflower", 1);
                 System.out.println("Plant position: " + level.getTiles()[row][col].getRow() + ", " + level.getTiles()[row][col].getCol());
-                ImageIcon image = new ImageIcon(getClass().getResource(level.getTiles()[row][col].getImagePath()));
-                //why tf doesnt it show the image when i get the image from the entity, and it only works when i hardcode it here??????????SJBBDJND
-
-                //it doesnt load fast enough??
-
-                //image.getImage().flush();
-                //view.getLawn().addImage(new GameImage(image, 300, 300));
-
-
-                //ImageIcon image = level.getTiles()[row][col].getImage();
-                //new ImageIcon(image);
-                //ImageIcon image = level.getTiles()[row][col].getImage();
-               // image.getImage().flush();
 
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         //view.getLawn().addImage(new GameImage(image, rowToPixel(row), columnToPixel(col)));
-                        view.getLawn().addImage(new GameImage(image, columnToPixel(col), rowToPixel(row)));
+                        view.getLawn().addImage(new GameImage(level.getTiles()[row][col].getImageIcon(), columnToPixel(col), rowToPixel(row)));
                     }
 
                 });
-                
-                //view.getLawn().repaint(); 
-                //view.getLawn().addImage(new GameImage(level.getTiles()[row][col].getImage(), rowToPixel(row), columnToPixel(col)));
-                //System.out.println(rowToPixel(row) + ", " + columnToPixel(col));
-                //view.repaint();
-                //it doesnt work if i do a repaint here
-                //it worked when i created the imageicon here 
 
             }
             else
@@ -194,7 +168,6 @@ public class Controller implements ActionListener, MouseListener{
                 System.out.println("Tile occupied!");
             }
             
-            //System.out.println("Position: (" + row + ", " + col + ")");
         
         }
         else
@@ -202,14 +175,6 @@ public class Controller implements ActionListener, MouseListener{
             System.out.println("You are NOT in the field!");
         }
         
-
-        //convert mouse coordinates to row and column values in field
-        /* 
-        if(e.getX() < view.getLawn().getFieldPosX() || e.getX() > view.getLawn().getFieldPosX())
-        {
-            System.out.println("");
-        }
-        */
     }
 
     //not sure if this is supposed to be in controller or gui
@@ -239,11 +204,25 @@ public class Controller implements ActionListener, MouseListener{
         return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
     }
 
+    public void zombieUpdate()
+    {
+
+    }
+
     /**the model class of the program*/
     private Model model;
     /**the view class of the program*/
     private View view;
 
     private Player player;
+
+    public static void main(String[] args)
+    {
+        Model m = new Model();
+        View v = new View();
+        Controller c = new Controller(m, v);
+
+        m.getLevelThread().getLevel().getEnemies().add(new Zombie(0, 8, 0));
+    }
 
 }

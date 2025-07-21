@@ -10,26 +10,6 @@ public class GameImage {
         this.pixelY = pixelY;
     }
 
-    public ImageIcon getIcon()
-    {
-        return image;
-    }
-
-    public String getImagePath()
-    {
-        return imagePath;
-    }
-
-    public int getPixelX()
-    {
-        return pixelX;
-    }
-
-    public int getPixelY()
-    {
-        return pixelY;
-    }
-
     public void setPixelX(int x)
     {
         pixelX = x;
@@ -40,14 +20,22 @@ public class GameImage {
         pixelY = y;
     }
 
-    public void setImagePath(String path)
+    public ImageIcon getImageIcon()
     {
-        imagePath = path;
+        return image;
     }
 
+     public int getPixelX()
+    {
+        return pixelX;
+    }
+
+    public int getPixelY()
+    {
+        return pixelY;
+    }
 
     private ImageIcon image;
     private int pixelX, pixelY;
-    private String imagePath;
     
 }
