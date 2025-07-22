@@ -110,5 +110,4 @@ public class LevelThread extends Thread {
     private long levelStart;
     /**the current time frame of the level*/
     private int levelTimer;
-    private int offSet;
 }

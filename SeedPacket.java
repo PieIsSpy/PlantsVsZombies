@@ -5,8 +5,6 @@ public class SeedPacket extends JPanel {
     public SeedPacket(String n, ImageIcon i, int x, int y) {
         NAME = n;
         IMAGE = i;
-        WIDTH = IMAGE.getIconWidth();
-        HEIGHT = IMAGE.getIconHeight();
         image_corner = new Point(x,y);
         ORIGINAL_POINT = new Point(x,y);
         setOpaque(false);
@@ -42,11 +40,14 @@ public class SeedPacket extends JPanel {
         return IMAGE;
     }
 
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
     private final String NAME;
     private final ImageIcon IMAGE;
     private final Point ORIGINAL_POINT;
-    private final int WIDTH;
-    private final int HEIGHT;
     private Point image_corner;
     private Point previous_corner;
 }

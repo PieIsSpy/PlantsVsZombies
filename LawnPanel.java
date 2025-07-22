@@ -7,15 +7,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 /**
- * This class represents the background lawn image in a 
- * Plants vs Zombies game. 
- * 
+ * This class represents the Gameplay Gui of the game.
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 1.0
  */
 public class LawnPanel extends JPanel {
     /**
      * This constructor initializes the file image of a lawn
      * background and sets its layout to null. 
-     * 
+     *
      */
     public LawnPanel(int width, int height, JButton forfeit)
     {
@@ -58,10 +60,8 @@ public class LawnPanel extends JPanel {
 
         plantGameImages = new ArrayList<>();
         zombieGameImages = new ArrayList<>();
+        seedPackets = new SeedPacket[6];
 
-        //layeredPane = new JLayeredPane();
-        // layout and components
-        //layeredPane = new JLayeredPane();
         setLayout(null);
         addComponents(width, height, forfeit);
 
@@ -191,26 +191,26 @@ public class LawnPanel extends JPanel {
     public void initializeSeedPackets(Plant[] plants) {
         int i;
         int x = 22, y = 75;
+        ImageIcon found;
+        String name;
 
-        seedPackets = new SeedPacket[plants.length];
-        System.out.println(plants.length);
         for (i = 0; i < plants.length; i++) {
-            seedPackets[i] = new SeedPacket(plants[i].getName(), seedPacketsImg[findSeedPacket(plants[i].getName())], x, y);
-            System.out.println(seedPackets[i].getName());
-            try {
-                ImageIcon found = seedPacketsImg[findSeedPacket(plants[i].getName())];
-                seedPackets[i] = new SeedPacket(plants[i].getName(), found, x, y);
-                seedPackets[i].setBounds(0,0, getWidth(), getHeight());
-                dragArea.add(seedPackets[i]);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+            name = plants[i].getName();
+            found = seedPacketsImg[findSeedPacket(name)];
+            seedPackets[i] = new SeedPacket(name, found, x, y);
+            seedPackets[i].setBounds(0,0,getWidth(),getHeight());
+            dragArea.add(seedPackets[i]);
             y += 65;
         }
 
-        System.out.println("Seed packets: " + seedPackets.length);
+        System.out.println(seedPackets.length);
         for (i = 0; i < seedPackets.length; i++)
-            System.out.println(seedPackets[i].getName());
+            if (seedPackets[i] != null) {
+                System.out.println(seedPackets[i].getName());
+                System.out.println(seedPackets[i].getImage());
+                System.out.println(seedPackets[i].getImageCorner().x);
+                System.out.println(seedPackets[i].getImageCorner().y);
+            }
     }
 
     //returns the index of the found plant name and passes it to initializeSeedPackets
@@ -218,7 +218,7 @@ public class LawnPanel extends JPanel {
         int i;
         int found = -1;
 
-        for (i = 0; i < plantNames.length & found == -1; i++)
+        for (i = 0; i < plantNames.length && found == -1; i++)
             if (name.equalsIgnoreCase(plantNames[i])) {
                 System.out.println(i + ") Found " + plantNames[i]);
                 found = i;
@@ -259,18 +259,15 @@ public class LawnPanel extends JPanel {
     }
 
     public void clearImages() {
-        //images.clear();
         dragArea.removeAll();
-        int i;
         plantGameImages.clear();
         zombieGameImages.clear();
 
-        /*
+        int i;
         for (i = 0; i < seedPackets.length; i++)
             seedPackets[i] = null;
 
-         */
-        seedPackets = null;
+        //seedPackets = null;
     }
 
     public void addZombieImage(GameImage image)
@@ -343,11 +340,10 @@ public class LawnPanel extends JPanel {
     private final int TILE_HEIGHT;
 
     //JLayeredPane layeredPane;
-    JPanel dragArea;
+    private JPanel dragArea;
 
     private ArrayList<GameImage> plantGameImages;
     private ArrayList<GameImage> zombieGameImages;
-
 
     private SeedPacket[] seedPackets;
     private ImageIcon[] plantsImg;
@@ -355,4 +351,27 @@ public class LawnPanel extends JPanel {
     private ImageIcon[] gameElementsImg;
     private ImageIcon[] seedPacketsImg;
     private String[] plantNames;
+}
+
+class seedPacketDriver {
+    public static void main(String[] args) {
+        LawnPanel x = new LawnPanel(0,0, new JButton());
+        Plant[] p = new Plant[]{
+                new Sunflower(-1, -1, 0),
+                new Peashooter(-1, -1, 0)
+        };
+
+        /*
+        int counter = 0;
+        for (int i = 0; i < x.getSeedPackets().length; i++)
+            if (x.getSeedPackets()[i] != null)
+                counter++;
+         */
+        //System.out.println("initial: " + counter);
+        //System.out.println("after: ");
+        x.initializeSeedPackets(p);
+
+        //for (int i = 0; i < p.length; i++)
+          //  x.findSeedPacket(p[i].getName());
+    }
 }
