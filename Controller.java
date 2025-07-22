@@ -254,7 +254,7 @@ public class Controller implements ActionListener, MouseListener{
         Controller c = new Controller(m, v);
 
         //it works, it only stopped (returned null) because zombie has reached the house
-        //m.getLevelThread().getLevel().getEnemies().add(new Zombie(0, 8, 0));
+        m.getLevelThread().getLevel().getEnemies().add(new Zombie(0, 8, 0));
         //m.getLevelThread().getLevel().getEnemies().add(new Zombie(1, 7, 0));
         //m.getLevelThread().getLevel().getEnemies().add(new Zombie(2, 5, 0));
         //m.getLevelThread().getLevel().getEnemies().add(new Zombie(3, 4, 0));
