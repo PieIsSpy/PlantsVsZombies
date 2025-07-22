@@ -34,11 +34,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
         System.out.println("Main Thread: " + Thread.currentThread().getName());
         System.out.println("Level Thread: " + m.getLevelThread().getName());
-
-        //player = new Player(200);
-        //model.selectLevel(1);
-        //level = model.getLevelThread().getLevel();
-        //updateView();
     }
 
     /**
@@ -100,7 +95,10 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
-
+    /** This method is responsible for checking if any seed packets were clicked.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         /*
@@ -108,9 +106,10 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
          * 2.) need to measure first where the field is
          */
         int i;
-        drag = null;
+        drag = null; // stop tracking the previous seed packet
         System.out.println("Mouse pressed at (" + e.getX() + ", " + e.getY() + ")");
-        for (i = 0; i < view.getLawn().getSeedPackets().length; i++) {
+        for (i = 0; i < view.getLawn().getSeedPackets().length; i++) { // for every seed packet
+            // if the seed packet exists and the mouse is inside the area of its image
             if (view.getLawn().getSeedPackets()[i] != null && isWithinSeedPacket(view.getLawn().getSeedPackets()[i], e.getX(), e.getY())) {
                 System.out.println("mouse is within " + view.getLawn().getSeedPackets()[i].getName() + ": " + isWithinSeedPacket(view.getLawn().getSeedPackets()[i], e.getX(), e.getY()));
                 drag = view.getLawn().getSeedPackets()[i];
@@ -119,12 +118,18 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
+    /** This method is responsible for tracking the movement of the cursor.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         try {
             // check if there is anything to drag and the plant is ready to be planted
             if (drag != null && model.getLevelThread().isPlantReady(drag.getName())) {
                 Point currentPoint = e.getPoint();
+
+                // move the image (distance between vectors A and B = (xb - xa, yb - ya)
                 drag.getImageCorner().translate(
                         (int) (currentPoint.getX() - drag.getPreviousCorner().getX()),
                         (int) (currentPoint.getY() - drag.getPreviousCorner().getY())
@@ -138,10 +143,15 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
+    /** This method is responsible for checking if mousekey1 has been released
+     *  after pressing it.
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         int row, col;
-
+        // if the draggable seed packet exists and its plant equivalent is ready
         if (drag != null && model.getLevelThread().isPlantReady(drag.getName())) {
             // snap the draggable back to its original position
             Point r = new Point(drag.getOriginalCorner().x, drag.getOriginalCorner().y);
@@ -169,27 +179,12 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
-       
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    //not sure if this is supposed to be in controller or gui
+    /** This method checks if the mouse cursor's position is inside the lawn area.
+     *
+     * @param x the x position of the cursor
+     * @param y the y position of the cursor
+     * @return true if the cursor is inside the lawn area, false otherwise
+     */
     public boolean isWithinField(int x, int y)
     {
         boolean isXValid = false, isYValid = false;
@@ -206,21 +201,43 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         return isXValid && isYValid;
     }
 
-    public boolean isWithinSeedPacket(SeedPacket s, int x, int y) {
+    /** This method checks if the mouse cursor is inside the image area of a seed packet.
+     *
+     * @param s the seed packet to be checked
+     * @param x the x position of the cursor
+     * @param y the y position of the cursor
+     * @return true if the cursor is inside the lawn area, false otherwise
+     */
+    public boolean isWithinSeedPacket(Draggable s, int x, int y) {
         return x >= s.getImageCorner().x && x <= s.getImageCorner().x + s.getImageSprite().getIconWidth() &&
                 y >= s.getImageCorner().y && y <= s.getImageCorner().y + s.getImageSprite().getIconHeight();
     }
 
+    /** This method converts the row coordinate of a tile grid into
+     *  the width dimension of the LawnPanel class.
+     *
+     * @param row the row coordinate to be converted
+     * @return the equivalent width dimension of the LawnPanel class.
+     */
     public double rowToPixel(double row)
     {
         return row * view.getLawn().getTileHeight() + view.getLawn().getFieldPosY();
     }
 
+    /** This method converts col row coordinate of a tile grid into
+     *  the height dimension of the LawnPanel class.
+     *
+     *  @param col the col coordinate to be converted
+     *  @return the equivalent height dimension of the LawnPanel class.
+     */
     public double columnToPixel(double col)
     {
         return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
     }
 
+    /** This method updates the sprite position of a zombie sprite file.
+     *
+     */
     public void zombieUpdate()
     {
         //access zombie array list in level
@@ -240,18 +257,18 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                     image = new GameImage(chooseZombieImage(z.get(i)), pixelX, pixelY);
                     view.getLawn().addZombieImage(image);
                     z.get(i).setGameImage(image);
-                    System.out.println("Made game image!");
+                    //System.out.println("Made game image!");
 
                 } else {
-                    System.out.println("Update position!");
+                    //System.out.println("Update position!");
 
-                    System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
+                    //System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
                     if (z.get(i).getIsEating()) {
                         z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
                     }
 
                     z.get(i).getGameImage().setPixelX(pixelX);
-                    System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
+                    //System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
 
                 }
 
@@ -313,6 +330,9 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
     }
 
+    /** This method updates the sprite image of a seed packet draggable object.
+     *
+     */
     public void seedPacketUpdate() {
         int i;
 
@@ -327,10 +347,30 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
     /**the model class of the program*/
     private Model model;
     /**the view class of the program*/
     private View view;
     /** the panel to be dragged*/
-    private SeedPacket drag;
+    private Draggable drag;
 }

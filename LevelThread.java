@@ -102,6 +102,10 @@ public class LevelThread extends Thread {
         return level;
     }
 
+    /** This method returns the player that is currently playing the level.
+     *
+     * @return the player that is playing the level
+     */
     public Player getPlayer() {
         return player;
     }

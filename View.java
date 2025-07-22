@@ -4,11 +4,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+/** The class View represents the main GUI handler of the game.
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 1.3
+ */
 public class View extends JFrame {
+    /** This constructor initializes the basic attributes of the main
+     *  JFrame handler of the GUI.
+     *
+     */
     public View() {
-
         super("Plants vs Zombies");
-        //setLayout(new BorderLayout());
         setLayout(null);
         setSize(WIDTH, HEIGHT);
 
@@ -19,6 +27,10 @@ public class View extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /** This method initializes the buttons and panels
+     *  of the GUI and places them into the JFrame.
+     *
+     */
     public void init()
     {
         // buttons
@@ -37,16 +49,12 @@ public class View extends JFrame {
         currentPanel.add(lawn, "lawn");
         currentPanel.setBounds(0,0,getWidth(),getHeight());
         add(currentPanel);
-
-        /*
-        level1 = new JButton("Level 1");
-        level2 = new JButton("Level 2");
-        level3 = new JButton("Level 3");
-         */
-
-
     }
 
+    /** This method changes the current panel of the view.
+     *
+     * @param panel the name of the panel to go to
+     */
     public void changePanel(String panel) {
         if (panel.equalsIgnoreCase("menu")) {
             System.out.println();
@@ -60,63 +68,67 @@ public class View extends JFrame {
         }
     }
 
+    /** This method clears all rendered images
+     *  of the Lawn Panel.
+     *
+     */
     public void clearLawn() {
         lawn.clearImages();
     }
 
-    public void levelSelect() {
-        /*
-        System.out.println("Current GUI: Level Select");
-        panelSouth.removeAll();
-
-        panelSouth.add(level1);
-        panelSouth.add(level2);
-        panelSouth.add(level3);
-
-        panelSouth.add(forfeit);
-
-        add(panelSouth, BorderLayout.SOUTH);
-
-        revalidate();
-        repaint();
-         */
-    }
-
+    /** This method connects all the view's buttons to the controller
+     *  via the listener.
+     *
+     * @param listener the listener observing the button actions
+     */
     public void setActionListener(ActionListener listener) {
         start.addActionListener(listener);
         quit.addActionListener(listener);
         forfeit.addActionListener(listener);
-        /*
-        level1.addActionListener(listener);
-        level2.addActionListener(listener);
-        level3.addActionListener(listener);
-         */
     }
 
+    /** This method listens for mouse actions inside the Lawn Panel
+     *  and connects them to the controller via listener.
+     *
+     * @param listener the listener observing for mouse actions
+     */
     public void setMouseListener(MouseListener listener)
     {
         lawn.addMouseListener(listener);
     }
 
+    /** This method listens for mouse movements inside the Lawn Panel
+     *  and connects them to the controller via listener.
+     *
+     * @param listener the listener observing for mouse movements
+     */
     public void setMouseMotionListener(MouseMotionListener listener) {
         lawn.addMouseMotionListener(listener);
     }
 
+    /** This method returns the Lawn Panel of the View.
+     *
+     * @return the Lawn Panel used to display lawn gameplay
+     */
     public LawnPanel getLawn()
     {
         return lawn;
     }
 
+    /// the start button used by the View
     private JButton start;
+    /// the quit button used by the View
     private JButton quit;
-    private JButton level1;
-    private JButton level2;
-    private JButton level3;
+    /// the forfeit button used by the View
     private JButton forfeit;
-
+    /// the list of JPanels used by the View
     private CardLayout cardLayout;
+    /// the current JPanel displayed in the View
     private JPanel currentPanel;
+    /// the Main Menu panel of the View
     private MenuPanel menu;
+    /// the Lawn panel of the View
     private LawnPanel lawn;
+    /// the dimensions of the main JFrame
     private static final int WIDTH = 800, HEIGHT = 600;
 }

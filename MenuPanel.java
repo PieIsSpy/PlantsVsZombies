@@ -1,7 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
 
+/** This class represents the Main Menu panel of the game.
+ *
+ *  @author Karl Deejay Omandac
+ *  @author Rachel Angeline Alba
+ *  @version 2.0
+ */
 public class MenuPanel extends JPanel {
+    /** This constructor initializes the dimensions of the panel,
+     *  and passes the start and quit buttons of the main View
+     *  class to be placed into the layout.
+     *
+     * @param width the width of the panel
+     * @param height the height of the panel
+     * @param start the start button to be formatted
+     * @param quit the quit button to be formatted
+     */
     public MenuPanel(int width, int height, JButton start, JButton quit) {
         // get all images
         try {
@@ -22,6 +37,11 @@ public class MenuPanel extends JPanel {
         addComponents(width, height, start, quit);
     }
 
+    /** This method renders the background image and game logo of the game in the
+     *  main menu.
+     *
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -35,6 +55,14 @@ public class MenuPanel extends JPanel {
         }
     }
 
+    /** This method places all the components needed to be formatted into the Main Menu
+     *  panel.
+     *
+     * @param width the width dimension of the panel
+     * @param height the height dimension of the panel
+     * @param start the start button to be formatted
+     * @param quit the quit button to be formatted
+     */
     public void addComponents(int width, int height, JButton start, JButton quit) {
         // Left side borders
         JPanel left = new JPanel(new BorderLayout());
@@ -113,6 +141,8 @@ public class MenuPanel extends JPanel {
         add(right,BorderLayout.WEST);
     }
 
+    /// the background image to be rendered
     private ImageIcon bgImg;
+    /// the logo image to be rendered
     private ImageIcon logoImg;
 }

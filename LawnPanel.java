@@ -60,28 +60,10 @@ public class LawnPanel extends JPanel {
 
         plantGameImages = new ArrayList<>();
         zombieGameImages = new ArrayList<>();
-        seedPackets = new SeedPacket[6];
+        seedPackets = new Draggable[6];
 
         setLayout(null);
         addComponents(width, height, forfeit);
-
-        init();
-
-    }
-
-
-    public void init()
-    {
-
-        /*
-        ImageIcon image = new ImageIcon(getClass().getResource("/img/sunflower.gif"));
-        JLabel flower = new JLabel(image);
-        flower.setSize(TILE_WIDTH, TILE_HEIGHT);
-        flower.setLocation(191, 75);
-
-        add(flower);
-        */
-
     }
 
     /**
@@ -116,7 +98,13 @@ public class LawnPanel extends JPanel {
 
 
     }
-    //if folder name is entities it will read the files in that folder
+
+    /** This method is responsible for reading all files in a folder
+     *  and converts them into an array of image icons.
+     *
+     * @param folderPath the folder to be read
+     * @return the array of image icons read by the method
+     */
     public ImageIcon[] readFiles(String folderPath) {
         int i = 0;
 
@@ -155,10 +143,17 @@ public class LawnPanel extends JPanel {
         return null;
     }
 
-    //stores the contents(images) in files to store in the container
+    /** This method is responsible for reading all the image contents
+     *  of a given file array and stores them into an image icon array
+     *  container.
+     *
+     * @param files the files to be read
+     * @param container the container to be stored
+     */
     public void readImages(File[] files, ImageIcon[] container) {
         int i = 0;
 
+        // for every file in the container, scan for images
         for (File f : files) {
             try {
                 System.out.println(f.getName());
@@ -173,6 +168,11 @@ public class LawnPanel extends JPanel {
         System.out.println("Images read: " + i);
     }
 
+    /** This method reads the filenames of a plant image source folder and
+     *  stores them as plant names.
+     *
+     * @param files the files to be read
+     */
     public void readPlantNames(File[] files) {
         int i = 0;
         String name;
@@ -188,6 +188,11 @@ public class LawnPanel extends JPanel {
         }
     }
 
+    /** This method is responsible for initializing the draggable objects
+     *  inside the seedPacket array.
+     *
+     * @param plants the plants to be represented as draggable objects
+     */
     public void initializeSeedPackets(Plant[] plants) {
         int i;
         int x = 22, y = 75;
@@ -197,7 +202,7 @@ public class LawnPanel extends JPanel {
         for (i = 0; i < plants.length; i++) {
             name = plants[i].getName();
             found = seedPacketsImg[findSeedPacket(name)];
-            seedPackets[i] = new SeedPacket(name, found, x, y);
+            seedPackets[i] = new Draggable(name, found, x, y);
             seedPackets[i].setBounds(0,0,getWidth(),getHeight());
             dragArea.add(seedPackets[i]);
             y += 65;
@@ -213,7 +218,12 @@ public class LawnPanel extends JPanel {
             }
     }
 
-    //returns the index of the found plant name and passes it to initializeSeedPackets
+    /** This method searches for the given name inside the initialized
+     *  plant names that could be used as a name of the draggable object.
+     *
+     * @param name the name of the plant to be searched
+     * @return the index of the found plant name
+     */
     public int findSeedPacket(String name) {
         int i;
         int found = -1;
@@ -227,10 +237,14 @@ public class LawnPanel extends JPanel {
         return found;
     }
 
+    /** This method is responsible for adding all the components needed
+     *  to be rendered in the Lawn Panel.
+     *
+     * @param width the width of the panel
+     * @param height the height of the panel
+     * @param forfeit the forfeit button to be formatted
+     */
     public void addComponents(int width, int height, JButton forfeit) {
-        // JLayeredPane to make way for drag and drop
-        //layeredPane.setBounds(0,0, width, height);
-        //add(layeredPane);
 
         // sun count
         sunCount = new JLabel("0");
@@ -238,7 +252,6 @@ public class LawnPanel extends JPanel {
         sunCount.setForeground(Color.WHITE);
         sunCount.setHorizontalTextPosition(JLabel.CENTER);
         sunCount.setBounds(87,20,100,30);
-        //layeredPane.add(sunCount);
         add(sunCount);
 
         // forfeit button
@@ -249,7 +262,6 @@ public class LawnPanel extends JPanel {
         forfeit.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 10));
         forfeit.setHorizontalTextPosition(JLabel.CENTER);
         add(forfeit);
-        //layeredPane.add(forfeit);
 
         // drag and drop container
         dragArea = new JPanel(new BorderLayout());
@@ -258,6 +270,10 @@ public class LawnPanel extends JPanel {
         add(dragArea);
     }
 
+    /** This method clears all entity, game element and draggable object
+     *  renders of the Lawn Panel.
+     *
+     */
     public void clearImages() {
         dragArea.removeAll();
         plantGameImages.clear();
@@ -266,92 +282,154 @@ public class LawnPanel extends JPanel {
         int i;
         for (i = 0; i < seedPackets.length; i++)
             seedPackets[i] = null;
-
-        //seedPackets = null;
     }
 
+    /** This method adds an image into the arraylist of zombie images
+     *  to be rendered
+     *
+     * @param image the image to be added for rendering
+     */
     public void addZombieImage(GameImage image)
     {
         zombieGameImages.add(image);
         System.out.println("Added zombie image!");
     }
 
+    /** This method adds an image into the arraylist of plant images
+     *  to be rendered
+     *
+     * @param image the image to be added for rendering
+     */
     public void addPlantImage(GameImage image)
     {
         plantGameImages.add(image);
         System.out.println("Added zombie image!");
     }
 
+    /** This method updates the sun count text of the panel
+     *
+     * @param sun the current amount of sun
+     */
     public void updateSunCount(int sun) {
         sunCount.setText(Integer.toString(sun));
     }
 
+    /** This method gets the array of plant image resources to be used
+     *
+     * @return the array of plant image resources
+     */
     public ImageIcon[] getPlantImages()
     {
         return plantsImg;
     }
 
+    /** This method gets the array of zombie image resources to be used
+     *
+     * @return the array of zombie image resources
+     */
     public ImageIcon[] getZombieImages()
     {
         return zombiesImg;
     }
 
+    /** This method gets the width of the lawn area.
+     *
+     * @return the width of the lawn area.
+     */
     public int getFieldWidth()
     {
         return FIELD_WIDTH;
     }
 
+    /** This method gets the height of the lawn area.
+     *
+     * @return the height of the lawn area.
+     */
     public int getFieldHeight()
     {
         return FIELD_HEIGHT;
     }
 
+    /** This method returns the x coordinate of the reference point of the lawn
+     *  area.
+     *
+     * @return the x coordinate of the reference point of the lawn
+     */
     public int getFieldPosX()
     {
         return FIELD_X;
     }
 
+    /** This method returns the y coordinate of the reference point of the lawn
+     *  area.
+     *
+     * @return the y coordinate of the reference point of the lawn
+     */
     public int getFieldPosY()
     {
         return FIELD_Y;
     }
 
+    /** This method returns the tile width of a lawn tile.
+     *
+     * @return the tile width of a lawn tile
+     */
     public int getTileWidth()
     {
         return TILE_WIDTH;
     }
 
+    /** This method returns the tile height of a lawn tile.
+     *
+     * @return the tile height of a lawn tile
+     */
     public int getTileHeight()
     {
         return TILE_HEIGHT;
     }
 
-    public SeedPacket[] getSeedPackets() {
+    /** This method returns all draggable seed packets present in the lawn.
+     *
+     * @return all draggable seed packets present in the lawn
+     */
+    public Draggable[] getSeedPackets() {
         return seedPackets;
     }
 
     /**lawn background image to be displayed */
     private ImageIcon lawnImg;
+    /// the seed slot image to be displayed
     private ImageIcon seedSlotImg;
-
+    /// the width of the lawn area
     private final int FIELD_WIDTH = 534;
+    /// the height of the lawn area
     private final int FIELD_HEIGHT = 460;
+    /// the x coordinate of the reference point of the lawn area
     private final int FIELD_X = 191;
+    /// the y coordinate of the reference point of the lawn area
     private final int FIELD_Y = 75;
-
+    /// the tile width of a lawn tile.
     private final int TILE_WIDTH;
+    /// the tile height of a lawn tile.
     private final int TILE_HEIGHT;
-
+    /// the container for draggable objects
     private JPanel dragArea;
+    /// the label text for the player sun count
     private JLabel sunCount;
-
+    /// the plants to be rendered
     private ArrayList<GameImage> plantGameImages;
+    /// the zombies to be rendered
     private ArrayList<GameImage> zombieGameImages;
-
-    private SeedPacket[] seedPackets;
+    /// the draggable seed packets to be used
+    private Draggable[] seedPackets;
+    /// the image resources for plants
     private ImageIcon[] plantsImg;
+    ///the image resources for zombies
     private ImageIcon[] zombiesImg;
+     ///the image resources for game elements
     private ImageIcon[] gameElementsImg;
+    ///the image resources for seed packets
     private ImageIcon[] seedPacketsImg;
+    ///the names of plants to be represented in a draggable object
     private String[] plantNames;
 }
