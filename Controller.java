@@ -27,10 +27,14 @@ public class Controller implements ActionListener, MouseListener{
     public Controller(Model m, View v) {
         model = m;
         view = v;
+        view.setActionListener(this);
         view.setMouseListener(this);
 
-        player = new Player(200);
-        model.selectLevel(1);
+        System.out.println("Main Thread: " + Thread.currentThread().getName());
+        System.out.println("Level Thread: " + m.getLevelThread().getName());
+
+        //player = new Player(200);
+        //model.selectLevel(1);
         //level = model.getLevelThread().getLevel();
         updateView();
     }
@@ -59,7 +63,10 @@ public class Controller implements ActionListener, MouseListener{
         // menu
         if (e.getActionCommand().equals("Start")) {
             System.out.println("Pressed start");
-            //view.levelSelect();
+            model.selectLevel(model.getLevelProgress());
+            view.getLawn().initializeSeedPackets(model.getLevelThread().getLevel().getAvaliable_plants());
+            view.changePanel("lawn");
+            System.out.println("Level " + model.getLevelThread().getLevel().getLEVEL_NUM());
         }
         else if (e.getActionCommand().equals("Quit")) {
             System.out.println("Pressed quit");
@@ -68,40 +75,13 @@ public class Controller implements ActionListener, MouseListener{
             System.exit(0);
         }
 
-        /*
-        // level selector
-        else if(e.getActionCommand().equals("Level 1")) {
-            if (model.getLevelThread().getLevel() == null) {
-                System.out.println("Pressed Level 1");
-                model.selectLevel(1);
-            }
-            else
-                System.out.println("A level is already running!");
-        }
-        else if (e.getActionCommand().equals("Level 2")) {
-            if (model.getLevelThread().getLevel() == null) {
-                System.out.println("Pressed Level 2");
-                model.selectLevel(2);
-            }
-            else
-                System.out.println("A level is already running!");
-        }
-        else if (e.getActionCommand().equals("Level 3")) {
-            if (model.getLevelThread().getLevel() == null) {
-                System.out.println("Pressed Level 3");
-                model.selectLevel(3);
-            }
-            else
-                System.out.println("A level is already running!");
-        }
-
         // pretermination
         else if (e.getActionCommand().equals("Forfeit")) {
             System.out.println("Pressed Forfeit");
             model.endLevel();
+            view.clearLawn();
+            view.changePanel("menu");
         }
-
-         */
     }
 
 
@@ -143,14 +123,14 @@ public class Controller implements ActionListener, MouseListener{
         int row, col;
         Level level = model.getLevelThread().getLevel();
         
-        if(isWithinField(e.getX(), e.getY()))
+        if(model.getLevelThread().getLevel() != null && isWithinField(e.getX(), e.getY()))
         {
             //mouseX - fieldX / tileHeight
             col = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
             row = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
 
             //place a plant
-            if(level.canBePlaced(row, col))
+            if(model.getLevelThread().getLevel().canBePlaced(row, col))
             {
                 player.placePlant(level, row, col, "sunflower", 1);
                 System.out.println("Plant position: " + level.getTiles()[row][col].getRow() + ", " + level.getTiles()[row][col].getCol());
@@ -237,14 +217,17 @@ public class Controller implements ActionListener, MouseListener{
             }
 
         }
+    }
     
+    public void updateSunCount() {
+
     }
 
     /**the model class of the program*/
     private Model model;
     /**the view class of the program*/
     private View view;
-
+    //private Level level;
     private Player player;
 
     public static void main(String[] args)

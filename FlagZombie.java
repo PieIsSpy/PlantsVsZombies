@@ -9,8 +9,7 @@ public class FlagZombie extends Zombie{
      * @param c the col coordinate
      */
     public FlagZombie (int r, int c, int t) {
-        super(r, c, t, new Item("Flag"));
-        setSpeed(3);
+        super(r, c, t, new Item("Flag", 1, 0));
     }
 
     @Override

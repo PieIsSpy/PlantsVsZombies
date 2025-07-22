@@ -17,6 +17,7 @@ public class SnowPea extends Peashooter{
      */
     public SnowPea(int r, int c, int currentTime) {
         super(r,c,currentTime);
+        setName("Snow Pea");
         setCost(175);
     }
 

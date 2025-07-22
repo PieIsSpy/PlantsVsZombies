@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class StartButton extends JButton {
     public StartButton() {
-        startImg = new ImageIcon(getClass().getResource("/img/startImg.png"));
+        startImg = new ImageIcon(getClass().getResource("/img/lawn/seedPackets/startImg.png"));
         /*
         width = startImg.getIconWidth();
         height = startImg.getIconHeight();

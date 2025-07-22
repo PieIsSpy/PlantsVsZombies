@@ -25,6 +25,7 @@ public class Sunflower extends Plant{
         super(r, c, t);
         initializeStats();
         setImageIcon(new ImageIcon(getClass().getResource("/img/sunflower.gif")));
+        //setImage("/img/lawn/seedPackets/sunflower.gif");
     }
 
 

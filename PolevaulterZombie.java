@@ -15,8 +15,7 @@ public class PolevaulterZombie extends Zombie{
      * @param t the time of its creation
      */
     public PolevaulterZombie(int r, int c, int t) {
-        super(r, c, t, new Item("Pole"));
-        setSpeed(3);
+        super(r, c, t, new Item("Pole",1,0));
     }
 
     /** This method compiles basic action methods
@@ -87,7 +86,6 @@ public class PolevaulterZombie extends Zombie{
         if (colUsage - getCol() >= 1) {
             setVulnerability(true);
             setHeld_item(null);
-            setSpeed(4);
         }
     }
 

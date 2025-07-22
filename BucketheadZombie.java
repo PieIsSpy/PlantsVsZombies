@@ -14,7 +14,7 @@ public class BucketheadZombie extends Zombie{
      * @param t the time of its creation
      */
     public BucketheadZombie(int r, int c, int t) {
-        super(r, c, t, new Item("Bucket", 420));
+        super(r, c, t, new Item("Bucket", 420,-3,-5));
     }
 
     @Override
