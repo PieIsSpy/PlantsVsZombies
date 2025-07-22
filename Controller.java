@@ -1,6 +1,5 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -49,7 +47,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                //zombieUpdate();
+                zombieUpdate();
                 view.getLawn().repaint();
 
             }
@@ -166,14 +164,13 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             //place a plant
             if(model.getLevelThread().getLevel().canBePlaced(row, col))
             {
-                //player.placePlant(level, row, col, "sunflower", 1);
-                //System.out.println("Plant position: " + level.getTiles()[row][col].getRow() + ", " + level.getTiles()[row][col].getCol());
+                model.getPlayer().placePlant(model.getLevelThread().getLevel(), row, col, "sunflower", 1);
+                System.out.println("Plant position: " + model.getLevelThread().getLevel().getTiles()[row][col].getRow() + ", " + model.getLevelThread().getLevel().getTiles()[row][col].getCol());
 
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        //view.getLawn().addImage(new GameImage(image, rowToPixel(row), columnToPixel(col)));
-                        //view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) level.getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
+                        view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
                     }
 
                 });
@@ -226,8 +223,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
     }
 
-
-    /*
     public void zombieUpdate()
     {
         //access zombie array list in level
@@ -252,25 +247,22 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             }
             else
             {
-                //System.out.println("Update position!");
+                System.out.println("Update position!");
 
-                //System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
+                System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
                 if(z.get(i).getIsEating())
                 {
                     z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
                 }
 
                 z.get(i).getGameImage().setPixelX(pixelX);
-                //System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
+                System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
 
             }
 
         }
     }
 
-     */
-
-    /*
     public ImageIcon chooseZombieImage(Zombie z)
     {
         ImageIcon image = null;
@@ -292,8 +284,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
         return image;
     }
-
-     */
 
     public ImageIcon choosePlantImage(Plant p)
     {

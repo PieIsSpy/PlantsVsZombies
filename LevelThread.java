@@ -70,11 +70,6 @@ public class LevelThread extends Thread {
      */
     public void cleanUp() {
         levelTimer = 0;
-
-        /*levelStart = 0;
-        this.levelTimer = -1;
-
-         */
         level = null;
         runningLevel = false;
     }
