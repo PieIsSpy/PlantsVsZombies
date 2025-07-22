@@ -282,7 +282,7 @@ public class LawnPanel extends JPanel {
     public void addPlantImage(GameImage image)
     {
         plantGameImages.add(image);
-        System.out.println("Added zombie image!");
+        System.out.println("Added plant image!");
     }
 
     public ImageIcon[] getPlantImages()

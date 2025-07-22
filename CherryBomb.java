@@ -24,6 +24,15 @@ public class CherryBomb extends Plant {
     public CherryBomb(int r, int c, int t)
     {
         super(r,c,t);
+        initializeStats();
+    }
+
+    /** This method initializes the attributes of the
+     *  parent class.
+     *
+     */
+    public void initializeStats()
+    {
         setName("Cherry Bomb");
         setDamage(1800);
         setCost(150);
@@ -32,7 +41,6 @@ public class CherryBomb extends Plant {
         setHealth(100);
         setRange(1);
     }
-
     /**
      * This method performs the behavior of a Cherry Bomb
      * plant. Once created, it has limited time before it explodes, 

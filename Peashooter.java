@@ -26,6 +26,7 @@ public class Peashooter extends Plant {
     {
         super(r, c, t);
         initializeStats();
+        
     }
 
     /** This method initializes the attributes of the

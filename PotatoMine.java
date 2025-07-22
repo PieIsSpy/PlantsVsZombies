@@ -20,6 +20,16 @@ public class PotatoMine extends Plant{
      */
     public PotatoMine(int r, int c, int t) {
         super(r,c,t);
+        initializeStats();
+    }
+
+    
+    /** This method initializes the attributes of the
+     *  parent class.
+     *
+     */
+    public void initializeStats()
+    {
         setName("Potato Mine");
         setDamage(700);
         setCost(25);
