@@ -100,8 +100,9 @@ public class LawnPanel extends JPanel {
         for(i = 0; i < zombieImages.size(); i++)
         {
             g.drawImage(zombieImages.get(i).getImageIcon().getImage(), (int)zombieImages.get(i).getPixelX(), (int)zombieImages.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
-            //System.out.println("Updated image x: " + (int) zombieImages.get(i).getPixelX());
+            System.out.println("Pos image: " + (int)zombieImages.get(i).getPixelX() + ", " + (int)zombieImages.get(i).getPixelY());
         }
+
         if (lawnImg != null)
             g.drawImage(lawnImg.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
 

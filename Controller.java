@@ -36,7 +36,7 @@ public class Controller implements ActionListener, MouseListener{
         //player = new Player(200);
         //model.selectLevel(1);
         //level = model.getLevelThread().getLevel();
-        updateView();
+        //updateView();
     }
 
     public void updateView() {
@@ -66,6 +66,7 @@ public class Controller implements ActionListener, MouseListener{
             model.selectLevel(model.getLevelProgress());
             view.getLawn().initializeSeedPackets(model.getLevelThread().getLevel().getAvaliable_plants());
             view.changePanel("lawn");
+            updateView();
             System.out.println("Level " + model.getLevelThread().getLevel().getLEVEL_NUM());
         }
         else if (e.getActionCommand().equals("Quit")) {
@@ -120,6 +121,7 @@ public class Controller implements ActionListener, MouseListener{
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
 
+        /*
         int row, col;
         Level level = model.getLevelThread().getLevel();
         
@@ -156,6 +158,7 @@ public class Controller implements ActionListener, MouseListener{
         {
             System.out.println("You are NOT in the field!");
         }
+        */ 
         
     }
 
@@ -187,6 +190,7 @@ public class Controller implements ActionListener, MouseListener{
     }
 
  
+    
     public void zombieUpdate()
     {
         //access zombie array list in level
@@ -205,12 +209,13 @@ public class Controller implements ActionListener, MouseListener{
                 image = new GameImage(z.get(i).getImageIcon(), pixelX, pixelY);
                 view.getLawn().addZombieImage(image);
                 z.get(i).setGameImage(image);
+                System.out.println("Made game image!");
             }
             else
             {
                 //System.out.println("Update position!");
 
-                System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
+                //System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
                 z.get(i).getGameImage().setPixelX(pixelX);
                 //System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
                 
@@ -218,6 +223,7 @@ public class Controller implements ActionListener, MouseListener{
 
         }
     }
+    
     
     public void updateSunCount() {
 
@@ -237,7 +243,7 @@ public class Controller implements ActionListener, MouseListener{
         Controller c = new Controller(m, v);
 
         //it works, it only stopped (returned null) because zombie has reached the house
-        //m.getLevelThread().getLevel().getEnemies().add(new Zombie(0, 8, 0));
+        //m.getLevelThread().getLevel().getEnemies().add(new Zombie(5, 8, 0));
         //m.getLevelThread().getLevel().getEnemies().add(new Zombie(1, 7, 0));
         //m.getLevelThread().getLevel().getEnemies().add(new Zombie(2, 5, 0));
         //m.getLevelThread().getLevel().getEnemies().add(new Zombie(3, 4, 0));

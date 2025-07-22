@@ -196,6 +196,7 @@ abstract class Entity {
         gameImage = g;
     }
 
+
     /** How much damage it can sustain */
     private int health;
     /** How fast an entity attacks or walks */
@@ -212,4 +213,5 @@ abstract class Entity {
     private ImageIcon image;
 
     private GameImage gameImage;
+    private String imagePath;
 }
