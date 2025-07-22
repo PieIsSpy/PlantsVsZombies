@@ -213,22 +213,24 @@ public class Controller implements ActionListener, MouseListener{
         ArrayList<Zombie> z = model.getLevelThread().getLevel().getEnemies();
         int i;
         double pixelX, pixelY;
+        GameImage image;
 
         for(i = 0; i < z.size(); i++)
         {
-            pixelY = rowToPixel(z.get(i).getRow());
+            pixelY = rowToPixel(z.get(i).getRow()); //this makes the image move grid by grid instead of continuously/smoothly
             pixelX = columnToPixel(z.get(i).getCol());
 
             if(z.get(i).getGameImage() == null)
             {
-                GameImage image = new GameImage(z.get(i).getImageIcon(), pixelX, pixelY);
+                image = new GameImage(z.get(i).getImageIcon(), pixelX, pixelY);
                 view.getLawn().addZombieImage(image);
                 z.get(i).setGameImage(image);
             }
             else
             {
                 //System.out.println("Update position!");
-                System.out.println("col: " + z.get(i).getCol());
+
+                System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
                 z.get(i).getGameImage().setPixelX(pixelX);
                 //System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
                 
@@ -252,7 +254,7 @@ public class Controller implements ActionListener, MouseListener{
         Controller c = new Controller(m, v);
 
         //it works, it only stopped (returned null) because zombie has reached the house
-        m.getLevelThread().getLevel().getEnemies().add(new Zombie(0, 8, 0));
+        //m.getLevelThread().getLevel().getEnemies().add(new Zombie(0, 8, 0));
         //m.getLevelThread().getLevel().getEnemies().add(new Zombie(1, 7, 0));
         //m.getLevelThread().getLevel().getEnemies().add(new Zombie(2, 5, 0));
         //m.getLevelThread().getLevel().getEnemies().add(new Zombie(3, 4, 0));

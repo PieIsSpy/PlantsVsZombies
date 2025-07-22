@@ -27,6 +27,7 @@ public class Zombie extends Entity {
         held_item = null;
         vulnerability = true;
         slowed = false;
+        isEating = false;
 
         try
         {
@@ -109,6 +110,8 @@ public class Zombie extends Entity {
             cur -= (float) (1.0 / (getSpeed() * 2));
 
         setCol(cur);
+
+        
     }
 
     /** This method makes the zombie eat the plant that is
@@ -119,6 +122,7 @@ public class Zombie extends Entity {
     public void eat(Entity p) {
         //System.out.println("Eating " + p.getName() + ": " + p.getHealth());
         p.takeDamage(getDamage());
+        isEating = true;
     }
 
     /** This method compiles basic action methods
@@ -192,8 +196,9 @@ public class Zombie extends Entity {
             slowed = false;
     }
 
-    public void sprite_animation() {
-
+    public void sprite_animation() 
+    {
+        
     }
 
     /** This method returns the current Zombie counts.
@@ -256,6 +261,11 @@ public class Zombie extends Entity {
         slowedStart = t;
     }
 
+    public void setIsEating(boolean b)
+    {
+        isEating = b;
+    }
+
     /** How many zombies are created */
     private static int count = 0;
     /** What items are they currently holding */
@@ -266,4 +276,5 @@ public class Zombie extends Entity {
     private boolean slowed;
     /** Time reference where the zombie started going slow */
     private int slowedStart;
+    private boolean isEating;
 }
