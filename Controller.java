@@ -1,8 +1,6 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 /** This class represents the Controller of the MVC design structure.
  *  It is responsible for the interaction between the Model and the View.
@@ -12,7 +10,7 @@ import java.awt.event.MouseListener;
  *  @version 1.0
  *
  */
-public class Controller implements ActionListener, MouseListener{
+public class Controller implements ActionListener, MouseListener, MouseMotionListener {
     /** This constructor initializes the Model and the View classes that will
      *  be interacting inside the Controller class.
      *
@@ -24,6 +22,7 @@ public class Controller implements ActionListener, MouseListener{
         view = v;
         view.setActionListener(this);
         view.setMouseListener(this);
+        view.setMouseMotionListener(this);
 
         System.out.println("Main Thread: " + Thread.currentThread().getName());
         System.out.println("Level Thread: " + m.getLevelThread().getName());
@@ -40,7 +39,6 @@ public class Controller implements ActionListener, MouseListener{
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-
         // menu
         if (e.getActionCommand().equals("Start")) {
             System.out.println("Pressed start");
@@ -68,42 +66,73 @@ public class Controller implements ActionListener, MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        /**
+        /*
          * 1.) convert field coordinates to row and column
-         * 2.) need to measure first where the field is 
-         * 
-         * 
+         * 2.) need to measure first where the field is
          */
+        int i;
+        drag = null;
+        System.out.println("Mouse pressed at (" + e.getX() + ", " + e.getY() + ")");
+        for (i = 0; i < view.getLawn().getSeedPackets().length; i++) {
+            if (isWithinSeedPacket(view.getLawn().getSeedPackets()[i], e.getX(), e.getY())) {
+                System.out.println("mouse is within " + view.getLawn().getSeedPackets()[i].getName() + ": " + isWithinSeedPacket(view.getLawn().getSeedPackets()[i], e.getX(), e.getY()));
+                drag = view.getLawn().getSeedPackets()[i];
+                drag.setPreviousPoint(e.getPoint());
+            }
+        }
+    }
 
-         System.out.println("Mouse pressed at (" + e.getX() + ", " + e.getY() + ")");
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        try {
+            if (drag != null) {
+                Point currentPoint = e.getPoint();
+                drag.getImageCorner().translate(
+                        (int) (currentPoint.getX() - drag.getPreviousCorner().getX()),
+                        (int) (currentPoint.getY() - drag.getPreviousCorner().getY())
+                );
+
+                drag.setPreviousPoint(currentPoint);
+                view.repaint();
+            }
+        } catch (Exception ex) {
+            System.out.println("No components being dragged");
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
+        try {
+            Point r = new Point(drag.getOriginalCorner().x, drag.getOriginalCorner().y);
+            drag.getImageCorner().setLocation(r.x, r.y);
+            view.repaint();
+        } catch (Exception ex) {
+
+        }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
        
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
+    public void mouseMoved(MouseEvent e) {
 
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+        /*
         int row, col;
         //Level level = model.getLevelThread().getLevel();
-        
+
         if(model.getLevelThread().getLevel() != null && isWithinField(e.getX(), e.getY()))
         {
             //mouseX - fieldX / tileHeight
@@ -132,6 +161,8 @@ public class Controller implements ActionListener, MouseListener{
         {
             System.out.println("You are NOT in the field!");
         }
+
+         */
         
 
         //convert mouse coordinates to row and column values in field
@@ -160,6 +191,11 @@ public class Controller implements ActionListener, MouseListener{
         return isXValid && isYValid;
     }
 
+    public boolean isWithinSeedPacket(SeedPacket s, int x, int y) {
+        return x >= s.getImageCorner().x && x <= s.getImageCorner().x + s.getImage().getIconWidth() &&
+                y >= s.getImageCorner().y && y <= s.getImageCorner().y + s.getImage().getIconHeight();
+    }
+
     public int rowToPixel(int row)
     {
         return row * view.getLawn().getTileHeight() + view.getLawn().getFieldPosY();
@@ -178,6 +214,7 @@ public class Controller implements ActionListener, MouseListener{
     private Model model;
     /**the view class of the program*/
     private View view;
+    private SeedPacket drag;
     //private Level level;
     //private Player player;
 

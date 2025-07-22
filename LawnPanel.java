@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -54,7 +53,7 @@ public class LawnPanel extends JPanel {
         TILE_WIDTH = FIELD_WIDTH / 9;
 
         // layout and components
-        layeredPane = new JLayeredPane();
+        //layeredPane = new JLayeredPane();
         setLayout(null);
         addComponents(width, height, forfeit);
     }
@@ -163,7 +162,8 @@ public class LawnPanel extends JPanel {
             try {
                 ImageIcon found = seedPacketsImg[findSeedPacket(plants[i].getName())];
                 seedPackets[i] = new SeedPacket(plants[i].getName(), found, x, y);
-                layeredPane.add(seedPackets[i]);
+                seedPackets[i].setBounds(0,0, getWidth(), getHeight());
+                dragArea.add(seedPackets[i]);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -171,6 +171,8 @@ public class LawnPanel extends JPanel {
         }
 
         System.out.println("Seed packets: " + seedPackets.length);
+        for (i = 0; i < seedPackets.length; i++)
+            System.out.println(seedPackets[i].getName());
     }
 
     public int findSeedPacket(String name) {
@@ -188,9 +190,8 @@ public class LawnPanel extends JPanel {
 
     public void addComponents(int width, int height, JButton forfeit) {
         // JLayeredPane to make way for drag and drop
-
-        layeredPane.setBounds(0,0, width, height);
-        add(layeredPane);
+        //layeredPane.setBounds(0,0, width, height);
+        //add(layeredPane);
 
         // sun count
         JLabel sunCount = new JLabel("0");
@@ -198,9 +199,8 @@ public class LawnPanel extends JPanel {
         sunCount.setForeground(Color.WHITE);
         sunCount.setHorizontalTextPosition(JLabel.CENTER);
         sunCount.setBounds(87,20,100,30);
-        layeredPane.add(sunCount);
-
-        // drag and drop
+        //layeredPane.add(sunCount);
+        add(sunCount);
 
         // forfeit button
         forfeit.setBounds(width - 150, 0, 100, 60);
@@ -209,18 +209,19 @@ public class LawnPanel extends JPanel {
         forfeit.setBackground(Color.lightGray);
         forfeit.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 10));
         forfeit.setHorizontalTextPosition(JLabel.CENTER);
-        layeredPane.add(forfeit);
+        add(forfeit);
+        //layeredPane.add(forfeit);
+
+        // drag and drop container
+        dragArea = new JPanel(new BorderLayout());
+        dragArea.setOpaque(false);
+        dragArea.setBounds(0,0,width,height);
+        add(dragArea);
     }
 
     public void clearImages() {
-        int i;
         images.clear();
-
-        /*
-        for (i = 0; i < seedPackets.length; i++)
-            seedPackets[i] = null;
-
-         */
+        dragArea.removeAll();
         seedPackets = null;
     }
 
@@ -260,7 +261,9 @@ public class LawnPanel extends JPanel {
         return TILE_HEIGHT;
     }
 
-
+    public SeedPacket[] getSeedPackets() {
+        return seedPackets;
+    }
 
 
     /**lawn background image to be displayed */
@@ -275,7 +278,8 @@ public class LawnPanel extends JPanel {
     private final int TILE_WIDTH;
     private final int TILE_HEIGHT;
 
-    JLayeredPane layeredPane;
+    //JLayeredPane layeredPane;
+    JPanel dragArea;
 
     private ArrayList<GameImage> images;
     private SeedPacket[] seedPackets;
