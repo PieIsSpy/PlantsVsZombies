@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+
 /** The class Zombie represents a basic zombie object that inherits an Entity class
  *  that can be used by other child classes that represent
  *  variant zombies.
@@ -25,6 +27,19 @@ public class Zombie extends Entity {
         held_item = null;
         vulnerability = true;
         slowed = false;
+        isEating = false;
+
+        try
+        {
+            ImageIcon image = new ImageIcon(getClass().getResource("/img/lawn/entities/normalZombie.gif"));
+            setImageIcon(image);
+            System.out.println("Image status: " + image.getImageLoadStatus());
+        }
+        catch(Exception e)
+        {
+            System.out.println("Image cannot be loaded");
+        }
+        
 
         count++;
     }
@@ -45,6 +60,7 @@ public class Zombie extends Entity {
         held_item = i;
         vulnerability = true;
         slowed = false;
+        isEating = false;
 
         count++;
     }
@@ -101,6 +117,7 @@ public class Zombie extends Entity {
             cur -= (float) (1.0 / ((getSpeed() - speedChange) * 2));
 
         setCol(cur);
+        isEating = false;
     }
 
     /** This method makes the zombie eat the plant that is
@@ -116,6 +133,7 @@ public class Zombie extends Entity {
             damageChange = held_item.getDamageChange();
 
         p.takeDamage(getDamage() + damageChange);
+        isEating = true;
     }
 
     /** This method compiles basic action methods
@@ -189,8 +207,9 @@ public class Zombie extends Entity {
             slowed = false;
     }
 
-    public void sprite_animation() {
-
+    public void sprite_animation() 
+    {
+        
     }
 
     /** This method returns the current Zombie counts.
@@ -253,6 +272,17 @@ public class Zombie extends Entity {
         slowedStart = t;
     }
 
+    public void setIsEating(boolean b)
+    {
+        isEating = b;
+    }
+
+    public boolean getIsEating()
+    {
+        return isEating;
+    }
+
+
     /** How many zombies are created */
     private static int count = 0;
     /** What items are they currently holding */
@@ -263,4 +293,5 @@ public class Zombie extends Entity {
     private boolean slowed;
     /** Time reference where the zombie started going slow */
     private int slowedStart;
+    private boolean isEating;
 }

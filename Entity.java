@@ -30,6 +30,7 @@ abstract class Entity {
         row = r;
         col = c;
         internal_time = t;
+        gameImage = null;
     }
 
     /**
@@ -175,24 +176,25 @@ abstract class Entity {
         return internal_time;
     }
 
-    public void setImage(String path)
-    {
-        try
-        {
-           this.image = new ImageIcon(path).getImage();
-           
-        }
-        catch(Exception e)
-        {
-            System.out.println("Image cannot be loaded");
-        }
-    }
-
-    public Image getImage()
+    public ImageIcon getImageIcon()
     {
         return image;
     }
 
+    public void setImageIcon(ImageIcon image)
+    {
+        this.image = image;
+    }
+
+    public GameImage getGameImage()
+    {
+        return gameImage;
+    }
+
+    public void setGameImage(GameImage g)
+    {
+        gameImage = g;
+    }
 
 
     /** How much damage it can sustain */
@@ -208,5 +210,8 @@ abstract class Entity {
     /** The internal time of the enemy*/
     private int internal_time;
 
-    private Image image;
+    private ImageIcon image;
+
+    private GameImage gameImage;
+    private String imagePath;
 }

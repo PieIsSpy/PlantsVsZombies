@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+
 /** This class represents a Sunflower entity
  *  that inherits a Plant class. This plant
  *  produces suns in a certain amount of rate.
@@ -22,7 +24,8 @@ public class Sunflower extends Plant{
     {
         super(r, c, t);
         initializeStats();
-        setImage("/img/lawn/seedPackets/sunflower.gif");
+        //setImageIcon(new ImageIcon(getClass().getResource("/img/sunflower.gif")));
+        //setImage("/img/lawn/seedPackets/sunflower.gif");
     }
 
 

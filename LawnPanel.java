@@ -3,7 +3,9 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 /**
  * This class represents the background lawn image in a 
  * Plants vs Zombies game. 
@@ -17,8 +19,6 @@ public class LawnPanel extends JPanel {
      */
     public LawnPanel(int width, int height, JButton forfeit)
     {
-        // array list initialization
-        images = new ArrayList<>();
 
         // get lawn bg
         try {
@@ -36,8 +36,12 @@ public class LawnPanel extends JPanel {
         }
 
         // read image files
-        entitiesImg = readFiles("/img/lawn/entities");
-        System.out.println("entitiesImg size: " + entitiesImg.length);
+        plantsImg = readFiles("/img/lawn/plants"); //already stores the images
+        System.out.println("entitiesImg size: " + plantsImg.length);
+        System.out.println();
+
+        zombiesImg = readFiles("/img/lawn/zombies"); //already stores the images
+        System.out.println("zombiesImgsize: " + zombiesImg.length);
         System.out.println();
 
         gameElementsImg = readFiles("/img/lawn/gameElements");
@@ -52,10 +56,32 @@ public class LawnPanel extends JPanel {
         TILE_HEIGHT = FIELD_HEIGHT / 5;
         TILE_WIDTH = FIELD_WIDTH / 9;
 
+        plantGameImages = new ArrayList<>();
+        zombieGameImages = new ArrayList<>();
+
+        layeredPane = new JLayeredPane();
         // layout and components
         //layeredPane = new JLayeredPane();
         setLayout(null);
         addComponents(width, height, forfeit);
+
+        init();
+
+    }
+
+
+    public void init()
+    {
+
+        /*
+        ImageIcon image = new ImageIcon(getClass().getResource("/img/sunflower.gif"));
+        JLabel flower = new JLabel(image);
+        flower.setSize(TILE_WIDTH, TILE_HEIGHT);
+        flower.setLocation(191, 75);
+
+        add(flower);
+        */
+
     }
 
     /**
@@ -75,29 +101,40 @@ public class LawnPanel extends JPanel {
         if (seedSlotImg != null)
             g.drawImage(seedSlotImg.getImage(), 10,10, (int)(seedSlotImg.getIconWidth()*0.8),(int)(seedSlotImg.getIconHeight()*0.8), null);
 
-        for (i = 0; i < images.size(); i++)
-            if (images.get(i) != null)
-                g.drawImage(images.get(i).getImage(), images.get(i).getPixelX(), images.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
-    }
+        for(i = 0; i < plantGameImages.size(); i++)
+        {
+             g.drawImage(plantGameImages.get(i).getImageIcon().getImage(), (int)plantGameImages.get(i).getPixelX(), (int)plantGameImages.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+             //System.out.println("Paint!");
+        }
 
+        for(i = 0; i < zombieGameImages.size(); i++)
+        {
+            g.drawImage(zombieGameImages.get(i).getImageIcon().getImage(), (int)zombieGameImages.get(i).getPixelX(), (int)zombieGameImages.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+            System.out.println("Pos image: " + (int)zombieGameImages.get(i).getPixelX() + ", " + (int)zombieGameImages.get(i).getPixelY());
+        }
+
+
+
+    }
+    //if folder name is entities it will read the files in that folder
     public ImageIcon[] readFiles(String folderPath) {
         int i = 0;
 
         try {
-            String url = getClass().getResource(folderPath).getPath();
+            String url = getClass().getResource(folderPath).getPath(); //string pathname
             System.out.println(url);
-            File path = new File(url);
-            File[] files = path.listFiles();
+            File path = new File(url); //creates a new file instance pointing to the location of that directory
+            File[] files = path.listFiles(); //stores the files in the given path
 
             // read and store images
             if (files !=null) {
                 if (folderPath.equalsIgnoreCase("/img/lawn/seedPackets")) {
-                    plantNames = new String[files.length];
+                    plantNames = new String[files.length]; //instatiates the plant names based on number of files
                     readPlantNames(files);
                 }
 
                 System.out.println("Files read: " + files.length);
-                ImageIcon[] container = new ImageIcon[files.length];
+                ImageIcon[] container = new ImageIcon[files.length]; //stores the images in the given path
                 readImages(files, container);
 
                 System.out.println("Final check: ");
@@ -108,7 +145,7 @@ public class LawnPanel extends JPanel {
 
                 System.out.println("Returning " + i + " elements");
 
-                return container;
+                return container; //returns the images in the given directory path
             }
         } catch (Exception e) {
             System.out.println("readFiles()");
@@ -118,6 +155,7 @@ public class LawnPanel extends JPanel {
         return null;
     }
 
+    //stores the contents(images) in files to store in the container
     public void readImages(File[] files, ImageIcon[] container) {
         int i = 0;
 
@@ -175,6 +213,7 @@ public class LawnPanel extends JPanel {
             System.out.println(seedPackets[i].getName());
     }
 
+    //returns the index of the found plant name and passes it to initializeSeedPackets
     public int findSeedPacket(String name) {
         int i;
         int found = -1;
@@ -220,15 +259,40 @@ public class LawnPanel extends JPanel {
     }
 
     public void clearImages() {
-        images.clear();
+        //images.clear();
         dragArea.removeAll();
+        int i;
+        plantGameImages.clear();
+        zombieGameImages.clear();
+
+        /*
+        for (i = 0; i < seedPackets.length; i++)
+            seedPackets[i] = null;
+
+         */
         seedPackets = null;
     }
 
-    public void addImage(GameImage image)
+    public void addZombieImage(GameImage image)
     {
-        images.add(image);
-        System.out.println("Added image!");
+        zombieGameImages.add(image);
+        System.out.println("Added zombie image!");
+    }
+
+    public void addPlantImage(GameImage image)
+    {
+        plantGameImages.add(image);
+        System.out.println("Added zombie image!");
+    }
+
+    public ImageIcon[] getPlantImages()
+    {
+        return plantsImg;
+    }
+
+    public ImageIcon[] getZombieImages()
+    {
+        return zombiesImg;
     }
 
     public int getFieldWidth()
@@ -281,9 +345,13 @@ public class LawnPanel extends JPanel {
     //JLayeredPane layeredPane;
     JPanel dragArea;
 
-    private ArrayList<GameImage> images;
+    private ArrayList<GameImage> plantGameImages;
+    private ArrayList<GameImage> zombieGameImages;
+
+
     private SeedPacket[] seedPackets;
-    private ImageIcon[] entitiesImg;
+    private ImageIcon[] plantsImg;
+    private ImageIcon[] zombiesImg;
     private ImageIcon[] gameElementsImg;
     private ImageIcon[] seedPacketsImg;
     private String[] plantNames;

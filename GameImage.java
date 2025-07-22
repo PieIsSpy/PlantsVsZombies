@@ -2,31 +2,45 @@ import java.awt.Image;
 
 import javax.swing.*;
 
-public class GameImage extends JPanel {
-    public GameImage(Image image, int pixelX, int pixelY)
+public class GameImage {
+    public GameImage(ImageIcon image, double pixelX, double pixelY)
     {
         this.image = image;
         this.pixelX = pixelX;
         this.pixelY = pixelY;
     }
 
-    public Image getImage()
+    public void setImageIcon(ImageIcon image)
+    {
+        this.image = image;
+    }
+
+    public void setPixelX(double x)
+    {
+        pixelX = x;
+    }
+
+    public void setPixelY(double y)
+    {
+        pixelY = y;
+    }
+
+    public ImageIcon getImageIcon()
     {
         return image;
     }
 
-    public int getPixelX()
+     public double getPixelX()
     {
         return pixelX;
     }
 
-    public int getPixelY()
+    public double getPixelY()
     {
         return pixelY;
     }
 
-
-    private Image image;
-    private int pixelX, pixelY;
+    private ImageIcon image;
+    private double pixelX, pixelY;
     
 }

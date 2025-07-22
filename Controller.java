@@ -1,3 +1,13 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -30,6 +40,21 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         //player = new Player(200);
         //model.selectLevel(1);
         //level = model.getLevelThread().getLevel();
+        //updateView();
+    }
+
+    public void updateView() {
+
+        Timer timer = new Timer(40, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                //zombieUpdate();
+                view.getLawn().repaint();
+
+            }
+        });
+        timer.start();
     }
 
     /** This method is responsible for communicating the events done in the View
@@ -45,6 +70,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             model.selectLevel(model.getLevelProgress());
             view.getLawn().initializeSeedPackets(model.getLevelThread().getLevel().getAvaliable_plants());
             view.changePanel("lawn");
+            updateView();
             System.out.println("Level " + model.getLevelThread().getLevel().getLEVEL_NUM());
         }
         else if (e.getActionCommand().equals("Quit")) {
@@ -129,9 +155,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        /*
         int row, col;
-        //Level level = model.getLevelThread().getLevel();
 
         if(model.getLevelThread().getLevel() != null && isWithinField(e.getX(), e.getY()))
         {
@@ -142,10 +166,17 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             //place a plant
             if(model.getLevelThread().getLevel().canBePlaced(row, col))
             {
+                //player.placePlant(level, row, col, "sunflower", 1);
+                //System.out.println("Plant position: " + level.getTiles()[row][col].getRow() + ", " + level.getTiles()[row][col].getCol());
 
-                model.getPlayer().placePlant(model.getLevelThread().getLevel(), row, col, "sunflower",0);
-                System.out.println("Plant position: " + model.getLevelThread().getLevel().getTiles()[row][col].getRow() + ", " + model.getLevelThread().getLevel().getTiles()[row][col].getCol());
-                view.getLawn().addImage(new GameImage(model.getLevelThread().getLevel().getTiles()[row][col].getImage(), columnToPixel(row), rowToPixel(col)));
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        //view.getLawn().addImage(new GameImage(image, rowToPixel(row), columnToPixel(col)));
+                        //view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) level.getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
+                    }
+
+                });
 
             }
             else
@@ -153,25 +184,14 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                 System.out.println("Tile occupied!");
             }
             
-            //System.out.println("Position: (" + row + ", " + col + ")");
-            view.getLawn().revalidate();
-            view.getLawn().repaint();
+
         }
         else
         {
             System.out.println("You are NOT in the field!");
         }
-
-         */
         
 
-        //convert mouse coordinates to row and column values in field
-        /* 
-        if(e.getX() < view.getLawn().getFieldPosX() || e.getX() > view.getLawn().getFieldPosX())
-        {
-            System.out.println("");
-        }
-        */
     }
 
     //not sure if this is supposed to be in controller or gui
@@ -196,14 +216,95 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                 y >= s.getImageCorner().y && y <= s.getImageCorner().y + s.getImage().getIconHeight();
     }
 
-    public int rowToPixel(int row)
+    public double rowToPixel(double row)
     {
         return row * view.getLawn().getTileHeight() + view.getLawn().getFieldPosY();
     }
 
-    public int columnToPixel(int col)
+    public double columnToPixel(double col)
     {
         return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
+    }
+
+
+    /*
+    public void zombieUpdate()
+    {
+        //access zombie array list in level
+        ArrayList<Zombie> z = model.getLevelThread().getLevel().getEnemies();
+        int i;
+        double pixelX, pixelY;
+        GameImage image;
+
+        for(i = 0; i < z.size(); i++)
+        {
+            pixelY = rowToPixel(z.get(i).getRow()); //this makes the image move grid by grid instead of continuously/smoothly
+            pixelX = columnToPixel(z.get(i).getCol());
+
+            if(z.get(i).getGameImage() == null)
+            {
+
+                image = new GameImage(chooseZombieImage(z.get(i)), pixelX, pixelY);
+                view.getLawn().addZombieImage(image);
+                z.get(i).setGameImage(image);
+                System.out.println("Made game image!");
+
+            }
+            else
+            {
+                //System.out.println("Update position!");
+
+                //System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
+                if(z.get(i).getIsEating())
+                {
+                    z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
+                }
+
+                z.get(i).getGameImage().setPixelX(pixelX);
+                //System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
+
+            }
+
+        }
+    }
+
+     */
+
+    /*
+    public ImageIcon chooseZombieImage(Zombie z)
+    {
+        ImageIcon image = null;
+        ImageIcon[] zombieImages = view.getLawn().getZombieImages();
+        if(z instanceof Zombie)
+        {
+            if(z.getIsEating())
+            {
+                image = zombieImages[1];
+                System.out.println("Added eating zombie!");
+            }
+            else
+            {
+                image = zombieImages[0];
+                System.out.println("Added walking zombie!");
+            }
+
+        }
+
+        return image;
+    }
+
+     */
+
+    public ImageIcon choosePlantImage(Plant p)
+    {
+        ImageIcon image = null;
+        ImageIcon[] plantImages = view.getLawn().getPlantImages();
+        if(p instanceof Sunflower)
+        {
+            image = plantImages[0];
+        }
+
+        return image;
     }
 
     public void updateSunCount() {
