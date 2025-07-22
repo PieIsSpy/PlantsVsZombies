@@ -242,23 +242,13 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                 image = new GameImage(chooseZombieImage(z.get(i)), pixelX, pixelY);
                 view.getLawn().addZombieImage(image);
                 z.get(i).setGameImage(image);
-                System.out.println("Made game image!");
-
             }
             else
             {
-                System.out.println("Update position!");
-
-                System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
-                if(z.get(i).getIsEating())
-                {
-                    z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
-                }
-
                 z.get(i).getGameImage().setPixelX(pixelX);
-                System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
-
             }
+
+            z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
 
         }
     }
