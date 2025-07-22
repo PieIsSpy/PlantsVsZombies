@@ -59,7 +59,7 @@ public class LawnPanel extends JPanel {
         plantGameImages = new ArrayList<>();
         zombieGameImages = new ArrayList<>();
 
-        layeredPane = new JLayeredPane();
+        //layeredPane = new JLayeredPane();
         // layout and components
         //layeredPane = new JLayeredPane();
         setLayout(null);
