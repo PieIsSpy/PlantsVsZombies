@@ -207,7 +207,7 @@ public class LawnPanel extends JPanel {
         for (i = 0; i < seedPackets.length; i++)
             if (seedPackets[i] != null) {
                 System.out.println(seedPackets[i].getName());
-                System.out.println(seedPackets[i].getImage());
+                System.out.println(seedPackets[i].getImageSprite());
                 System.out.println(seedPackets[i].getImageCorner().x);
                 System.out.println(seedPackets[i].getImageCorner().y);
             }
@@ -233,7 +233,7 @@ public class LawnPanel extends JPanel {
         //add(layeredPane);
 
         // sun count
-        JLabel sunCount = new JLabel("0");
+        sunCount = new JLabel("0");
         sunCount.setFont(new Font("D050000L", Font.PLAIN,20));
         sunCount.setForeground(Color.WHITE);
         sunCount.setHorizontalTextPosition(JLabel.CENTER);
@@ -282,6 +282,10 @@ public class LawnPanel extends JPanel {
         System.out.println("Added zombie image!");
     }
 
+    public void updateSunCount(int sun) {
+        sunCount.setText(Integer.toString(sun));
+    }
+
     public ImageIcon[] getPlantImages()
     {
         return plantsImg;
@@ -326,7 +330,6 @@ public class LawnPanel extends JPanel {
         return seedPackets;
     }
 
-
     /**lawn background image to be displayed */
     private ImageIcon lawnImg;
     private ImageIcon seedSlotImg;
@@ -339,8 +342,8 @@ public class LawnPanel extends JPanel {
     private final int TILE_WIDTH;
     private final int TILE_HEIGHT;
 
-    //JLayeredPane layeredPane;
     private JPanel dragArea;
+    private JLabel sunCount;
 
     private ArrayList<GameImage> plantGameImages;
     private ArrayList<GameImage> zombieGameImages;
@@ -351,27 +354,4 @@ public class LawnPanel extends JPanel {
     private ImageIcon[] gameElementsImg;
     private ImageIcon[] seedPacketsImg;
     private String[] plantNames;
-}
-
-class seedPacketDriver {
-    public static void main(String[] args) {
-        LawnPanel x = new LawnPanel(0,0, new JButton());
-        Plant[] p = new Plant[]{
-                new Sunflower(-1, -1, 0),
-                new Peashooter(-1, -1, 0)
-        };
-
-        /*
-        int counter = 0;
-        for (int i = 0; i < x.getSeedPackets().length; i++)
-            if (x.getSeedPackets()[i] != null)
-                counter++;
-         */
-        //System.out.println("initial: " + counter);
-        //System.out.println("after: ");
-        x.initializeSeedPackets(p);
-
-        //for (int i = 0; i < p.length; i++)
-          //  x.findSeedPacket(p[i].getName());
-    }
 }

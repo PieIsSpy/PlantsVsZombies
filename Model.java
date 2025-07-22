@@ -28,7 +28,6 @@ public class Model {
 
         // check if there are no levels running
         if (thread.getLevel() == null) {
-            player = new Player(200);
             // make a new level
             if (levelNum <= levelProgress) {
                 switch (levelNum) {
@@ -61,7 +60,6 @@ public class Model {
             System.out.println("Level has ended");
             thread.setRunningLevel(false);
             thread.cleanUp();
-            player = null;
         }
         else
             System.out.println("There is no level currently running");
@@ -86,8 +84,15 @@ public class Model {
         return levelProgress;
     }
 
-    public Player getPlayer() {
-        return player;
+    /** This method prompts the thread to place a plant
+     *  into a given row and col
+     *
+     * @param name the name of the plant to be placed
+     * @param row the row of the plant
+     * @param col the col of the plant
+     */
+    public void playerPlant(String name, int row, int col) {
+        thread.playerPlant(name, row, col);
     }
 
     /**the progress of the player in the game*/
@@ -96,6 +101,4 @@ public class Model {
     private LevelThread thread;
     /**the level being played*/
     private Level level;
-    /**the player object playing the game*/
-    private Player player;
 }

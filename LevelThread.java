@@ -71,6 +71,7 @@ public class LevelThread extends Thread {
     public void cleanUp() {
         levelTimer = 0;
         level = null;
+        player = null;
         runningLevel = false;
     }
 
@@ -80,6 +81,7 @@ public class LevelThread extends Thread {
      */
     public void setLevel(Level l) {
         level = l;
+        player = new Player(100);
         runningLevel = true;
         levelStart = System.currentTimeMillis();
     }
@@ -100,10 +102,61 @@ public class LevelThread extends Thread {
         return level;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    /** This method places a specified plant into a
+     *  row and col position and subtracts its
+     *  current sun collection.
+     *
+     * @param name the name of the plant to be placed
+     * @param row the row of the plant
+     * @param col the col of the plant
+     */
+    public void playerPlant(String name, int row, int col) {
+        player.placePlant(level, row, col, name, levelTimer);
+        player.subtractSun(((Plant)(level.getTiles()[row][col])).getCost());
+        level.getCooldown(name).updateLastPlaced(levelTimer);
+    }
+
+    /** This method checks if the plant is ready to be placed.
+     *
+     * @param name the name of the plant to be checked
+     * @return true if the plant is ready to be placed,
+     * false otherwise
+     */
+    public boolean isPlantReady(String name) {
+        return level.getCooldown(name).isReady(levelTimer);
+    }
+
+    /** This method checks if the player has enough suns
+     *  to place a specific plant.
+     *
+     * @param name the name of the plant to check the cost
+     * @return true if the player has enough suns, false
+     * otherwise
+     */
+    public boolean hasEnoughSuns(String name) {
+        int i;
+        Plant p = null;
+
+        for (i = 0; i < level.getAvaliable_plants().length && p == null; i++)
+            if (name.equalsIgnoreCase(level.getAvaliable_plants()[i].getName()))
+                p = level.getAvaliable_plants()[i];
+
+        if (p != null)
+            return player.getSun() >= p.getCost();
+        else
+            return false;
+    }
+
     /**the model parent communicating with this thread*/
     private Model parent;
     /**the current level being ran on the thread*/
     private Level level;
+    /**the player handling the running level*/
+    private Player player;
     /**the running status of the level*/
     private boolean runningLevel;
     /**the time frame where the level has started*/

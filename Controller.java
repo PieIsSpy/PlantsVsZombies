@@ -53,6 +53,14 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             public void actionPerformed(ActionEvent e)
             {
                 zombieUpdate();
+                seedPacketUpdate();
+
+                try {
+                    view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
+                } catch (Exception ignore) {
+                    // if player is null, it means there is no level being played
+                }
+
                 view.getLawn().repaint();
 
             }
@@ -103,7 +111,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         drag = null;
         System.out.println("Mouse pressed at (" + e.getX() + ", " + e.getY() + ")");
         for (i = 0; i < view.getLawn().getSeedPackets().length; i++) {
-            if (isWithinSeedPacket(view.getLawn().getSeedPackets()[i], e.getX(), e.getY())) {
+            if (view.getLawn().getSeedPackets()[i] != null && isWithinSeedPacket(view.getLawn().getSeedPackets()[i], e.getX(), e.getY())) {
                 System.out.println("mouse is within " + view.getLawn().getSeedPackets()[i].getName() + ": " + isWithinSeedPacket(view.getLawn().getSeedPackets()[i], e.getX(), e.getY()));
                 drag = view.getLawn().getSeedPackets()[i];
                 drag.setPreviousPoint(e.getPoint());
@@ -114,7 +122,8 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     @Override
     public void mouseDragged(MouseEvent e) {
         try {
-            if (drag != null) {
+            // check if there is anything to drag and the plant is ready to be planted
+            if (drag != null && model.getLevelThread().isPlantReady(drag.getName())) {
                 Point currentPoint = e.getPoint();
                 drag.getImageCorner().translate(
                         (int) (currentPoint.getX() - drag.getPreviousCorner().getX()),
@@ -131,12 +140,32 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        try {
+        int row, col;
+
+        if (drag != null && model.getLevelThread().isPlantReady(drag.getName())) {
+            // snap the draggable back to its original position
             Point r = new Point(drag.getOriginalCorner().x, drag.getOriginalCorner().y);
             drag.getImageCorner().setLocation(r.x, r.y);
-            view.repaint();
-        } catch (Exception ex) {
 
+            // check if the last location of the mouse is in a tile
+            if (isWithinField(e.getX(), e.getY())) {
+                col = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileHeight();
+                row = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
+
+                // if the tile is empty and the player has enough suns
+                if (model.getLevelThread().getLevel().canBePlaced(row, col) && model.getLevelThread().hasEnoughSuns(drag.getName())) {
+                   model.playerPlant(drag.getName(), row, col);
+
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
+                        }
+                    });
+                }
+            }
+
+            view.repaint();
         }
     }
 
@@ -158,42 +187,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        int row, col;
-
-        if(model.getLevelThread().getLevel() != null && isWithinField(e.getX(), e.getY()))
-        {
-            //mouseX - fieldX / tileHeight
-            col = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
-            row = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
-
-            //place a plant
-            if(model.getLevelThread().getLevel().canBePlaced(row, col))
-            {
-                model.getPlayer().placePlant(model.getLevelThread().getLevel(), row, col, "sunflower", 1);
-                System.out.println("Plant position: " + model.getLevelThread().getLevel().getTiles()[row][col].getRow() + ", " + model.getLevelThread().getLevel().getTiles()[row][col].getCol());
-
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
-                    }
-
-                });
-
-            }
-            else
-            {
-                System.out.println("Tile occupied!");
-            }
-
-
-        }
-        else
-        {
-            System.out.println("You are NOT in the field!");
-        }
-        
-
     }
 
     //not sure if this is supposed to be in controller or gui
@@ -214,8 +207,8 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     }
 
     public boolean isWithinSeedPacket(SeedPacket s, int x, int y) {
-        return x >= s.getImageCorner().x && x <= s.getImageCorner().x + s.getImage().getIconWidth() &&
-                y >= s.getImageCorner().y && y <= s.getImageCorner().y + s.getImage().getIconHeight();
+        return x >= s.getImageCorner().x && x <= s.getImageCorner().x + s.getImageSprite().getIconWidth() &&
+                y >= s.getImageCorner().y && y <= s.getImageCorner().y + s.getImageSprite().getIconHeight();
     }
 
     public double rowToPixel(double row)
@@ -266,7 +259,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                 z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
             }
         } catch (Exception e) {
-            System.out.println("Level is gone, do not update anymore");
+            // ignore
         }
     }
 
@@ -316,16 +309,28 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         return image;
     }
 
-    public void updateSunCount() {
+    public void plantUpdate() {
 
+    }
+
+    public void seedPacketUpdate() {
+        int i;
+
+        for (i = 0; i < view.getLawn().getSeedPackets().length && view.getLawn().getSeedPackets()[i] != null; i++) {
+            String name = view.getLawn().getSeedPackets()[i].getName();
+            Image edit = view.getLawn().getSeedPackets()[i].getImageSprite().getImage();
+
+            if (!model.getLevelThread().isPlantReady(name))
+                view.getLawn().getSeedPackets()[i].setFilterOpacity(true);
+            else
+                view.getLawn().getSeedPackets()[i].setFilterOpacity(false);
+        }
     }
 
     /**the model class of the program*/
     private Model model;
     /**the view class of the program*/
     private View view;
+    /** the panel to be dragged*/
     private SeedPacket drag;
-    //private Level level;
-    //private Player player;
-
 }
