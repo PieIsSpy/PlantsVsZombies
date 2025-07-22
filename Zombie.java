@@ -60,6 +60,7 @@ public class Zombie extends Entity {
         held_item = i;
         vulnerability = true;
         slowed = false;
+        isEating = false;
 
         count++;
     }
@@ -116,8 +117,7 @@ public class Zombie extends Entity {
             cur -= (float) (1.0 / ((getSpeed() - speedChange) * 2));
 
         setCol(cur);
-
-        
+        isEating = false;
     }
 
     /** This method makes the zombie eat the plant that is
@@ -133,6 +133,7 @@ public class Zombie extends Entity {
             damageChange = held_item.getDamageChange();
 
         p.takeDamage(getDamage() + damageChange);
+        isEating = true;
     }
 
     /** This method compiles basic action methods
@@ -275,6 +276,12 @@ public class Zombie extends Entity {
     {
         isEating = b;
     }
+
+    public boolean getIsEating()
+    {
+        return isEating;
+    }
+
 
     /** How many zombies are created */
     private static int count = 0;

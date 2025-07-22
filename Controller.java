@@ -33,7 +33,7 @@ public class Controller implements ActionListener, MouseListener{
         System.out.println("Main Thread: " + Thread.currentThread().getName());
         System.out.println("Level Thread: " + m.getLevelThread().getName());
 
-        //player = new Player(200);
+        player = new Player(200);
         //model.selectLevel(1);
         //level = model.getLevelThread().getLevel();
         //updateView();
@@ -47,6 +47,7 @@ public class Controller implements ActionListener, MouseListener{
             {
                 zombieUpdate();
                 view.getLawn().repaint();
+
             }
         });
         timer.start();
@@ -121,7 +122,7 @@ public class Controller implements ActionListener, MouseListener{
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
 
-        /*
+        
         int row, col;
         Level level = model.getLevelThread().getLevel();
         
@@ -141,7 +142,7 @@ public class Controller implements ActionListener, MouseListener{
                     @Override
                     public void run() {
                         //view.getLawn().addImage(new GameImage(image, rowToPixel(row), columnToPixel(col)));
-                        view.getLawn().addImage(new GameImage(level.getTiles()[row][col].getImageIcon(), columnToPixel(col), rowToPixel(row)));
+                        view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) level.getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
                     }
 
                 });
@@ -158,7 +159,7 @@ public class Controller implements ActionListener, MouseListener{
         {
             System.out.println("You are NOT in the field!");
         }
-        */ 
+        
         
     }
 
@@ -206,16 +207,23 @@ public class Controller implements ActionListener, MouseListener{
 
             if(z.get(i).getGameImage() == null)
             {
-                image = new GameImage(z.get(i).getImageIcon(), pixelX, pixelY);
+                
+                image = new GameImage(chooseZombieImage(z.get(i)), pixelX, pixelY);
                 view.getLawn().addZombieImage(image);
                 z.get(i).setGameImage(image);
                 System.out.println("Made game image!");
+            
             }
             else
             {
                 //System.out.println("Update position!");
 
                 //System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
+                if(z.get(i).getIsEating())
+                {
+                    z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
+                }
+
                 z.get(i).getGameImage().setPixelX(pixelX);
                 //System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
                 
@@ -224,7 +232,40 @@ public class Controller implements ActionListener, MouseListener{
         }
     }
     
-    
+    public ImageIcon chooseZombieImage(Zombie z)
+    {  
+        ImageIcon image = null;
+        ImageIcon[] zombieImages = view.getLawn().getZombieImages();
+        if(z instanceof Zombie)
+        {
+            if(z.getIsEating())
+            {
+                image = zombieImages[1];
+                System.out.println("Added eating zombie!");
+            }
+            else
+            {
+                image = zombieImages[0];
+                System.out.println("Added walking zombie!");
+            }
+            
+        }
+
+        return image;
+    }
+
+    public ImageIcon choosePlantImage(Plant p)
+    {
+        ImageIcon image = null;
+        ImageIcon[] plantImages = view.getLawn().getPlantImages();
+        if(p instanceof Sunflower)
+        {
+            image = plantImages[0];
+        }
+
+        return image;
+    }
+
     public void updateSunCount() {
 
     }

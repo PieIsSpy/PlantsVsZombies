@@ -10,6 +10,11 @@ public class GameImage {
         this.pixelY = pixelY;
     }
 
+    public void setImageIcon(ImageIcon image)
+    {
+        this.image = image;
+    }
+
     public void setPixelX(double x)
     {
         pixelX = x;
