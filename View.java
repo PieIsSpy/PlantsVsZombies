@@ -131,6 +131,11 @@ public class View extends JFrame {
         return lawn;
     }
 
+    /** This method returns the Result panel used to display the
+     *  game result after a level is done.
+     *
+     * @return the Result Panel of the view
+     */
     public ResultPanel getResult() {
         return result;
     }

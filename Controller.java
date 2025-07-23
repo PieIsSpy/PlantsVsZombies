@@ -76,6 +76,11 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         // start a level
         if (e.getActionCommand().equals("Start") || e.getActionCommand().equals("Retry") || e.getActionCommand().equals("Next")) {
             System.out.println("Pressed start");
+            try {
+                view.clearLawn();
+            } catch (Exception ignore) {
+                // only clear lawn if there are images
+            }
             model.setLevelResult(-1);
             model.selectLevel(model.getLevelProgress());
             view.getLawn().initializeSeedPackets(model.getLevelThread().getLevel().getAvaliable_plants());
@@ -121,6 +126,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         int i;
         drag = null; // stop tracking the previous seed packet
         System.out.println("Mouse pressed at (" + e.getX() + ", " + e.getY() + ")");
+        System.out.println("Conversion: row " + pixelToRow(e.getY()) + " col " + pixelToCol(e.getX()));
         for (i = 0; i < view.getLawn().getSeedPackets().length; i++) { // for every seed packet
             // if the seed packet exists and the mouse is inside the area of its image
             if (view.getLawn().getSeedPackets()[i] != null && isWithinSeedPacket(view.getLawn().getSeedPackets()[i], e.getX(), e.getY())) {
@@ -139,17 +145,19 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public void mouseDragged(MouseEvent e) {
         try {
             // check if there is anything to drag and the plant is ready to be planted
-            if (drag != null && model.getLevelThread().isPlantReady(drag.getName())) {
-                Point currentPoint = e.getPoint();
+            if (drag !=null) {
+                if (drag.getName().equalsIgnoreCase("shovel") || model.getLevelThread().isPlantReady(drag.getName())) {
+                    Point currentPoint = e.getPoint();
 
-                // move the image (distance between vectors A and B = (xb - xa, yb - ya)
-                drag.getImageCorner().translate(
-                        (int) (currentPoint.getX() - drag.getPreviousCorner().getX()),
-                        (int) (currentPoint.getY() - drag.getPreviousCorner().getY())
-                );
+                    // move the image (distance between vectors A and B = (xb - xa, yb - ya)
+                    drag.getImageCorner().translate(
+                            (int) (currentPoint.getX() - drag.getPreviousCorner().getX()),
+                            (int) (currentPoint.getY() - drag.getPreviousCorner().getY())
+                    );
 
-                drag.setPreviousPoint(currentPoint);
-                view.repaint();
+                    drag.setPreviousPoint(currentPoint);
+                    view.repaint();
+                }
             }
         } catch (Exception ex) {
             System.out.println("No components being dragged");
@@ -165,26 +173,34 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public void mouseReleased(MouseEvent e) {
         int row, col;
         // if the draggable seed packet exists and its plant equivalent is ready
-        if (drag != null && model.getLevelThread().isPlantReady(drag.getName())) {
+        if (drag != null && (drag.getName().equalsIgnoreCase("shovel") || model.getLevelThread().isPlantReady(drag.getName()))) {
             // snap the draggable back to its original position
             Point r = new Point(drag.getOriginalCorner().x, drag.getOriginalCorner().y);
             drag.getImageCorner().setLocation(r.x, r.y);
 
             // check if the last location of the mouse is in a tile
             if (isWithinField(e.getX(), e.getY())) {
-                col = (e.getX() - view.getLawn().getFieldPosX()) / view.getLawn().getTileHeight();
-                row = (e.getY() - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
+                row = pixelToRow(e.getY());
+                col = pixelToCol(e.getX());
 
-                // if the tile is empty and the player has enough suns
-                if (model.getLevelThread().getLevel().canBePlaced(row, col) && model.getLevelThread().hasEnoughSuns(drag.getName())) {
-                   model.playerPlant(drag.getName(), row, col);
+                // if the draggable is a seed packet if the tile is empty and the player has enough suns
+                if (!drag.getName().equalsIgnoreCase("shovel")) {
+                    if (model.getLevelThread().getLevel().canBePlaced(row, col) && model.getLevelThread().hasEnoughSuns(drag.getName())) {
+                        model.playerPlant(drag.getName(), row, col);
 
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
-                        }
-                    });
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
+                            }
+                        });
+                    }
+                }
+                else {
+                    if (!model.getLevelThread().getLevel().canBePlaced(row,col)) {
+                        System.out.println("Shoveled " + ((Plant)model.getLevelThread().getLevel().getTiles()[row][col]).getName());
+                        model.playerShovel(row, col);
+                    }
                 }
             }
 
@@ -246,6 +262,14 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public double columnToPixel(double col)
     {
         return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
+    }
+
+    public int pixelToRow(int px) {
+        return (px - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
+    }
+
+    public int pixelToCol(int px) {
+        return (px - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
     }
 
     /** This method updates the sprite position of a zombie sprite file.
