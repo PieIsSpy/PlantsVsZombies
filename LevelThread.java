@@ -28,7 +28,8 @@ public class LevelThread extends Thread {
                     if (!level.isGameOver() && !level.isGameWon(levelTimer) && runningLevel)
                         levelTimer = (int)((System.currentTimeMillis() - levelStart)/1000);
 
-                    level.gameCycle(levelTimer);
+                    if (level != null)
+                        level.gameCycle(levelTimer);
                 } while (!level.isGameOver() && !level.isGameWon(levelTimer) && runningLevel);
                 System.out.println("Level done");
 
@@ -85,7 +86,7 @@ public class LevelThread extends Thread {
         levelStart = System.currentTimeMillis();
         levelTimer = 0;
         level = l;
-        player = new Player(100);
+        player = new Player(1000);
         runningLevel = true;
     }
 

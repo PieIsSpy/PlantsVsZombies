@@ -55,8 +55,8 @@ public class LawnPanel extends JPanel {
         System.out.println();
 
         // lawn area
-        TILE_HEIGHT = FIELD_HEIGHT / 5;
         TILE_WIDTH = FIELD_WIDTH / 9;
+        TILE_HEIGHT = FIELD_HEIGHT / 5;
 
         PANEL_WIDTH = width;
         PANEL_HEIGHT = height;
@@ -407,13 +407,13 @@ public class LawnPanel extends JPanel {
     /// the seed slot image to be displayed
     private ImageIcon seedSlotImg;
     /// the width of the lawn area
-    private final int FIELD_WIDTH = 568;
+    private final int FIELD_WIDTH = 565;
     /// the height of the lawn area
-    private final int FIELD_HEIGHT = 483;
+    private final int FIELD_HEIGHT = 475;
     /// the x coordinate of the reference point of the lawn area
-    private final int FIELD_X = 191;
+    private final int FIELD_X = 195;
     /// the y coordinate of the reference point of the lawn area
-    private final int FIELD_Y = 75;
+    private final int FIELD_Y = 85;
     /// the tile width of a lawn tile.
     private final int TILE_WIDTH;
     /// the tile height of a lawn tile.
