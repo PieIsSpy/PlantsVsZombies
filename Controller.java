@@ -412,12 +412,3 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     /** the panel to be dragged*/
     private Draggable drag;
 }
-
-class Driver {
-    public static void main(String[] args) {
-        Model model = new Model();
-        View view = new View();
-        //view.changePanel("lawn");
-        Controller controller = new Controller(model, view);
-    }
-}
