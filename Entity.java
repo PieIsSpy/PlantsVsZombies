@@ -199,8 +199,6 @@ abstract class Entity {
     private float col;
     /** The internal time of the enemy*/
     private int internal_time;
-
-    // images
-    private ImageIcon image;
+    
     private GameImage gameImage;
 }

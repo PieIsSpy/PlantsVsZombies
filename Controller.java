@@ -361,6 +361,11 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
+    public void sunUpdate()
+    {
+        
+    }
+
     public void triggerLevelEndMessage(int n) {
         view.getResult().showMessage(n);
     }
@@ -382,7 +387,8 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        //for suns
+        //once clicked it should increment the sun counter
     }
 
     /**the model class of the program*/
