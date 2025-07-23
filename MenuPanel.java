@@ -33,8 +33,11 @@ public class MenuPanel extends JPanel {
             System.out.println("logoImg.png cannot be loaded");
         }
 
+        PANEL_WIDTH = width;
+        PANEL_HEIGHT = height;
+
         setLayout(new BorderLayout());
-        addComponents(width, height, start, quit);
+        addComponents(start, quit);
     }
 
     /** This method renders the background image and game logo of the game in the
@@ -58,26 +61,24 @@ public class MenuPanel extends JPanel {
     /** This method places all the components needed to be formatted into the Main Menu
      *  panel.
      *
-     * @param width the width dimension of the panel
-     * @param height the height dimension of the panel
      * @param start the start button to be formatted
      * @param quit the quit button to be formatted
      */
-    public void addComponents(int width, int height, JButton start, JButton quit) {
+    public void addComponents(JButton start, JButton quit) {
         // Left side borders
         JPanel left = new JPanel(new BorderLayout());
         left.setBackground(new Color(255,0,0,200));
-        left.setPreferredSize(new Dimension(width/2, height));
+        left.setPreferredSize(new Dimension(PANEL_WIDTH/2, PANEL_HEIGHT));
         left.setOpaque(false);
 
         JPanel upperLeft = new JPanel(new BorderLayout());
         upperLeft.setBackground(new Color(0,255,0,200));
-        upperLeft.setPreferredSize(new Dimension(width/2, 300));
+        upperLeft.setPreferredSize(new Dimension(PANEL_WIDTH/2, 300));
         upperLeft.setOpaque(false);
 
         JPanel innerLeft = new JPanel(new BorderLayout());
         innerLeft.setBackground(new Color(0,100,255,200));
-        innerLeft.setPreferredSize(new Dimension(width/2,150));
+        innerLeft.setPreferredSize(new Dimension(PANEL_WIDTH/2,150));
         innerLeft.setOpaque(false);
 
         JPanel buttonContainerL = new JPanel(new BorderLayout());
@@ -109,17 +110,17 @@ public class MenuPanel extends JPanel {
         // right side boarders
         JPanel right = new JPanel(new BorderLayout());
         right.setBackground(new Color(250, 0, 0, 180));
-        right.setPreferredSize(new Dimension(width/2, height));
+        right.setPreferredSize(new Dimension(PANEL_WIDTH/2, PANEL_HEIGHT));
         right.setOpaque(false);
 
         JPanel bottomRight = new JPanel(new BorderLayout());
         bottomRight.setBackground(new Color(250,0,0,180));
-        bottomRight.setPreferredSize(new Dimension(width/2, 225));
+        bottomRight.setPreferredSize(new Dimension(PANEL_WIDTH/2, 225));
         bottomRight.setOpaque(false);
 
         JPanel innerRight = new JPanel(new BorderLayout());
         innerRight.setBackground(new Color(0,0,250,180));
-        innerRight.setPreferredSize(new Dimension(125, height/4));
+        innerRight.setPreferredSize(new Dimension(125, PANEL_HEIGHT/4));
         innerRight.setOpaque(false);
 
         JPanel buttonContainerR = new JPanel(new BorderLayout());
@@ -145,4 +146,8 @@ public class MenuPanel extends JPanel {
     private ImageIcon bgImg;
     /// the logo image to be rendered
     private ImageIcon logoImg;
+    /// the panel width
+    private final int PANEL_WIDTH;
+    /// the panel height
+    private final int PANEL_HEIGHT;
 }
