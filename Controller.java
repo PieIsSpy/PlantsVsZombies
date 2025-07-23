@@ -145,17 +145,19 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public void mouseDragged(MouseEvent e) {
         try {
             // check if there is anything to drag and the plant is ready to be planted
-            if (drag != null && model.getLevelThread().isPlantReady(drag.getName())) {
-                Point currentPoint = e.getPoint();
+            if (drag !=null) {
+                if (drag.getName().equalsIgnoreCase("shovel") || model.getLevelThread().isPlantReady(drag.getName())) {
+                    Point currentPoint = e.getPoint();
 
-                // move the image (distance between vectors A and B = (xb - xa, yb - ya)
-                drag.getImageCorner().translate(
-                        (int) (currentPoint.getX() - drag.getPreviousCorner().getX()),
-                        (int) (currentPoint.getY() - drag.getPreviousCorner().getY())
-                );
+                    // move the image (distance between vectors A and B = (xb - xa, yb - ya)
+                    drag.getImageCorner().translate(
+                            (int) (currentPoint.getX() - drag.getPreviousCorner().getX()),
+                            (int) (currentPoint.getY() - drag.getPreviousCorner().getY())
+                    );
 
-                drag.setPreviousPoint(currentPoint);
-                view.repaint();
+                    drag.setPreviousPoint(currentPoint);
+                    view.repaint();
+                }
             }
         } catch (Exception ex) {
             System.out.println("No components being dragged");
@@ -171,7 +173,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public void mouseReleased(MouseEvent e) {
         int row, col;
         // if the draggable seed packet exists and its plant equivalent is ready
-        if (drag != null && model.getLevelThread().isPlantReady(drag.getName())) {
+        if (drag != null && (drag.getName().equalsIgnoreCase("shovel") || model.getLevelThread().isPlantReady(drag.getName()))) {
             // snap the draggable back to its original position
             Point r = new Point(drag.getOriginalCorner().x, drag.getOriginalCorner().y);
             drag.getImageCorner().setLocation(r.x, r.y);
@@ -181,16 +183,24 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                 row = pixelToRow(e.getY());
                 col = pixelToCol(e.getX());
 
-                // if the tile is empty and the player has enough suns
-                if (model.getLevelThread().getLevel().canBePlaced(row, col) && model.getLevelThread().hasEnoughSuns(drag.getName())) {
-                   model.playerPlant(drag.getName(), row, col);
+                // if the draggable is a seed packet if the tile is empty and the player has enough suns
+                if (!drag.getName().equalsIgnoreCase("shovel")) {
+                    if (model.getLevelThread().getLevel().canBePlaced(row, col) && model.getLevelThread().hasEnoughSuns(drag.getName())) {
+                        model.playerPlant(drag.getName(), row, col);
 
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
-                        }
-                    });
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
+                            }
+                        });
+                    }
+                }
+                else {
+                    if (!model.getLevelThread().getLevel().canBePlaced(row,col)) {
+                        System.out.println("Shoveled " + ((Plant)model.getLevelThread().getLevel().getTiles()[row][col]).getName());
+                        model.playerShovel(row, col);
+                    }
                 }
             }
 
@@ -401,4 +411,13 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     private View view;
     /** the panel to be dragged*/
     private Draggable drag;
+}
+
+class Driver {
+    public static void main(String[] args) {
+        Model model = new Model();
+        View view = new View();
+        //view.changePanel("lawn");
+        Controller controller = new Controller(model, view);
+    }
 }

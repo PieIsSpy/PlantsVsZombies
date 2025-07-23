@@ -83,6 +83,16 @@ public class Model {
         thread.playerPlant(name, row, col);
     }
 
+    /** This method prompts the thread to shovel an
+     *  occupied row and col
+     *
+     * @param row the row of the tile to be shoveled
+     * @param col the col of the tile to be shoveled
+     */
+    public void playerShovel(int row, int col) {
+        thread.playerShovel(row,col);
+    }
+
     /** This method returns the running level thread of the Model.
      *
      * @return the level thread of the model

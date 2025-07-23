@@ -86,7 +86,7 @@ public class LevelThread extends Thread {
         levelStart = System.currentTimeMillis();
         levelTimer = 0;
         level = l;
-        player = new Player(1000);
+        player = new Player(100);
         runningLevel = true;
     }
 
@@ -126,6 +126,16 @@ public class LevelThread extends Thread {
         player.placePlant(level, row, col, name, levelTimer);
         player.subtractSun(((Plant)(level.getTiles()[row][col])).getCost());
         level.getCooldown(name).updateLastPlaced(levelTimer);
+    }
+
+    /** This method prompts the player to shovel an
+     *  occupied row and col
+     *
+     * @param row the row of the tile to be shoveled
+     * @param col the col of the tile to be shoveled
+     */
+    public void playerShovel(int row, int col) {
+        player.useShovel(level,row,col);
     }
 
     /** This method checks if the plant is ready to be placed.
