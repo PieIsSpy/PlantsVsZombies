@@ -56,6 +56,7 @@ public class Sunflower extends Plant{
            level.getSuns().add(new Sun(getRow(), getCol(), false, currentTime));
            level.setUnclaimed_suns(level.getUnclaimed_suns() + 25);
            setInternal_time(currentTime);
+           System.out.println("Sunflower has produced sun!");
        }
    }
 }

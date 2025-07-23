@@ -363,6 +363,10 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
     public void sunUpdate()
     {
+        //access the array list of suns in level
+        //if it has landed add the image using its given position
+        //convert it to its x and y coordinates
+
         
     }
 

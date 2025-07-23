@@ -87,7 +87,7 @@ public class Sun extends GameElement {
             setRow(targetRow);
             landedTime = currentTime;
             fromSky = false;
-            //System.out.println("Sun is now in (" + (getRow() + 1) + ", " + (getCol() + 1) + ")");
+            System.out.println("Sun is now in (" + (getRow() + 1) + ", " + (getCol() + 1) + ")");
         }
     }
 
