@@ -94,6 +94,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
         // pretermination of level
         else if (e.getActionCommand().equals("Forfeit")) {
+            model.setLevelResult(-1);
             System.out.println("Pressed Forfeit");
             model.endLevel();
             view.clearLawn();
@@ -102,6 +103,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
         // back to menu
         else if (e.getActionCommand().equals("Back")) {
+            model.setLevelResult(-1);
             view.changePanel("menu");
         }
     }
@@ -347,7 +349,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public void seedPacketUpdate() {
         int i;
 
-        if (model.getLevelResult() == -1) {
+        if (model.getLevelThread().getLevel() != null && model.getLevelResult() == -1) {
             for (i = 0; i < view.getLawn().getSeedPackets().length && view.getLawn().getSeedPackets()[i] != null; i++) {
                 String name = view.getLawn().getSeedPackets()[i].getName();
 

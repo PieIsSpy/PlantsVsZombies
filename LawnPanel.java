@@ -95,7 +95,7 @@ public class LawnPanel extends JPanel {
         for(i = 0; i < zombieGameImages.size(); i++)
         {
             g.drawImage(zombieGameImages.get(i).getImageIcon().getImage(), (int)zombieGameImages.get(i).getPixelX(), (int)zombieGameImages.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
-            System.out.println("Pos image: " + (int)zombieGameImages.get(i).getPixelX() + ", " + (int)zombieGameImages.get(i).getPixelY());
+            //System.out.println("Pos image: " + (int)zombieGameImages.get(i).getPixelX() + ", " + (int)zombieGameImages.get(i).getPixelY());
         }
 
 
@@ -407,9 +407,9 @@ public class LawnPanel extends JPanel {
     /// the seed slot image to be displayed
     private ImageIcon seedSlotImg;
     /// the width of the lawn area
-    private final int FIELD_WIDTH = 534;
+    private final int FIELD_WIDTH = 568;
     /// the height of the lawn area
-    private final int FIELD_HEIGHT = 460;
+    private final int FIELD_HEIGHT = 483;
     /// the x coordinate of the reference point of the lawn area
     private final int FIELD_X = 191;
     /// the y coordinate of the reference point of the lawn area

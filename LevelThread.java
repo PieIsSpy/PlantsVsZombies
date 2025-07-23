@@ -82,11 +82,11 @@ public class LevelThread extends Thread {
      * @param l the level to be ran in the thread
      */
     public void setLevel(Level l) {
+        levelStart = System.currentTimeMillis();
+        levelTimer = 0;
         level = l;
         player = new Player(100);
         runningLevel = true;
-        levelTimer = 0;
-        levelStart = System.currentTimeMillis();
     }
 
     /** This method changes the running status of the level.
