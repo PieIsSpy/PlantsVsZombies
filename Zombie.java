@@ -29,18 +29,6 @@ public class Zombie extends Entity {
         slowed = false;
         isEating = false;
 
-        try
-        {
-            ImageIcon image = new ImageIcon(getClass().getResource("/img/lawn/entities/normalZombie.gif"));
-            setImageIcon(image);
-            System.out.println("Image status: " + image.getImageLoadStatus());
-        }
-        catch(Exception e)
-        {
-            System.out.println("Image cannot be loaded");
-        }
-        
-
         count++;
     }
 

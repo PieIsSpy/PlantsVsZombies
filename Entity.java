@@ -176,11 +176,6 @@ abstract class Entity {
         return internal_time;
     }
 
-    public void setImageIcon(ImageIcon image)
-    {
-        this.image = image;
-    }
-
     public GameImage getGameImage()
     {
         return gameImage;
