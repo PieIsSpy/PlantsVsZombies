@@ -42,7 +42,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
      *
      */
     public void updateView() {
-
         Timer timer = new Timer(40, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -58,6 +57,10 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
                 view.getLawn().repaint();
 
+                if (model.getLevelResult() > -1) {
+                    view.changePanel("result");
+                    view.getResult().showMessage(model.getLevelResult());
+                }
             }
         });
         timer.start();
@@ -70,15 +73,18 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        // menu
-        if (e.getActionCommand().equals("Start")) {
+        // start a level
+        if (e.getActionCommand().equals("Start") || e.getActionCommand().equals("Retry") || e.getActionCommand().equals("Next")) {
             System.out.println("Pressed start");
+            model.setLevelResult(-1);
             model.selectLevel(model.getLevelProgress());
             view.getLawn().initializeSeedPackets(model.getLevelThread().getLevel().getAvaliable_plants());
             view.changePanel("lawn");
             updateView();
             System.out.println("Level " + model.getLevelThread().getLevel().getLEVEL_NUM());
         }
+
+        // quit the game
         else if (e.getActionCommand().equals("Quit")) {
             System.out.println("Pressed quit");
             model.getLevelThread().interrupt();
@@ -86,11 +92,16 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             System.exit(0);
         }
 
-        // pretermination
+        // pretermination of level
         else if (e.getActionCommand().equals("Forfeit")) {
             System.out.println("Pressed Forfeit");
             model.endLevel();
             view.clearLawn();
+            view.changePanel("menu");
+        }
+
+        // back to menu
+        else if (e.getActionCommand().equals("Back")) {
             view.changePanel("menu");
         }
     }
@@ -296,12 +307,12 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         if(z.getIsEating())
         {
             image = zombieImages[1];
-            System.out.println("Added eating zombie!");
+            //System.out.println("Added eating zombie!");
         }
         else
         {
             image = zombieImages[0];
-            System.out.println("Added walking zombie!");
+            //System.out.println("Added walking zombie!");
         }
 
         return image;
@@ -336,14 +347,20 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public void seedPacketUpdate() {
         int i;
 
-        for (i = 0; i < view.getLawn().getSeedPackets().length && view.getLawn().getSeedPackets()[i] != null; i++) {
-            String name = view.getLawn().getSeedPackets()[i].getName();
+        if (model.getLevelResult() == -1) {
+            for (i = 0; i < view.getLawn().getSeedPackets().length && view.getLawn().getSeedPackets()[i] != null; i++) {
+                String name = view.getLawn().getSeedPackets()[i].getName();
 
-            if (!model.getLevelThread().isPlantReady(name))
-                view.getLawn().getSeedPackets()[i].setFilterOpacity(true);
-            else
-                view.getLawn().getSeedPackets()[i].setFilterOpacity(false);
+                if (!model.getLevelThread().isPlantReady(name) || !model.getLevelThread().hasEnoughSuns(name))
+                    view.getLawn().getSeedPackets()[i].setFilterOpacity(true);
+                else
+                    view.getLawn().getSeedPackets()[i].setFilterOpacity(false);
+            }
         }
+    }
+
+    public void triggerLevelEndMessage(int n) {
+        view.getResult().showMessage(n);
     }
 
     @Override

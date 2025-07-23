@@ -2,12 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ResultPanel extends JPanel {
-    public ResultPanel (int width, int height, JButton retry, JButton back, JButton next){
+    public ResultPanel (int width, int height, JButton retry, JButton backLost, JButton next, JButton backWon){
         PANEL_WIDTH = width;
         PANEL_HEIGHT = height;
 
         setLayout(null);
-        init(retry, back, next);
+        init(retry, backLost, next, backWon);
     }
 
     @Override
@@ -51,11 +51,11 @@ public class ResultPanel extends JPanel {
         repaint();
     }
 
-    public void init(JButton retry, JButton back, JButton next) {
+    public void init(JButton retry, JButton backLost, JButton next, JButton backWon) {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        levelLost = constructButtonHolder(retry, back);
-        levelWon = constructButtonHolder(next, back);
+        levelLost = constructButtonHolder(retry, backLost);
+        levelWon = constructButtonHolder(next, backWon);
 
         mainPanel.add(levelLost, "level lost");
         mainPanel.add(levelWon, "level won");
@@ -119,12 +119,4 @@ public class ResultPanel extends JPanel {
     private final int PANEL_WIDTH;
     /// the panel height
     private final int PANEL_HEIGHT;
-}
-
-class ResultDriver {
-    public static void main(String[] args) {
-        View v = new View();
-        v.changePanel("result");
-        v.getResult().showMessage(3);
-    }
 }

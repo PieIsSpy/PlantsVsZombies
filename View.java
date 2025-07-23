@@ -38,7 +38,8 @@ public class View extends JFrame {
         quit = new JButton("Quit");
         forfeit = new JButton("Forfeit");
         retry = new JButton("Retry");
-        back = new JButton("Back");
+        backLost = new JButton("Back");
+        backWon = new JButton("Back");
         next = new JButton("Next");
 
         // panels
@@ -46,7 +47,7 @@ public class View extends JFrame {
         currentPanel = new JPanel(cardLayout);
         menu = new MenuPanel(WIDTH, HEIGHT, start, quit);
         lawn = new LawnPanel(WIDTH, HEIGHT, forfeit);
-        result = new ResultPanel(WIDTH, HEIGHT, retry, back, next);
+        result = new ResultPanel(WIDTH, HEIGHT, retry, backLost, next, backWon);
 
         // add panels
         currentPanel.add(menu, "menu");
@@ -96,6 +97,10 @@ public class View extends JFrame {
         start.addActionListener(listener);
         quit.addActionListener(listener);
         forfeit.addActionListener(listener);
+        backWon.addActionListener(listener);
+        backLost.addActionListener(listener);
+        retry.addActionListener(listener);
+        next.addActionListener(listener);
     }
 
     /** This method listens for mouse actions inside the Lawn Panel
@@ -136,8 +141,10 @@ public class View extends JFrame {
     private JButton quit;
     /// the forfeit button used by the View
     private JButton forfeit;
-    /// the back button used by the View
-    private JButton back;
+    /// the back button used by the level lost GUI of the view
+    private JButton backLost;
+    /// the back button used by the level won GUI of the view
+    private JButton backWon;
     /// the retry button used by the View
     private JButton retry;
     /// the next button used by the View

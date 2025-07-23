@@ -23,16 +23,17 @@ public class LevelThread extends Thread {
     public void run() {
         while (this.isAlive()) {
             if (runningLevel) {
-                levelTimer = 0;
                 // run the level's game cycle
                 do {
-                    levelTimer = (int)((System.currentTimeMillis() - levelStart)/1000);
+                    if (!level.isGameOver() && !level.isGameWon(levelTimer) && runningLevel)
+                        levelTimer = (int)((System.currentTimeMillis() - levelStart)/1000);
+
                     level.gameCycle(levelTimer);
                 } while (!level.isGameOver() && !level.isGameWon(levelTimer) && runningLevel);
                 System.out.println("Level done");
 
                 // check if the game is still running or not
-                checkGameStatus(levelTimer);
+                checkGameStatus();
                 cleanUp();
             }
         }
@@ -42,15 +43,16 @@ public class LevelThread extends Thread {
      *  This method also cleans up any variables related to the previous level's timer
      *  if the level has already ended.
      *
-     * @param levelTimer the current time of the level
      */
-    public void checkGameStatus(int levelTimer) {
+    public void checkGameStatus() {
         try {
             if (level.isGameWon(levelTimer)) { // if game is won
                 parent.incrementProgress();
+                parent.setLevelResult(level.getLEVEL_NUM());
                 System.out.println("Level won");
             }
             else if (level.isGameOver()) {
+                parent.setLevelResult(0);
                 System.out.println("Level lost");
             }
         }
@@ -83,6 +85,7 @@ public class LevelThread extends Thread {
         level = l;
         player = new Player(100);
         runningLevel = true;
+        levelTimer = 0;
         levelStart = System.currentTimeMillis();
     }
 

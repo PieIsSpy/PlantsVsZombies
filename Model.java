@@ -72,6 +72,17 @@ public class Model {
         levelProgress++;
     }
 
+    /** This method prompts the thread to place a plant
+     *  into a given row and col
+     *
+     * @param name the name of the plant to be placed
+     * @param row the row of the plant
+     * @param col the col of the plant
+     */
+    public void playerPlant(String name, int row, int col) {
+        thread.playerPlant(name, row, col);
+    }
+
     /** This method returns the running level thread of the Model.
      *
      * @return the level thread of the model
@@ -89,17 +100,16 @@ public class Model {
         return levelProgress;
     }
 
-    /** This method prompts the thread to place a plant
-     *  into a given row and col
-     *
-     * @param name the name of the plant to be placed
-     * @param row the row of the plant
-     * @param col the col of the plant
-     */
-    public void playerPlant(String name, int row, int col) {
-        thread.playerPlant(name, row, col);
+    public int getLevelResult() {
+        return levelResult;
     }
 
+    public void setLevelResult(int n) {
+        levelResult = n;
+    }
+
+    /**the latest result of the game*/
+    private int levelResult;
     /**the progress of the player in the game*/
     private int levelProgress = 1;
     /**the running level thread of the model*/
