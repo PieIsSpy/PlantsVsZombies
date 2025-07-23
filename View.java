@@ -37,16 +37,22 @@ public class View extends JFrame {
         start = new JButton("Start");
         quit = new JButton("Quit");
         forfeit = new JButton("Forfeit");
+        retry = new JButton("Retry");
+        back = new JButton("Back");
+        next = new JButton("Next");
 
         // panels
         cardLayout = new CardLayout();
         currentPanel = new JPanel(cardLayout);
         menu = new MenuPanel(WIDTH, HEIGHT, start, quit);
         lawn = new LawnPanel(WIDTH, HEIGHT, forfeit);
+        result = new ResultPanel(WIDTH, HEIGHT, retry, back, next);
 
         // add panels
         currentPanel.add(menu, "menu");
         currentPanel.add(lawn, "lawn");
+        currentPanel.add(result, "result");
+
         currentPanel.setBounds(0,0,getWidth(),getHeight());
         add(currentPanel);
     }
@@ -65,6 +71,11 @@ public class View extends JFrame {
             System.out.println();
             System.out.println("Current GUI: Level Select");
             cardLayout.show(currentPanel, "lawn");
+        }
+        else if (panel.equalsIgnoreCase("result")) {
+            System.out.println();
+            System.out.println("Current GUI: Result");
+            cardLayout.show(currentPanel, "result");
         }
     }
 
@@ -115,12 +126,22 @@ public class View extends JFrame {
         return lawn;
     }
 
+    public ResultPanel getResult() {
+        return result;
+    }
+
     /// the start button used by the View
     private JButton start;
     /// the quit button used by the View
     private JButton quit;
     /// the forfeit button used by the View
     private JButton forfeit;
+    /// the back button used by the View
+    private JButton back;
+    /// the retry button used by the View
+    private JButton retry;
+    /// the next button used by the View
+    private JButton next;
     /// the list of JPanels used by the View
     private CardLayout cardLayout;
     /// the current JPanel displayed in the View
@@ -129,6 +150,8 @@ public class View extends JFrame {
     private MenuPanel menu;
     /// the Lawn panel of the View
     private LawnPanel lawn;
+    /// the Game Over panel of the View
+    private ResultPanel result;
     /// the dimensions of the main JFrame
     private static final int WIDTH = 800, HEIGHT = 600;
 }

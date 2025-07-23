@@ -58,12 +58,15 @@ public class LawnPanel extends JPanel {
         TILE_HEIGHT = FIELD_HEIGHT / 5;
         TILE_WIDTH = FIELD_WIDTH / 9;
 
+        PANEL_WIDTH = width;
+        PANEL_HEIGHT = height;
+
         plantGameImages = new ArrayList<>();
         zombieGameImages = new ArrayList<>();
         seedPackets = new Draggable[6];
 
         setLayout(null);
-        addComponents(width, height, forfeit);
+        addComponents(forfeit);
     }
 
     /**
@@ -240,11 +243,9 @@ public class LawnPanel extends JPanel {
     /** This method is responsible for adding all the components needed
      *  to be rendered in the Lawn Panel.
      *
-     * @param width the width of the panel
-     * @param height the height of the panel
      * @param forfeit the forfeit button to be formatted
      */
-    public void addComponents(int width, int height, JButton forfeit) {
+    public void addComponents(JButton forfeit) {
 
         // sun count
         sunCount = new JLabel("0");
@@ -255,9 +256,10 @@ public class LawnPanel extends JPanel {
         add(sunCount);
 
         // forfeit button
-        forfeit.setBounds(width - 150, 0, 100, 60);
+        forfeit.setBounds(PANEL_WIDTH - 150, 0, 100, 60);
         forfeit.setFont(new Font("Lucida Handwriting", Font.BOLD, 15));
         forfeit.setOpaque(true);
+        forfeit.setFocusPainted(false);
         forfeit.setBackground(Color.lightGray);
         forfeit.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 10));
         forfeit.setHorizontalTextPosition(JLabel.CENTER);
@@ -266,7 +268,7 @@ public class LawnPanel extends JPanel {
         // drag and drop container
         dragArea = new JPanel(new BorderLayout());
         dragArea.setOpaque(false);
-        dragArea.setBounds(0,0,width,height);
+        dragArea.setBounds(0,0,PANEL_WIDTH,PANEL_HEIGHT);
         add(dragArea);
     }
 
@@ -396,6 +398,10 @@ public class LawnPanel extends JPanel {
         return seedPackets;
     }
 
+    /// the panel width
+    private final int PANEL_WIDTH;
+    /// the panel height
+    private final int PANEL_HEIGHT;
     /**lawn background image to be displayed */
     private ImageIcon lawnImg;
     /// the seed slot image to be displayed

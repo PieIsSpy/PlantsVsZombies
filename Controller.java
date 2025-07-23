@@ -338,7 +338,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
         for (i = 0; i < view.getLawn().getSeedPackets().length && view.getLawn().getSeedPackets()[i] != null; i++) {
             String name = view.getLawn().getSeedPackets()[i].getName();
-            Image edit = view.getLawn().getSeedPackets()[i].getImageSprite().getImage();
 
             if (!model.getLevelThread().isPlantReady(name))
                 view.getLawn().getSeedPackets()[i].setFilterOpacity(true);
