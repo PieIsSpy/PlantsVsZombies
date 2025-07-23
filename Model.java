@@ -100,10 +100,20 @@ public class Model {
         return levelProgress;
     }
 
+    /** This method returns the result of the level
+     *  running on the thread.
+     *
+     * @return the result of the level running on the thread
+     */
     public int getLevelResult() {
         return levelResult;
     }
 
+    /** This method sets the result of the level
+     *  running on the thread.
+     *
+     * @param n the result of the level
+     */
     public void setLevelResult(int n) {
         levelResult = n;
     }

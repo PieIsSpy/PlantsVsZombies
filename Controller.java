@@ -375,10 +375,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
-    public void triggerLevelEndMessage(int n) {
-        view.getResult().showMessage(n);
-    }
-
     @Override
     public void mouseEntered(MouseEvent e) {
 
