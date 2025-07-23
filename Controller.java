@@ -339,6 +339,17 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         return image;
     }
 
+    public ImageIcon chooseGameElementImage(GameElement g)
+    {
+        ImageIcon image = null;
+        ImageIcon[] gameElementImgs = view.getLawn().getGameElementImages();
+        if(g instanceof Sun)
+        {
+            image = gameElementImgs[0];
+        }
+        return image;
+    }
+
     public void plantUpdate() {
 
     }
@@ -366,7 +377,10 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         //access the array list of suns in level
         //if it has landed add the image using its given position
         //convert it to its x and y coordinates
-
+        //what about the falling suns
+        ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
+        int i;
+        
         
     }
 

@@ -63,6 +63,7 @@ public class LawnPanel extends JPanel {
 
         plantGameImages = new ArrayList<>();
         zombieGameImages = new ArrayList<>();
+        elementsGameImages = new ArrayList<>();
         seedPackets = new Draggable[6];
 
         setLayout(null);
@@ -308,6 +309,17 @@ public class LawnPanel extends JPanel {
         System.out.println("Added plant image!");
     }
 
+    /** This method adds an image into the arraylist of game
+     * element images to be rendered
+     *
+     * @param image the image to be added for rendering
+     */
+    public void addGameElementImage(GameImage image)
+    {
+        elementsGameImages.add(image);
+        System.out.println("Added game element image!");
+    }
+
     /** This method updates the sun count text of the panel
      *
      * @param sun the current amount of sun
@@ -332,6 +344,11 @@ public class LawnPanel extends JPanel {
     public ImageIcon[] getZombieImages()
     {
         return zombiesImg;
+    }
+
+    public ImageIcon[] getGameElementImages()
+    {
+        return gameElementsImg;
     }
 
     /** This method gets the width of the lawn area.
@@ -426,6 +443,8 @@ public class LawnPanel extends JPanel {
     private ArrayList<GameImage> plantGameImages;
     /// the zombies to be rendered
     private ArrayList<GameImage> zombieGameImages;
+    //the game elements(suns, projectiles) to be rendered
+    private ArrayList<GameImage> elementsGameImages;
     /// the draggable seed packets to be used
     private Draggable[] seedPackets;
     /// the image resources for plants
@@ -438,4 +457,5 @@ public class LawnPanel extends JPanel {
     private ImageIcon[] seedPacketsImg;
     ///the names of plants to be represented in a draggable object
     private String[] plantNames;
+    
 }
