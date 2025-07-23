@@ -176,11 +176,6 @@ abstract class Entity {
         return internal_time;
     }
 
-    public ImageIcon getImageIcon()
-    {
-        return image;
-    }
-
     public void setImageIcon(ImageIcon image)
     {
         this.image = image;
@@ -210,8 +205,7 @@ abstract class Entity {
     /** The internal time of the enemy*/
     private int internal_time;
 
+    // images
     private ImageIcon image;
-
     private GameImage gameImage;
-    private String imagePath;
 }

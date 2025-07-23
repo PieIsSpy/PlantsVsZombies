@@ -80,6 +80,11 @@ public class Model {
         return thread;
     }
 
+    /** This method returns the current level progression
+     *  of the game.
+     *
+     * @return the current level progression of the game
+     */
     public int getLevelProgress() {
         return levelProgress;
     }
