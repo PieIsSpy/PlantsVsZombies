@@ -298,14 +298,12 @@ abstract class Level {
                     tiles[i][j] = null;
 
         // remove inactive suns
-        /* 
         for (i = suns.size() - 1; i >= 0; i--) {
             if (!suns.get(i).isActive()) {
                 Sun.despawn();
                 suns.remove(i);
             }
         }
-        */ 
 
         // remove inactive projectiles
         for (i = peas.size() - 1; i >= 0; i--)
@@ -423,7 +421,7 @@ abstract class Level {
     
 
         // remove dead entities and inactive game elements
-        despawn();
+        //despawn();
         //if (interval != 0)
         //  System.out.println("Spawn rate: 1 zombie every " + interval + " seconds" );
     }

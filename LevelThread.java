@@ -24,25 +24,19 @@ public class LevelThread extends Thread {
      */
     public void run() {
         while (this.isAlive()) {
-            if (level != null && runningLevel) {
-                // run the level's game cycle
+            try {
+                do {
+                    levelTimer = (int)((System.currentTimeMillis() - levelStart)/1000);
 
-                try {
-                    do {
-                        if (!level.isGameOver() && !level.isGameWon(levelTimer) && runningLevel)
-                            levelTimer = (int) ((System.currentTimeMillis() - levelStart) / 1000);
+                    if (level != null)
+                        level.gameCycle(levelTimer);
 
-                        if (level != null)
-                            level.gameCycle(levelTimer);
-                    } while (runningLevel && !Objects.requireNonNull(level).isGameOver() && !level.isGameWon(levelTimer));
-                    System.out.println("Level done");
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-
-                // check if the game is still running or not
+                } while (!level.isGameOver() && !level.isGameWon(levelTimer));
                 checkGameStatus();
                 cleanUp();
+            }
+            catch (Exception e) {
+                // only run this if there is a level existing
             }
         }
     }

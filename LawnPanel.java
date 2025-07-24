@@ -345,6 +345,10 @@ public class LawnPanel extends JPanel {
         System.out.println("Added zombie image!");
     }
 
+    public ArrayList<GameImage> getZombieGameImages() {
+        return zombieGameImages;
+    }
+
     /** This method adds an image into the arraylist of plant images
      *  to be rendered
      *
@@ -516,7 +520,6 @@ public class LawnPanel extends JPanel {
     private JLabel sunCount;
     /// the tiles to be rendered
     private GameImage[][] tileGameImages;
-    //private ArrayList<GameImage> plantGameImages;
     /// the zombies to be rendered
     private ArrayList<GameImage> zombieGameImages;
     ///the game elements(suns, projectiles) to be rendered

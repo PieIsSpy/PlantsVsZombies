@@ -49,16 +49,17 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
                 try {
                     view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
+                    model.getLevelThread().getLevel().despawn();
                 } catch (Exception ignore) {
                     // if player is null, it means there is no level being played
                 }
-
-                view.getLawn().repaint();
 
                 if (model.getLevelResult() > -1) {
                     view.changePanel("result");
                     view.getResult().showMessage(model.getLevelResult());
                 }
+
+                view.getLawn().repaint();
             }
         });
         timer.start();
@@ -302,10 +303,13 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                     z.get(i).setGameImage(image);
                     //System.out.println("Made game image!");
 
-                } else {
+                } else if (z.get(i).isAlive()){
                     //System.out.println("Update position!");
                     //System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
                     z.get(i).getGameImage().setPixelX(pixelX);
+                }
+                else {
+                    view.getLawn().getZombieGameImages().remove(i);
                 }
 
                 //updates the image
@@ -507,7 +511,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
             }
 
-            model.getLevelThread().getLevel().removeInactiveSuns();
+            //model.getLevelThread().getLevel().removeInactiveSuns();
         }
         catch(Exception e)
         {
