@@ -400,13 +400,13 @@ abstract class Level {
 
         //spawns a falling sun after a 20-second interval
         //sun_interval : when the last sun was spawned
-        /* 
+         
         if (currentTime - sun_interval >= 20) {
             addSun(currentTime);
-            System.out.println("Sun appeared in (" + (suns.get(suns.size()-1).getRow()+1) + "," + (suns.get(suns.size()-1).getCol()+1) + ")");
+            //System.out.println("Sun appeared in (" + (suns.get(suns.size()-1).getRow()+1) + "," + (suns.get(suns.size()-1).getCol()+1) + ")");
             sun_interval = currentTime;
         }
-        */ 
+    
 
         // remove dead entities and inactive game elements
         despawn();
@@ -425,11 +425,8 @@ abstract class Level {
     {
         Random random = new Random();
 
-        //generates a random number for where it will spawn/fall
-        float columnSpawn = random.nextInt(COLUMNS) + random.nextFloat();
-        float targetSpawn = random.nextInt(ROWS) + random.nextFloat();
-
-        suns.add(new Sun(0, columnSpawn, true, Math.max(targetSpawn, 1.5f), currentTime));
+        //randomize the column/row position
+        suns.add(new Sun(random.nextInt(ROWS+1), random.nextInt(COLUMNS+1), currentTime));
         unclaimed_suns += suns.get(suns.size()-1).getAmount();
     }
 
