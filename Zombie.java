@@ -1,5 +1,3 @@
-import javax.swing.ImageIcon;
-
 /** The class Zombie represents a basic zombie object that inherits an Entity class
  *  that can be used by other child classes that represent
  *  variant zombies.

@@ -1,5 +1,3 @@
-import javax.swing.ImageIcon;
-
 /** This class represents a Sunflower entity
  *  that inherits a Plant class. This plant
  *  produces suns in a certain amount of rate.

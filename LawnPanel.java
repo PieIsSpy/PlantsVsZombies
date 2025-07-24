@@ -114,10 +114,6 @@ public class LawnPanel extends JPanel {
             {
                 g.drawImage(elementsGameImages.get(i).getImageIcon().getImage(), (int)elementsGameImages.get(i).getPixelX(), (int)elementsGameImages.get(i).getPixelY(), (int)(TILE_WIDTH*0.7), (int)(TILE_HEIGHT*0.7), null);
             }
-            else
-            {
-                System.out.println("null");
-            }
            
             //System.out.println("element game images: "+ elementsGameImages.size());
         }
@@ -351,6 +347,12 @@ public class LawnPanel extends JPanel {
         elementsGameImages.add(image);
         System.out.println("Added game element image!");
     }
+
+    public ArrayList<GameImage> getElementsGameImages()
+    {
+        return elementsGameImages;
+    }
+
 
     /** This method updates the sun count text of the panel
      *

@@ -1,7 +1,3 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -407,10 +403,12 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         //if it has landed add the image using its given position
         //convert it to its x and y coordinates
         //what about the falling suns
+        //how to remove the deactivated suns, considering the fact that theyre not in the array list anymore??
+
 
         try
         {
-             ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
+            ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
             int i;
             double x, y;
             GameImage image;
@@ -425,8 +423,14 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                     view.getLawn().addGameElementImage(image);
                     suns.get(i).setGameImage(image);
                 }
+                if(!suns.get(i).isActive())
+                {
+                    view.getLawn().getElementsGameImages().remove(i);
+                }
 
             }
+
+            model.getLevelThread().getLevel().removeInactiveSuns();
         }
         catch(Exception e)
         {
@@ -477,7 +481,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                         System.out.println("You have clicked on the sun!");
                         model.getLevelThread().getPlayer().collectSun(suns.get(i).getAmount());
                         view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
-                        //suns.get(i).setGameImage(null);
                         suns.get(i).deactivate();
                     
                     }
