@@ -357,7 +357,11 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         ImageIcon[] plantImages = view.getLawn().getPlantImages();
         if(p instanceof Sunflower)
         {
-            image = plantImages[0];
+            image = plantImages[4];
+        }
+        if(p instanceof Peashooter)
+        {
+            image = plantImages[1];
         }
 
         return image;
