@@ -130,11 +130,18 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         System.out.println("Conversion: row " + pixelToRow(e.getY()) + " col " + pixelToCol(e.getX()));
         for (i = 0; i < view.getLawn().getSeedPackets().length; i++) { // for every seed packet
             // if the seed packet exists and the mouse is inside the area of its image
-            if (view.getLawn().getSeedPackets()[i] != null && isWithinSeedPacket(view.getLawn().getSeedPackets()[i], e.getX(), e.getY())) {
-                System.out.println("mouse is within " + view.getLawn().getSeedPackets()[i].getName() + ": " + isWithinSeedPacket(view.getLawn().getSeedPackets()[i], e.getX(), e.getY()));
+            if (view.getLawn().getSeedPackets()[i] != null && isWithinDraggable(view.getLawn().getSeedPackets()[i], e.getX(), e.getY())) {
+                System.out.println("mouse is within " + view.getLawn().getSeedPackets()[i].getName() + ": " + isWithinDraggable(view.getLawn().getSeedPackets()[i], e.getX(), e.getY()));
                 drag = view.getLawn().getSeedPackets()[i];
                 drag.setPreviousPoint(e.getPoint());
             }
+        }
+
+        // if its not a seed packet, check if its a shovel instead
+        if (drag == null && isWithinDraggable(view.getLawn().getShovelDraggable(), e.getX(), e.getY())) {
+            System.out.println("mouse is within shovel: " + isWithinDraggable(view.getLawn().getShovelDraggable(), e.getX(), e.getY()));
+            drag = view.getLawn().getShovelDraggable();
+            drag.setPreviousPoint(e.getPoint());
         }
     }
 
@@ -238,7 +245,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
      * @param y the y position of the cursor
      * @return true if the cursor is inside the lawn area, false otherwise
      */
-    public boolean isWithinSeedPacket(Draggable s, int x, int y) {
+    public boolean isWithinDraggable(Draggable s, int x, int y) {
         return x >= s.getImageCorner().x && x <= s.getImageCorner().x + s.getImageSprite().getIconWidth() &&
                 y >= s.getImageCorner().y && y <= s.getImageCorner().y + s.getImageSprite().getIconHeight();
     }
@@ -307,7 +314,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
                     z.get(i).getGameImage().setPixelX(pixelX);
                     //System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
-
                 }
 
                 //updates the image
@@ -331,6 +337,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     {
         ImageIcon image = null;
         ImageIcon[] zombieImages = view.getLawn().getZombieImages();
+
         if(z.getIsEating())
         {
             image = zombieImages[1];
@@ -356,13 +363,12 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     {
         ImageIcon image = null;
         ImageIcon[] plantImages = view.getLawn().getPlantImages();
-        if(p instanceof Sunflower)
-        {
-            image = plantImages[4];
-        }
-        else if(p instanceof Peashooter)
-        {
-            image = plantImages[1];
+        String[] plantNames = view.getLawn().getPlantNames();
+        int i;
+
+        for (i = 0; i < plantNames.length; i++) {
+            if (p.getName().equalsIgnoreCase(plantNames[i]))
+                image = plantImages[i];
         }
 
         return image;
@@ -380,7 +386,21 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     }
 
     public void plantUpdate() {
+        try {
+            Entity[][] tiles = model.getLevelThread().getLevel().getTiles();
+            int rows = model.getLevelThread().getLevel().getROWS();
+            int cols = model.getLevelThread().getLevel().getCOLUMNS();
+            int i, j;
 
+            for (i = 0; i < rows; i++)
+                for (j = 0; j < cols; j++)
+                    if (tiles[i][j] != null) {
+
+                    }
+
+        } catch (Exception ignore) {
+            // only check if a level is running
+        }
     }
 
     /** This method updates the sprite image of a seed packet draggable object.
@@ -390,13 +410,17 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         int i;
 
         if (model.getLevelThread().getLevel() != null && model.getLevelResult() == -1) {
-            for (i = 0; i < view.getLawn().getSeedPackets().length && view.getLawn().getSeedPackets()[i] != null; i++) {
-                String name = view.getLawn().getSeedPackets()[i].getName();
+            for (i = 0; i < view.getLawn().getSeedPackets().length; i++) {
+                if (view.getLawn().getSeedPackets()[i] != null) {
+                    String name = view.getLawn().getSeedPackets()[i].getName();
 
-                if (!model.getLevelThread().isPlantReady(name) || !model.getLevelThread().hasEnoughSuns(name))
-                    view.getLawn().getSeedPackets()[i].setFilterOpacity(true);
-                else
-                    view.getLawn().getSeedPackets()[i].setFilterOpacity(false);
+                    if (!name.equalsIgnoreCase("shovel")) {
+                        if (!model.getLevelThread().isPlantReady(name) || !model.getLevelThread().hasEnoughSuns(name))
+                            view.getLawn().getSeedPackets()[i].setFilterOpacity(true);
+                        else
+                            view.getLawn().getSeedPackets()[i].setFilterOpacity(false);
+                    }
+                }
             }
         }
     }
@@ -432,7 +456,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         {
 
         }
-       
+
 
         //once sun gets deactivate it gets removed from the level already
         //how do i remove the images of the suns already removed from the game?
@@ -461,11 +485,11 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+
         try
         {
             ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
-        
+
             int i;
             for(i = 0; i < suns.size(); i++)
             {
@@ -479,14 +503,14 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                         view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
                         //suns.get(i).setGameImage(null);
                         suns.get(i).deactivate();
-                    
+
                     }
                     else
                     {
                         System.out.println("no sun there");
                     }
                 }
-            
+
             }
 
             System.out.println("Suns: " + suns.size());
@@ -495,9 +519,9 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         {
 
         }
-        
-        
-        
+
+
+
     }
 
     /**the model class of the program*/
