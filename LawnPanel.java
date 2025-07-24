@@ -429,6 +429,15 @@ public class LawnPanel extends JPanel {
         return seedPackets;
     }
 
+    /** This method returns the list of plant names read by the
+     *  readPlantNames() method.
+     *
+     * @return the array of plant names read
+     */
+    public String[] getPlantNames() {
+        return plantNames;
+    }
+
     /// the panel width
     private final int PANEL_WIDTH;
     /// the panel height
