@@ -90,20 +90,33 @@ public class LawnPanel extends JPanel {
 
         for(i = 0; i < plantGameImages.size(); i++)
         {
-             g.drawImage(plantGameImages.get(i).getImageIcon().getImage(), (int)plantGameImages.get(i).getPixelX(), (int)plantGameImages.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+            if(plantGameImages.get(i) != null)
+            {
+                 g.drawImage(plantGameImages.get(i).getImageIcon().getImage(), (int)plantGameImages.get(i).getPixelX(), (int)plantGameImages.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+            }
+            
              //System.out.println("Paint!");
         }
 
         for(i = 0; i < zombieGameImages.size(); i++)
         {
-            g.drawImage(zombieGameImages.get(i).getImageIcon().getImage(), (int)zombieGameImages.get(i).getPixelX(), (int)zombieGameImages.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+            if(zombieGameImages.get(i) != null)
+            {
+                g.drawImage(zombieGameImages.get(i).getImageIcon().getImage(), (int)zombieGameImages.get(i).getPixelX(), (int)zombieGameImages.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+            }
+            
             //System.out.println("Pos image: " + (int)zombieGameImages.get(i).getPixelX() + ", " + (int)zombieGameImages.get(i).getPixelY());
         }
 
         for(i = 0; i < elementsGameImages.size(); i++)
         {
-            g.drawImage(elementsGameImages.get(i).getImageIcon().getImage(), (int)elementsGameImages.get(i).getPixelX(), (int)elementsGameImages.get(i).getPixelY(), (int)(TILE_WIDTH*0.7), (int)(TILE_HEIGHT*0.7), null);
+            if(elementsGameImages.get(i) != null)
+            {
+                g.drawImage(elementsGameImages.get(i).getImageIcon().getImage(), (int)elementsGameImages.get(i).getPixelX(), (int)elementsGameImages.get(i).getPixelY(), (int)(TILE_WIDTH*0.7), (int)(TILE_HEIGHT*0.7), null);
+            }
+            //System.out.println("element game images: "+ elementsGameImages.size());
         }
+        
 
     }
 
