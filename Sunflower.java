@@ -35,7 +35,7 @@ public class Sunflower extends Plant{
         setCost(50);
         setCooldown(7);
         setHealth(100);
-        setSpeed(20);
+        setSpeed(15);
     }
 
     /** This function manages the behavior of a Sunflower 

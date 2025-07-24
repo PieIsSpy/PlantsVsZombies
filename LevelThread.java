@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /** This class is responsible for allowing the game cycle
  *  of the level to be looped without interrupting the main thread of the program.
  *
@@ -24,14 +26,19 @@ public class LevelThread extends Thread {
         while (this.isAlive()) {
             if (level != null && runningLevel) {
                 // run the level's game cycle
-                do {
-                    if (!level.isGameOver() && !level.isGameWon(levelTimer) && runningLevel)
-                        levelTimer = (int)((System.currentTimeMillis() - levelStart)/1000);
 
-                    if (level != null)
-                        level.gameCycle(levelTimer);
-                } while (runningLevel && !level.isGameOver() && !level.isGameWon(levelTimer));
-                System.out.println("Level done");
+                try {
+                    do {
+                        if (!level.isGameOver() && !level.isGameWon(levelTimer) && runningLevel)
+                            levelTimer = (int) ((System.currentTimeMillis() - levelStart) / 1000);
+
+                        if (level != null)
+                            level.gameCycle(levelTimer);
+                    } while (runningLevel && !Objects.requireNonNull(level).isGameOver() && !level.isGameWon(levelTimer));
+                    System.out.println("Level done");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
 
                 // check if the game is still running or not
                 checkGameStatus();
@@ -87,7 +94,13 @@ public class LevelThread extends Thread {
         levelTimer = 0;
         runningLevel = true;
         level = l;
-        player = new Player(100);
+
+        if (level.getLEVEL_NUM() == 1)
+            player = new Player(100);
+        else if (level.getLEVEL_NUM() == 2)
+            player = new Player(150);
+        else if (level.getLEVEL_NUM() == 3)
+            player = new Player(200);
     }
 
     /** This method changes the running status of the level.
@@ -112,6 +125,10 @@ public class LevelThread extends Thread {
      */
     public Player getPlayer() {
         return player;
+    }
+
+    public int getLevelTimer() {
+        return levelTimer;
     }
 
     /** This method places a specified plant into a

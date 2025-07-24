@@ -45,6 +45,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                 zombieUpdate();
                 seedPacketUpdate();
                 sunUpdate();
+                tileUpdate();
 
                 try {
                     view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
@@ -195,7 +196,8 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
-                                view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
+                                view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)), row, col);
+                                //view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
                             }
                         });
                     }
@@ -332,7 +334,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public ImageIcon chooseZombieImage(Zombie z)
     {
         ImageIcon image = null;
-        ImageIcon[] zombieImages = view.getLawn().getZombieImages();
+        ImageIcon[] zombieImages = view.getLawn().getZombiesImgResources();
 
         if(z.getIsEating())
         {
@@ -358,7 +360,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public ImageIcon choosePlantImage(Plant p)
     {
         ImageIcon image = null;
-        ImageIcon[] plantImages = view.getLawn().getPlantImages();
+        ImageIcon[] plantImages = view.getLawn().getPlantsImgResources();
         String[] plantNames = view.getLawn().getPlantNames();
         int i;
 
@@ -373,7 +375,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public ImageIcon chooseGameElementImage(GameElement g)
     {
         ImageIcon image = null;
-        ImageIcon[] gameElementImgs = view.getLawn().getGameElementImages();
+        ImageIcon[] gameElementImgs = view.getLawn().getGameElementsImgResources();
         if(g instanceof Sun)
         {
             image = gameElementImgs[0];
@@ -381,21 +383,74 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         return image;
     }
 
-    public void plantUpdate() {
+    public void tileUpdate() {
         try {
             Entity[][] tiles = model.getLevelThread().getLevel().getTiles();
+            GameImage[][] tileImages = view.getLawn().getTileGameImages();
             int rows = model.getLevelThread().getLevel().getROWS();
             int cols = model.getLevelThread().getLevel().getCOLUMNS();
             int i, j;
 
-            for (i = 0; i < rows; i++)
-                for (j = 0; j < cols; j++)
+            for (i = 0; i < rows; i++) {
+                for (j = 0; j < cols; j++) {
                     if (tiles[i][j] != null) {
-
+                        if (tiles[i][j] instanceof Wallnut)
+                            updateWallnut((Wallnut) tiles[i][j]);
+                        else if (tiles[i][j] instanceof PotatoMine)
+                            updatePotatoMine((PotatoMine) tiles[i][j]);
                     }
+                    else
+                        view.getLawn().getTileGameImages()[i][j] = null;
+                }
+            }
 
         } catch (Exception ignore) {
             // only check if a level is running
+        }
+    }
+
+
+    public void updateWallnut(Wallnut w) {
+        ImageIcon[] states = view.getLawn().getPlantStateImgResources();
+        double pixelX, pixelY;
+        int row, col;
+        GameImage image;
+
+        row = (int)w.getRow();
+        col = (int)w.getCol();
+
+        pixelX = columnToPixel(col);
+        pixelY = rowToPixel(row);
+
+        if (w.checkHealthState() == 1) {
+            image = new GameImage(states[1], pixelX, pixelY);
+            view.getLawn().getTileGameImages()[row][col] = image;
+            w.setGameImage(image);
+        }
+    }
+
+    public void updatePotatoMine(PotatoMine m) {
+        ImageIcon[] states = view.getLawn().getPlantStateImgResources();
+        double pixelX, pixelY;
+        int row, col;
+        GameImage image;
+
+        row = (int)m.getRow();
+        col = (int)m.getCol();
+
+        pixelX = columnToPixel(col);
+        pixelY = rowToPixel(row);
+
+        try {
+            int timer = model.getLevelThread().getLevelTimer();
+
+            if (!m.isPrimed(timer)) {
+                image = new GameImage(states[0], rowToPixel(m.getRow()), columnToPixel(m.getCol()));
+                view.getLawn().getTileGameImages()[row][col] = image;
+                m.setGameImage(image);
+            }
+        } catch (Exception ignore) {
+
         }
     }
 

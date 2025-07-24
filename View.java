@@ -74,8 +74,6 @@ public class View extends JFrame {
             cardLayout.show(currentPanel, "lawn");
         }
         else if (panel.equalsIgnoreCase("result")) {
-            System.out.println();
-            System.out.println("Current GUI: Result");
             cardLayout.show(currentPanel, "result");
         }
     }
