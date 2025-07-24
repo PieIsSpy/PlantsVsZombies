@@ -1,7 +1,3 @@
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
 /** This class represents an Entity of a game.
  *  This can be used by either plants or zombie
  *  to inherit the attributes of health, speed, damage,

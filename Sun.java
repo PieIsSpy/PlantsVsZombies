@@ -35,7 +35,7 @@ public class Sun extends GameElement {
             if(currentTime >= (LIFETIME + spawnTime))
             {
                 deactivate();
-                System.out.println("Sun has disappeared!");
+                //System.out.println("Sun has disappeared!");
             } 
         }
         else

@@ -298,17 +298,31 @@ abstract class Level {
                     tiles[i][j] = null;
 
         // remove inactive suns
+        /* 
         for (i = suns.size() - 1; i >= 0; i--) {
             if (!suns.get(i).isActive()) {
                 Sun.despawn();
                 suns.remove(i);
             }
         }
+        */ 
 
         // remove inactive projectiles
         for (i = peas.size() - 1; i >= 0; i--)
             if (!peas.get(i).isActive() || peas.get(i).getCol() > COLUMNS)
                 peas.remove(i);
+    }
+
+    public void removeInactiveSuns()
+    {
+        int i;
+        
+        for (i = suns.size() - 1; i >= 0; i--) {
+            if (!suns.get(i).isActive()) {
+                Sun.despawn();
+                suns.remove(i);
+            }
+        }
     }
 
     /**
