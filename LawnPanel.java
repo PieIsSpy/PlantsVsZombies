@@ -100,7 +100,10 @@ public class LawnPanel extends JPanel {
             //System.out.println("Pos image: " + (int)zombieGameImages.get(i).getPixelX() + ", " + (int)zombieGameImages.get(i).getPixelY());
         }
 
-
+        for(i = 0; i < elementsGameImages.size(); i++)
+        {
+            g.drawImage(elementsGameImages.get(i).getImageIcon().getImage(), (int)elementsGameImages.get(i).getPixelX(), (int)elementsGameImages.get(i).getPixelY(), (int)(TILE_WIDTH*0.7), (int)(TILE_HEIGHT*0.7), null);
+        }
 
     }
 

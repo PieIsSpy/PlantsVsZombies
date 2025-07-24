@@ -48,6 +48,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             {
                 zombieUpdate();
                 seedPacketUpdate();
+                sunUpdate();
 
                 try {
                     view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
@@ -359,7 +360,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         {
             image = plantImages[4];
         }
-        if(p instanceof Peashooter)
+        else if(p instanceof Peashooter)
         {
             image = plantImages[1];
         }
@@ -408,6 +409,20 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         //what about the falling suns
         ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
         int i;
+        double x, y;
+        GameImage image;
+        for(i = 0; i < suns.size(); i++)
+        {
+            x = columnToPixel(suns.get(i).getCol());
+            y = rowToPixel(suns.get(i).getRow());
+
+            if(suns.get(i).getGameImage() == null)
+            {
+                image = new GameImage(chooseGameElementImage(suns.get(i)), x, y);
+                view.getLawn().addGameElementImage(image);
+                suns.get(i).setGameImage(image);
+            }
+        }
         
         
     }

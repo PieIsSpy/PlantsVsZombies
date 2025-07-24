@@ -130,6 +130,16 @@ abstract class GameElement {
         internal_time = t;
     }
 
+    public GameImage getGameImage()
+    {
+        return image;
+    }
+
+    public void setGameImage(GameImage g)
+    {
+        image = g;
+    }
+
     /**row position of game element */
     private float row;
     /**column position of game element */
@@ -138,5 +148,6 @@ abstract class GameElement {
     private boolean isActive;
     /**internal time of the game element*/
     private int internal_time;
+    private GameImage image;
 
 }

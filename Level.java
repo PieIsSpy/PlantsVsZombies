@@ -400,11 +400,13 @@ abstract class Level {
 
         //spawns a falling sun after a 20-second interval
         //sun_interval : when the last sun was spawned
+        /* 
         if (currentTime - sun_interval >= 20) {
             addSun(currentTime);
             System.out.println("Sun appeared in (" + (suns.get(suns.size()-1).getRow()+1) + "," + (suns.get(suns.size()-1).getCol()+1) + ")");
             sun_interval = currentTime;
         }
+        */ 
 
         // remove dead entities and inactive game elements
         despawn();
