@@ -304,14 +304,8 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
                 } else {
                     //System.out.println("Update position!");
-
                     //System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
-                    if (z.get(i).getIsEating()) {
-                        z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
-                    }
-
                     z.get(i).getGameImage().setPixelX(pixelX);
-                    //System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
                 }
 
                 //updates the image
@@ -426,6 +420,10 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             image = new GameImage(states[1], pixelX, pixelY);
             view.getLawn().getTileGameImages()[row][col] = image;
             w.setGameImage(image);
+        } else if (w.checkHealthState() == 2) {
+            image = new GameImage(states[2], pixelX, pixelY);
+            view.getLawn().getTileGameImages()[row][col] = image;
+            w.setGameImage(image);
         }
     }
 
@@ -445,7 +443,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             int timer = model.getLevelThread().getLevelTimer();
 
             if (!m.isPrimed(timer)) {
-                image = new GameImage(states[0], rowToPixel(m.getRow()), columnToPixel(m.getCol()));
+                image = new GameImage(states[0], pixelX, pixelY);
                 view.getLawn().getTileGameImages()[row][col] = image;
                 m.setGameImage(image);
             }
