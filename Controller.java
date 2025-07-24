@@ -446,7 +446,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         try {
             int timer = model.getLevelThread().getLevelTimer();
 
-            if (!m.isPrimed(timer)) {
+            if (m.isPrimed(timer)) {
                 image = new GameImage(states[0], pixelX, pixelY);
                 view.getLawn().getTileGameImages()[row][col] = image;
                 m.setGameImage(image);
@@ -523,10 +523,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         //how do i remove the images of the suns already removed from the game?
 
         
-    }
-
-    public void triggerLevelEndMessage(int n) {
-        view.getResult().showMessage(n);
     }
 
     @Override

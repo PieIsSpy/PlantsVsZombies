@@ -217,7 +217,7 @@ abstract class Level {
      *
      */
     public boolean canBePlaced(int row, int col) {
-        return tiles[row][col] == null;
+        return isValidCoordinate(row, col) && tiles[row][col] == null;
     }
 
     /**
