@@ -65,7 +65,7 @@ public class LawnPanel extends JPanel {
         zombieGameImages = new ArrayList<>();
         elementsGameImages = new ArrayList<>();
         seedPackets = new Draggable[6];
-        seedPackets = new Draggable[7];
+        //seedPackets = new Draggable[7];
 
         setLayout(null);
         addComponents(forfeit);
@@ -232,13 +232,14 @@ public class LawnPanel extends JPanel {
 
         try {
             ImageIcon shovel = new ImageIcon(getClass().getResource("/img/lawn/draggable/shovel.png"));
-            seedPackets[6] = new Draggable("Shovel", shovel,50, 475);
-            seedPackets[6].setBounds(0,0,getWidth(),getHeight());
-            dragArea.add(seedPackets[6]);
+            shovelDraggable = new Draggable("Shovel", shovel,50, 475);
+            shovelDraggable.setBounds(0,0,getWidth(),getHeight());
+            dragArea.add(shovelDraggable);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
+        System.out.println();
         System.out.println(seedPackets.length);
         for (i = 0; i < seedPackets.length; i++) {
             if (seedPackets[i] != null) {
@@ -310,9 +311,11 @@ public class LawnPanel extends JPanel {
         plantGameImages.clear();
         zombieGameImages.clear();
 
-        int i;
+        int i, j;
         for (i = 0; i < seedPackets.length; i++)
             seedPackets[i] = null;
+
+        //for (i = 0;)
     }
 
     /** This method adds an image into the arraylist of zombie images
@@ -331,8 +334,9 @@ public class LawnPanel extends JPanel {
      *
      * @param image the image to be added for rendering
      */
-    public void addPlantImage(GameImage image)
+    public void addPlantImage(GameImage image)//, int row, int col)
     {
+        //tileGameImages[row][col] = image;
         plantGameImages.add(image);
         System.out.println("Added plant image!");
     }
@@ -449,6 +453,10 @@ public class LawnPanel extends JPanel {
         return seedPackets;
     }
 
+    public Draggable getShovelDraggable() {
+        return shovelDraggable;
+    }
+
     /** This method returns the list of plant names read by the
      *  readPlantNames() method.
      *
@@ -482,7 +490,8 @@ public class LawnPanel extends JPanel {
     private JPanel dragArea;
     /// the label text for the player sun count
     private JLabel sunCount;
-    /// the plants to be rendered
+    /// the tiles to be rendered
+    //private GameImage[][] tileGameImages;
     private ArrayList<GameImage> plantGameImages;
     /// the zombies to be rendered
     private ArrayList<GameImage> zombieGameImages;
@@ -490,6 +499,8 @@ public class LawnPanel extends JPanel {
     private ArrayList<GameImage> elementsGameImages;
     /// the draggable seed packets to be used
     private Draggable[] seedPackets;
+    /// the shovel draggable to be used
+    private Draggable shovelDraggable;
     /// the image resources for plants
     private ImageIcon[] plantsImg;
     ///the image resources for zombies

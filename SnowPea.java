@@ -17,15 +17,6 @@ public class SnowPea extends Peashooter{
      */
     public SnowPea(int r, int c, int currentTime) {
         super(r,c,currentTime);
-        initializeStats();
-    }
-
-    /** This method initializes the attributes of the
-     *  parent class.
-     *
-     */
-    public void initializeStats()
-    {
         setName("Snow Pea");
         setCost(175);
     }
