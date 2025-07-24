@@ -407,23 +407,32 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         //if it has landed add the image using its given position
         //convert it to its x and y coordinates
         //what about the falling suns
-        ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
-        int i;
-        double x, y;
-        GameImage image;
-        for(i = 0; i < suns.size(); i++)
-        {
-            x = columnToPixel(suns.get(i).getCol());
-            y = rowToPixel(suns.get(i).getRow());
 
-            if(suns.get(i).getGameImage() == null)
+        try
+        {
+             ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
+            int i;
+            double x, y;
+            GameImage image;
+            for(i = 0; i < suns.size(); i++)
             {
-                image = new GameImage(chooseGameElementImage(suns.get(i)), x, y);
-                view.getLawn().addGameElementImage(image);
-                suns.get(i).setGameImage(image);
+                x = columnToPixel(suns.get(i).getCol());
+                y = rowToPixel(suns.get(i).getRow());
+
+                if(suns.get(i).getGameImage() == null)
+                {
+                    image = new GameImage(chooseGameElementImage(suns.get(i)), x, y);
+                    view.getLawn().addGameElementImage(image);
+                    suns.get(i).setGameImage(image);
+                }
+
             }
+        }
+        catch(Exception e)
+        {
 
         }
+       
 
         //once sun gets deactivate it gets removed from the level already
         //how do i remove the images of the suns already removed from the game?
@@ -452,42 +461,41 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        //if clicked sun position
-        //how would it know where the sun is? 
-        //access the suns in level and access their game image
-        //if sun game image is equal to
-        ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
-        //convert pixel to row/col
-        //if its the same as the sun position, then tada
-        //once i click on the sun, deactivate it
-        //remove the image once clicked
-
-        //what would happen if i ust make the gameimage null
-        //even if the image is null it doesnt delete it, it just doesnt repaint it??
-        int i;
-        for(i = 0; i < suns.size(); i++)
+        
+        try
         {
-            if(suns.get(i) != null)
+            ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
+        
+            int i;
+            for(i = 0; i < suns.size(); i++)
             {
-                //if mouse coordinates are on the same position with sun
-                 if((pixelToCol(e.getX()) == suns.get(i).getCol()) && (pixelToRow(e.getY()) == suns.get(i).getRow()))
+                if(suns.get(i) != null)
                 {
-                    System.out.println("You have clicked on the sun!");
-                    model.getLevelThread().getPlayer().collectSun(suns.get(i).getAmount());
-                    view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
-                    //suns.get(i).setGameImage(null);
-                    suns.get(i).deactivate();
-                
+                    //if mouse coordinates are on the same position with sun
+                    if((pixelToCol(e.getX()) == suns.get(i).getCol()) && (pixelToRow(e.getY()) == suns.get(i).getRow()))
+                    {
+                        System.out.println("You have clicked on the sun!");
+                        model.getLevelThread().getPlayer().collectSun(suns.get(i).getAmount());
+                        view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
+                        //suns.get(i).setGameImage(null);
+                        suns.get(i).deactivate();
+                    
+                    }
+                    else
+                    {
+                        System.out.println("no sun there");
+                    }
                 }
-                else
-                {
-                    System.out.println("no sun there");
-                }
+            
             }
-           
-        }
 
-        System.out.println("Suns: " + suns.size());
+            System.out.println("Suns: " + suns.size());
+        }
+        catch(Exception x)
+        {
+
+        }
+        
         
         
     }
