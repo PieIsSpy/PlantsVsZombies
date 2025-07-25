@@ -293,6 +293,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                 pixelY = rowToPixel(z.get(i).getRow()); //this makes the image move grid by grid instead of continuously/smoothly
                 pixelX = columnToPixel(z.get(i).getCol());
 
+                // if game image is null, make a new game image
                 if (z.get(i).getGameImage() == null) {
 
                     image = new GameImage(chooseZombieImage(z.get(i)), pixelX, pixelY);
@@ -301,15 +302,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                     //System.out.println("Made game image!");
 
                 } else {
-                    //System.out.println("Update position!");
-
-                    //System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
-                    if (z.get(i).getIsEating()) {
-                        z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
-                    }
-
                     z.get(i).getGameImage().setPixelX(pixelX);
-                    //System.out.println("Updated x: " + z.get(i).getGameImage().getPixelX());
                 }
 
                 //updates the image

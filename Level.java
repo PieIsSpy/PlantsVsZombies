@@ -440,7 +440,7 @@ abstract class Level {
         Random random = new Random();
 
         //randomize the column/row position
-        suns.add(new Sun(random.nextInt(ROWS+1), random.nextInt(COLUMNS+1), currentTime));
+        suns.add(new Sun(random.nextInt(ROWS), random.nextInt(COLUMNS), currentTime));
         unclaimed_suns += suns.get(suns.size()-1).getAmount();
     }
 
