@@ -38,17 +38,19 @@ public class Wallnut extends Plant{
         setHealth(200);
     }
 
-    /**
-     * This method checks if a Wallnut object has reached half
-     * of its health. 
-     * 
-     * @return true if a Wallnut object has reached half of its health, 
-     * false otherwise. 
+    /** This method checks how much health does the wallnut
+     *  approximately have.
+     *
+     * @return 0 if it is more than 2/3 of its health, 1
+     * if it is more than 1/3 of its health, or 2 if it is less than 1/3
+     * of its health
      */
-    public boolean isHalfHealth()
-    {
-        return getHealth() <= (getHealth()/2);
+    public int checkHealthState() {
+        if (getHealth() > (200 * 2/3))
+            return 0;
+        else if (getHealth() > (200/3))
+            return 1;
+        else
+            return 2;
     }
-
-    //wallnut changes appearance once it reaches half health
 }
