@@ -60,6 +60,7 @@ public class Zombie extends Entity {
      */
     @Override
     public void takeDamage(int d) {
+        // check if it has a breakable item
         if (held_item != null && held_item.isBreakable()) {
             held_item.takeDamage(d);
 
@@ -73,6 +74,7 @@ public class Zombie extends Entity {
                 held_item = null;
             }
         }
+        // otherwise, just damage it directly
         else {
             int cur = getHealth();
             cur -= d;
