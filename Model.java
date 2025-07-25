@@ -131,7 +131,7 @@ public class Model {
     /**the latest result of the game*/
     private int levelResult;
     /**the progress of the player in the game*/
-    private int levelProgress = 3;
+    private int levelProgress = 1;
     /**the running level thread of the model*/
     private LevelThread thread;
     /**the level being played*/
