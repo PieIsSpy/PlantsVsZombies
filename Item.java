@@ -96,9 +96,6 @@ public class Item {
     public void takeDamage(int d) {
         if (breakableStatus)
             durability -= d;
-
-        if (durability < 0)
-            durability = 0;
     }
 
     /** The name of the item */
