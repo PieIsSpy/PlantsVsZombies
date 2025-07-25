@@ -277,38 +277,17 @@ abstract class Level {
 
     /** This method searches for entities
      * that have a health of 0, and removes
-     * them from the game. This also removes
-     * inactive game elements from the game.
+     * them from the game.
      *
      */
     public void despawn() {
         int i, j;
-        // remove dead zombies
-        for (i = 0; i < enemies.size(); i++) {
-            if (enemies.get(i).getHealth() == 0) {
-                Zombie.die();
-                enemies.remove(i);
-            }
-        }
 
         // remove dead plants
         for (i = 0; i < ROWS; i++)
             for (j = 0; j < COLUMNS; j++)
                 if (tiles[i][j] != null && tiles[i][j].getHealth() == 0)
                     tiles[i][j] = null;
-
-        // remove inactive suns
-        for (i = suns.size() - 1; i >= 0; i--) {
-            if (!suns.get(i).isActive()) {
-                Sun.despawn();
-                suns.remove(i);
-            }
-        }
-
-        // remove inactive projectiles
-        for (i = peas.size() - 1; i >= 0; i--)
-            if (!peas.get(i).isActive() || peas.get(i).getCol() > COLUMNS)
-                peas.remove(i);
     }
 
     /**
@@ -409,7 +388,7 @@ abstract class Level {
     
 
         // remove dead entities and inactive game elements
-        //despawn();
+        despawn();
         //if (interval != 0)
         //  System.out.println("Spawn rate: 1 zombie every " + interval + " seconds" );
     }

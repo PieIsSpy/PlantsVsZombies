@@ -62,13 +62,15 @@ public class LawnPanel extends JPanel {
         TILE_WIDTH = FIELD_WIDTH / 9;
         TILE_HEIGHT = FIELD_HEIGHT / 5;
 
+        // panel size
         PANEL_WIDTH = width;
         PANEL_HEIGHT = height;
 
-        //plantGameImages = new ArrayList<>();
+        // image containers
         tileGameImages = new GameImage[5][9];
         zombieGameImages = new ArrayList<>();
-        elementsGameImages = new ArrayList<>();
+        sunGameImages = new ArrayList<>();
+        projectileGameImages = new ArrayList<>();
         seedPackets = new Draggable[6];
 
         setLayout(null);
@@ -108,15 +110,17 @@ public class LawnPanel extends JPanel {
             }
         }
 
-        for(i = 0; i < elementsGameImages.size(); i++)
+        for(i = 0; i < sunGameImages.size(); i++)
         {
-            if(elementsGameImages.get(i) != null)
+            if(sunGameImages.get(i) != null)
             {
-                g.drawImage(elementsGameImages.get(i).getImageIcon().getImage(), (int)elementsGameImages.get(i).getPixelX(), (int)elementsGameImages.get(i).getPixelY(), (int)(TILE_WIDTH*0.7), (int)(TILE_HEIGHT*0.7), null);
+                g.drawImage(sunGameImages.get(i).getImageIcon().getImage(), (int)sunGameImages.get(i).getPixelX(), (int)sunGameImages.get(i).getPixelY(), (int)(TILE_WIDTH*0.7), (int)(TILE_HEIGHT*0.7), null);
             }
         }
         
-
+        for (i = 0 ; i < projectileGameImages.size(); i++)
+            if (projectileGameImages.get(i) != null)
+                g.drawImage(projectileGameImages.get(i).getImageIcon().getImage(), (int)projectileGameImages.get(i).getPixelX(), (int)projectileGameImages.get(i).getPixelY(), (int)projectileGameImages.get(i).getImageIcon().getIconWidth(), (int)projectileGameImages.get(i).getImageIcon().getIconHeight(), null);
     }
 
     /** This method is responsible for reading all files in a folder
@@ -300,15 +304,23 @@ public class LawnPanel extends JPanel {
         add(dragArea);
     }
 
+    /** This method updates the sun count text of the panel
+     *
+     * @param sun the current amount of sun
+     */
+    public void updateSunCount(int sun) {
+        sunCount.setText(Integer.toString(sun));
+    }
+
     /** This method clears all entity, game element and draggable object
      *  renders of the Lawn Panel.
      *
      */
     public void clearImages() {
         dragArea.removeAll();
-        //plantGameImages.clear();
         zombieGameImages.clear();
-        elementsGameImages.clear();
+        sunGameImages.clear();
+        projectileGameImages.clear();
 
         int i, j;
         for (i = 0; i < seedPackets.length; i++)
@@ -330,45 +342,61 @@ public class LawnPanel extends JPanel {
         System.out.println("Added zombie image!");
     }
 
-    public ArrayList<GameImage> getZombieGameImages() {
-        return zombieGameImages;
-    }
-
     /** This method adds an image into the arraylist of plant images
      *  to be rendered
      *
      * @param image the image to be added for rendering
      */
-    public void addPlantImage(GameImage image, int row, int col)
+    public void addTileImage(GameImage image, int row, int col)
     {
         tileGameImages[row][col] = image;
         //plantGameImages.add(image);
         System.out.println("Added plant image!");
     }
 
-    /** This method adds an image into the arraylist of game
-     * element images to be rendered
-     *
-     * @param image the image to be added for rendering
-     */
-    public void addGameElementImage(GameImage image)
-    {
-        elementsGameImages.add(image);
-        System.out.println("Added game element image!");
+    public void addSunImage(GameImage image) {
+        sunGameImages.add(image);
     }
 
-    public ArrayList<GameImage> getElementsGameImages()
-    {
-        return elementsGameImages;
+    public void addProjectileImage(GameImage image) {
+        projectileGameImages.add(image);
     }
 
+    public ArrayList<GameImage> getZombieGameImages() {
+        return zombieGameImages;
+    }
 
-    /** This method updates the sun count text of the panel
+    public GameImage[][] getTileGameImages() {
+        return tileGameImages;
+    }
+
+    public ArrayList<GameImage> getSunGameImages() {
+        return sunGameImages;
+    }
+
+    public ArrayList<GameImage> getProjectileGameImages() {
+        return projectileGameImages;
+    }
+
+    /** This method returns all draggable seed packets present in the lawn.
      *
-     * @param sun the current amount of sun
+     * @return all draggable seed packets present in the lawn
      */
-    public void updateSunCount(int sun) {
-        sunCount.setText(Integer.toString(sun));
+    public Draggable[] getSeedPackets() {
+        return seedPackets;
+    }
+
+    public Draggable getShovelDraggable() {
+        return shovelDraggable;
+    }
+
+    /** This method returns the list of plant names read by the
+     *  readPlantNames() method.
+     *
+     * @return the array of plant names read
+     */
+    public String[] getPlantNames() {
+        return plantNames;
     }
 
     /** This method gets the array of plant image resources to be used
@@ -392,6 +420,10 @@ public class LawnPanel extends JPanel {
     public ImageIcon[] getGameElementsImgResources()
     {
         return gameElementsImgResources;
+    }
+
+    public ImageIcon[] getPlantStateImgResources() {
+        return  plantStateImgResources;
     }
 
     /** This method gets the width of the lawn area.
@@ -450,34 +482,7 @@ public class LawnPanel extends JPanel {
         return TILE_HEIGHT;
     }
 
-    /** This method returns all draggable seed packets present in the lawn.
-     *
-     * @return all draggable seed packets present in the lawn
-     */
-    public Draggable[] getSeedPackets() {
-        return seedPackets;
-    }
 
-    public Draggable getShovelDraggable() {
-        return shovelDraggable;
-    }
-
-    /** This method returns the list of plant names read by the
-     *  readPlantNames() method.
-     *
-     * @return the array of plant names read
-     */
-    public String[] getPlantNames() {
-        return plantNames;
-    }
-
-    public GameImage[][] getTileGameImages() {
-        return tileGameImages;
-    }
-
-    public ImageIcon[] getPlantStateImgResources() {
-        return  plantStateImgResources;
-    }
 
     /// the panel width
     private final int PANEL_WIDTH;
@@ -507,8 +512,10 @@ public class LawnPanel extends JPanel {
     private GameImage[][] tileGameImages;
     /// the zombies to be rendered
     private ArrayList<GameImage> zombieGameImages;
-    ///the game elements(suns, projectiles) to be rendered
-    private ArrayList<GameImage> elementsGameImages;
+    ///the sun elements to be rendered
+    private ArrayList<GameImage> sunGameImages;
+    /// the projectile elements to be rendered
+    private ArrayList<GameImage> projectileGameImages;
     /// the draggable seed packets to be used
     private Draggable[] seedPackets;
     /// the shovel draggable to be used

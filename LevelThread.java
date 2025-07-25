@@ -31,6 +31,7 @@ public class LevelThread extends Thread {
                     if (level != null)
                         level.gameCycle(levelTimer);
 
+                    Thread.sleep(10);
                 } while (!level.isGameOver() && !level.isGameWon(levelTimer));
                 checkGameStatus();
                 cleanUp();

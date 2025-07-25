@@ -38,22 +38,26 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
      *
      */
     public void updateView() {
-        Timer timer = new Timer(40, new ActionListener() {
+        Timer timer = new Timer(20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                // update game sprites
                 zombieUpdate();
                 seedPacketUpdate();
                 sunUpdate();
+                updateProjectiles();
                 tileUpdate();
 
+                // update sun count, zombies and game objects in gui according to model
                 try {
                     view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
-                    model.getLevelThread().getLevel().despawn();
+                    despawnObjects();
                 } catch (Exception ignore) {
                     // if player is null, it means there is no level being played
                 }
 
+                // show result
                 if (model.getLevelResult() > -1) {
                     view.changePanel("result");
                     view.getResult().showMessage(model.getLevelResult());
@@ -177,41 +181,81 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        int row, col;
-        // if the draggable seed packet exists and its plant equivalent is ready
-        if (drag != null && (drag.getName().equalsIgnoreCase("shovel") || model.getLevelThread().isPlantReady(drag.getName()))) {
-            // snap the draggable back to its original position
-            Point r = new Point(drag.getOriginalCorner().x, drag.getOriginalCorner().y);
-            drag.getImageCorner().setLocation(r.x, r.y);
+        try {
+            int row, col;
+            // if the draggable seed packet exists and its plant equivalent is ready
+            if (drag != null && (drag.getName().equalsIgnoreCase("shovel") || model.getLevelThread().isPlantReady(drag.getName()))) {
+                // snap the draggable back to its original position
+                Point r = new Point(drag.getOriginalCorner().x, drag.getOriginalCorner().y);
+                drag.getImageCorner().setLocation(r.x, r.y);
 
-            // check if the last location of the mouse is in a tile
-            if (isWithinField(e.getX(), e.getY())) {
-                row = pixelToRow(e.getY());
-                col = pixelToCol(e.getX());
+                // check if the last location of the mouse is in a tile
+                if (isWithinField(e.getX(), e.getY())) {
+                    row = pixelToRow(e.getY());
+                    col = pixelToCol(e.getX());
 
-                // if the draggable is a seed packet if the tile is empty and the player has enough suns
-                if (!drag.getName().equalsIgnoreCase("shovel")) {
-                    if (model.getLevelThread().getLevel().canBePlaced(row, col) && model.getLevelThread().hasEnoughSuns(drag.getName())) {
-                        model.playerPlant(drag.getName(), row, col);
+                    // if the draggable is a seed packet if the tile is empty and the player has enough suns
+                    if (!drag.getName().equalsIgnoreCase("shovel")) {
+                        if (model.getLevelThread().getLevel().canBePlaced(row, col) && model.getLevelThread().hasEnoughSuns(drag.getName())) {
+                            model.playerPlant(drag.getName(), row, col);
 
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)), row, col);
-                                //view.getLawn().addPlantImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)));
-                            }
-                        });
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.getLawn().addTileImage(new GameImage(choosePlantImage((Plant) model.getLevelThread().getLevel().getTiles()[row][col]), columnToPixel(col), rowToPixel(row)), row, col);
+                                }
+                            });
+                        }
+                    } else {
+                        if (!model.getLevelThread().getLevel().canBePlaced(row, col)) {
+                            System.out.println("Shoveled " + ((Plant) model.getLevelThread().getLevel().getTiles()[row][col]).getName());
+                            model.playerShovel(row, col);
+                        }
                     }
                 }
-                else {
-                    if (!model.getLevelThread().getLevel().canBePlaced(row,col)) {
-                        System.out.println("Shoveled " + ((Plant)model.getLevelThread().getLevel().getTiles()[row][col]).getName());
-                        model.playerShovel(row, col);
+
+                view.repaint();
+            }
+        }
+        catch (Exception ignore) {
+
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+        try
+        {
+            ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
+
+            int i;
+            for(i = 0; i < suns.size(); i++)
+            {
+                if(suns.get(i) != null)
+                {
+                    //if mouse coordinates are on the same position with sun
+                    if((pixelToCol(e.getX()) == suns.get(i).getCol()) && (pixelToRow(e.getY()) == suns.get(i).getRow()))
+                    {
+                        System.out.println("You have clicked on the sun!");
+                        model.getLevelThread().getPlayer().collectSun(suns.get(i).getAmount());
+                        view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
+                        suns.get(i).deactivate();
+
+                    }
+                    else
+                    {
+                        System.out.println("no sun there");
                     }
                 }
+
             }
 
-            view.repaint();
+            System.out.println("Suns: " + suns.size());
+        }
+        catch(Exception x)
+        {
+
         }
     }
 
@@ -296,24 +340,20 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                 pixelY = rowToPixel(z.get(i).getRow()); //this makes the image move grid by grid instead of continuously/smoothly
                 pixelX = columnToPixel(z.get(i).getCol());
 
-                // if game image is null, make a new game image
-                if (z.get(i).getGameImage() == null) {
+                // only check if the zombie is alive
+                if (z.get(i).isAlive()) {
+                    // if game image is null, make a new game image
+                    if (z.get(i).getGameImage() == null) {
 
-                    image = new GameImage(chooseZombieImage(z.get(i)), pixelX, pixelY);
-                    view.getLawn().addZombieImage(image);
-                    z.get(i).setGameImage(image);
+                        image = new GameImage(chooseZombieImage(z.get(i)), pixelX, pixelY);
+                        view.getLawn().addZombieImage(image);
+                        z.get(i).setGameImage(image);
 
-                } else if (z.get(i).isAlive()){
-                    //System.out.println("Update position!");
-                    //System.out.printf("col: %.2f -> pixelX: %.2f\n", z.get(i).getCol(), pixelX);
-                    z.get(i).getGameImage().setPixelX(pixelX);
+                    } else { // otherwise, just update its position and image according to its status
+                        z.get(i).getGameImage().setPixelX(pixelX);
+                        z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
+                    }
                 }
-                else {
-                    view.getLawn().getZombieGameImages().remove(i);
-                }
-
-                //updates the image
-                z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
             }
         } catch (Exception e) {
             // ignore
@@ -405,9 +445,12 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         ImageIcon image = null;
         ImageIcon[] gameElementImgs = view.getLawn().getGameElementsImgResources();
         if(g instanceof Sun)
-        {
+            image = gameElementImgs[2];
+        else if (g instanceof SlownessProjectile)
+            image = gameElementImgs[1];
+        else
             image = gameElementImgs[0];
-        }
+
         return image;
     }
 
@@ -415,25 +458,57 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         try {
             Entity[][] tiles = model.getLevelThread().getLevel().getTiles();
             GameImage[][] tileImages = view.getLawn().getTileGameImages();
+
             int rows = model.getLevelThread().getLevel().getROWS();
             int cols = model.getLevelThread().getLevel().getCOLUMNS();
             int i, j;
 
             for (i = 0; i < rows; i++) {
                 for (j = 0; j < cols; j++) {
-                    if (tiles[i][j] != null) {
+                    if (tiles[i][j] != null) { // check if there is something in there
                         if (tiles[i][j] instanceof Wallnut)
                             updateWallnut((Wallnut) tiles[i][j]);
                         else if (tiles[i][j] instanceof PotatoMine)
                             updatePotatoMine((PotatoMine) tiles[i][j]);
+                        else if (tiles[i][j] instanceof Tombstone) {
+                            updateTombstone((Tombstone) tiles[i][j]);
+                        }
                     }
                     else
-                        view.getLawn().getTileGameImages()[i][j] = null;
+                        view.getLawn().getTileGameImages()[i][j] = null; // otherwise, remove its sprite
                 }
             }
 
         } catch (Exception ignore) {
             // only check if a level is running
+        }
+    }
+
+    public void updateTombstone(Tombstone t) {
+        // check position
+        int row, col;
+        row = (int) t.getRow();
+        col = (int) t.getCol();
+
+        // if there is no image, place one
+        if (t.getGameImage() == null) {
+            try {
+                // get image
+                ImageIcon src = new ImageIcon(getClass().getResource("/img/lawn/tombstone.png"));
+                double pixelX, pixelY;
+                GameImage image;
+
+                // convert row and col coordinates into x and y
+                pixelX = columnToPixel(col);
+                pixelY = rowToPixel(row);
+
+                // asign image into it
+                image = new GameImage(src, pixelX, pixelY);
+                view.getLawn().getTileGameImages()[row][col] = image;
+                t.setGameImage(image);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -513,9 +588,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         //access the array list of suns in level
         //if it has landed add the image using its given position
         //convert it to its x and y coordinates
-        //what about the falling suns
-        //how to remove the deactivated suns, considering the fact that theyre not in the array list anymore??
-
 
         try
         {
@@ -525,34 +597,89 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             GameImage image;
             for(i = 0; i < suns.size(); i++)
             {
-                x = columnToPixel(suns.get(i).getCol());
-                y = rowToPixel(suns.get(i).getRow());
-
-                if(suns.get(i).getGameImage() == null)
+                // check if it is active and it doesnt have a null image
+                if(suns.get(i).isActive() && suns.get(i).getGameImage() == null)
                 {
+                    // get coordinates
+                    x = columnToPixel(suns.get(i).getCol());
+                    y = rowToPixel(suns.get(i).getRow());
+
                     image = new GameImage(chooseGameElementImage(suns.get(i)), x, y);
-                    view.getLawn().addGameElementImage(image);
+                    view.getLawn().addSunImage(image);
                     suns.get(i).setGameImage(image);
                 }
-                if(!suns.get(i).isActive())
-                {
-                    view.getLawn().getElementsGameImages().remove(i);
-                }
-
             }
-
-            //model.getLevelThread().getLevel().removeInactiveSuns();
         }
         catch(Exception e)
         {
 
         }
+    }
+
+    public void updateProjectiles() {
+        try {
+            ArrayList<Projectile> projectiles = model.getLevelThread().getLevel().getPeas();
+            int i;
+            double pixelX, pixelY;
+            GameImage image;
+
+            for (i = 0; i < projectiles.size(); i++) {
+                // check if the projectile is active
+                if (projectiles.get(i).isActive()) {
+                    // get coordinates
+                    pixelY = rowToPixel(projectiles.get(i).getRow());
+                    pixelX = columnToPixel(projectiles.get(i).getCol());
+
+                    // if it doesnt have an image yet, give it one
+                    if (projectiles.get(i).getGameImage() == null) {
+                        image = new GameImage(chooseGameElementImage(projectiles.get(i)), pixelX, pixelY);
+                        view.getLawn().addProjectileImage(image);
+                        projectiles.get(i).setGameImage(image);
+                    }
+                    else { // otherwise, just update the position
+                        projectiles.get(i).getGameImage().setPixelX(pixelX);
+                    }
+                }
+            }
 
 
-        //once sun gets deactivate it gets removed from the level already
-        //how do i remove the images of the suns already removed from the game?
+        } catch (Exception ignore) {
+            // only check if a level exists
+        }
+    }
 
-        
+    public void despawnObjects() {
+        int i;
+
+        ArrayList<Zombie> enemies = model.getLevelThread().getLevel().getEnemies();
+        ArrayList<GameImage> enemyImg = view.getLawn().getZombieGameImages();
+
+        ArrayList<Projectile> projectiles = model.getLevelThread().getLevel().getPeas();
+        ArrayList<GameImage> projectileImg = view.getLawn().getProjectileGameImages();
+
+        ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
+        ArrayList<GameImage> sunImg = view.getLawn().getSunGameImages();
+
+        for (i = 0; i < enemies.size(); i++) {
+            if (!enemies.get(i).isAlive()) {
+                enemyImg.remove(i);
+                enemies.remove(i);
+            }
+        }
+
+        for (i = 0; i < projectiles.size(); i++) {
+            if (!projectiles.get(i).isActive()) {
+                projectileImg.remove(i);
+                projectiles.remove(i);
+            }
+        }
+
+        for (i = 0; i < suns.size(); i++) {
+            if (!suns.get(i).isActive()) {
+                sunImg.remove(i);
+                suns.remove(i);
+            }
+        }
     }
 
     @Override
@@ -570,45 +697,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
 
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
 
-        try
-        {
-            ArrayList<Sun> suns = model.getLevelThread().getLevel().getSuns();
-
-            int i;
-            for(i = 0; i < suns.size(); i++)
-            {
-                if(suns.get(i) != null)
-                {
-                    //if mouse coordinates are on the same position with sun
-                    if((pixelToCol(e.getX()) == suns.get(i).getCol()) && (pixelToRow(e.getY()) == suns.get(i).getRow()))
-                    {
-                        System.out.println("You have clicked on the sun!");
-                        model.getLevelThread().getPlayer().collectSun(suns.get(i).getAmount());
-                        view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
-                        suns.get(i).deactivate();
-
-                    }
-                    else
-                    {
-                        System.out.println("no sun there");
-                    }
-                }
-
-            }
-
-            System.out.println("Suns: " + suns.size());
-        }
-        catch(Exception x)
-        {
-
-        }
-
-
-
-    }
 
     /**the model class of the program*/
     private Model model;
