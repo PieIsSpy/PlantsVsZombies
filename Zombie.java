@@ -64,7 +64,7 @@ public class Zombie extends Entity {
             held_item.takeDamage(d);
 
             // if the held item's durability is less than or equal to 0, subtract the underflow to zombie's current health and delete it
-            if (held_item.getDurability() < 0) {
+            if (held_item.getDurability() <= 0) {
                 int underflow = -held_item.getDurability();
                 int cur = getHealth();
                 cur -= underflow;
