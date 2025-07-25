@@ -27,15 +27,12 @@ public class PolevaulterZombie extends Zombie{
      */
     @Override
     public void behaviour(Entity[] plants, int currentTime) {
-        System.out.println("isVulnerable:" + isVulnerable());
+        // defrost the zombie first
+        defrost(currentTime);
+
         if (!this.isAtHouse() && this.isAlive()) {
             // case 1: if zombie is still not within attack range or there isn't any plants in front
             if (findFront(plants) == null || getCol() - findFront(plants).getCol() > 1) {
-                // should be vulnerable
-                if (!isVulnerable())
-                    setVulnerability(true);
-
-                // zombie should walk at a certain rate
                 if (currentTime - getInternal_time() >= 1) {
                     walk();
                     setInternal_time(currentTime);
@@ -43,10 +40,11 @@ public class PolevaulterZombie extends Zombie{
             }
             // case 2: if a plant is in front of zombie and the zombie is still holding the item
             else if (findFront(plants).isAlive() && getHeld_item() != null) {
-                vaultOver(currentTime);
+                setCol(getCol() - 1);
+                setHeld_item(null);
             }
             //case 3: if a plant is in front of zombie but does not have an item
-            else if (findFront(plants).isAlive()) {
+            else {
                 if (!isVulnerable())
                     setVulnerability(true);
 
@@ -62,36 +60,6 @@ public class PolevaulterZombie extends Zombie{
                 }
             }
         }
-    }
-
-    /** This method makes the zombie invulnerable for a few seconds, skipping over a tile containing a plant.
-     *
-     * @param currentTime the current time frame of the game
-     */
-    public void vaultOver(int currentTime) {
-        // save the col where it did the action first
-        colUsage = getCol();
-
-        // should be invulnerable
-        if (isVulnerable())
-            setVulnerability(false);
-
-        // zombie should move at a certain rate
-        if (currentTime - getInternal_time() >= 1) {
-            walk();
-            setInternal_time(currentTime);
-        }
-
-        // after vaulting over, remove item and give normal speed, then be vulnerable again
-        if (colUsage - getCol() >= 1) {
-            setVulnerability(true);
-            setHeld_item(null);
-        }
-    }
-
-    @Override
-    public void sprite_animation() {
-
     }
 
     /** This saves the column where the zombie used its item */
