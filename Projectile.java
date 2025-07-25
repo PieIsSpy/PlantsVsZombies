@@ -27,6 +27,7 @@ public class Projectile extends GameElement{
         super(row, col, time);
         speed = s;
         damage = dmg;
+        hasHit = false;
     }
 
     /**
@@ -79,9 +80,7 @@ public class Projectile extends GameElement{
     public void update(ArrayList<Zombie> enemies, int currentTime)
     {
         int x;
-        boolean hasHit;
 
-        hasHit = false;
         //loops through the list of enemies within the same row
         for(x = 0; x < enemies.size() && !hasHit; x++)
         {
@@ -109,4 +108,5 @@ public class Projectile extends GameElement{
     private int damage;
     /**how fast the projectile moves once released */
     private float speed;
+    private boolean hasHit;
 }

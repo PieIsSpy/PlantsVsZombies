@@ -311,18 +311,6 @@ abstract class Level {
                 peas.remove(i);
     }
 
-    public void removeInactiveSuns()
-    {
-        int i;
-        
-        for (i = suns.size() - 1; i >= 0; i--) {
-            if (!suns.get(i).isActive()) {
-                Sun.despawn();
-                suns.remove(i);
-            }
-        }
-    }
-
     /**
      * This method calls the behaviors of Zombie, Plant, Sun and Projectile
      * objects, allowing it to perform its actions with respect
@@ -440,17 +428,6 @@ abstract class Level {
         //randomize the column/row position
         suns.add(new Sun(random.nextInt(ROWS), random.nextInt(COLUMNS), currentTime));
         unclaimed_suns += suns.get(suns.size()-1).getAmount();
-    }
-
-    /**
-     * This method clears out all the
-     * sun from the array list. 
-     * 
-     */
-    public void removeAllSun() {
-        suns.clear();
-        setUnclaimed_suns(0);
-        Sun.setCount(0);
     }
 
     /**number of levels to track game progress */

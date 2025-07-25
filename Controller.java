@@ -302,7 +302,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                     image = new GameImage(chooseZombieImage(z.get(i)), pixelX, pixelY);
                     view.getLawn().addZombieImage(image);
                     z.get(i).setGameImage(image);
-                    //System.out.println("Made game image!");
 
                 } else if (z.get(i).isAlive()){
                     //System.out.println("Update position!");
@@ -335,17 +334,47 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         ImageIcon image = null;
         ImageIcon[] zombieImages = view.getLawn().getZombiesImgResources();
 
-        if(z.getIsEating())
-        {
-            image = zombieImages[1];
-            //System.out.println("Added eating zombie!");
+        // if zombie is a PolevaulterZombie
+        if (z instanceof PolevaulterZombie) {
+            if (z.getHeld_item() != null)
+                image = zombieImages[8];
+            else if (z.getIsEating())
+                image = zombieImages[9];
+            else
+                image = zombieImages[10];
         }
-        else
-        {
-            image = zombieImages[0];
-            //System.out.println("Added walking zombie!");
+        else if (z.getHeld_item() != null) { // if it has an item
+            // if zombie is a flag bearer
+            if (z.getHeld_item().getNAME().equalsIgnoreCase("flag")) {
+                if (z.getIsEating())
+                    image = zombieImages[5];
+                else
+                    image = zombieImages[4];
+            }
+            // if zombie has a cone
+            else if (z.getHeld_item().getNAME().equalsIgnoreCase("traffic cone")) {
+                if (z.getIsEating())
+                    image = zombieImages[3];
+                else
+                    image = zombieImages[2];
+            }
+            // if zombie has a bucket
+            else {//(z.getHeld_item().getNAME().equalsIgnoreCase("bucket")) {
+                if (z.getIsEating())
+                    image = zombieImages[1];
+                else
+                    image = zombieImages[0];
+            }
+        }
+        else { // if zombie does not have any items
+            if(z.getIsEating())
+                image = zombieImages[7];
+            else
+                image = zombieImages[6];
         }
 
+        if (image == null)
+            System.out.println("HELP IM NULL");
         return image;
     }
 
