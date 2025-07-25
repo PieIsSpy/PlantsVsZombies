@@ -12,8 +12,4 @@ public class FlagZombie extends Zombie{
         super(r, c, t, new Item("Flag", 1, 0));
     }
 
-    @Override
-    public void sprite_animation() {
-
-    }
 }

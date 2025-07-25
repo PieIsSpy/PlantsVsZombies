@@ -18,8 +18,4 @@ public class ConeheadZombie extends Zombie{
         super(r, c, t, new Item("Traffic Cone", 140, -2, -2));
     }
 
-    @Override
-    public void sprite_animation() {
-
-    }
 }

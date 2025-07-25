@@ -17,8 +17,4 @@ public class BucketheadZombie extends Zombie{
         super(r, c, t, new Item("Bucket", 420,-3,-5));
     }
 
-    @Override
-    public void sprite_animation() {
-
-    }
 }

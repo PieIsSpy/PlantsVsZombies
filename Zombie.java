@@ -202,11 +202,6 @@ public class Zombie extends Entity {
             slowed = false;
     }
 
-    public void sprite_animation() 
-    {
-        
-    }
-
     /** This method returns the current Zombie counts.
      *
      *  @return the number of Zombie objects created
