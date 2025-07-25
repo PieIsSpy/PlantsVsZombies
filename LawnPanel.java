@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
@@ -86,6 +87,7 @@ public class LawnPanel extends JPanel {
     public void paintComponent(Graphics g)
     {
         int i, j;
+        int x, y;
         super.paintComponent(g);
 
         if (lawnImg != null)
@@ -106,7 +108,15 @@ public class LawnPanel extends JPanel {
         {
             if(zombieGameImages.get(i) != null)
             {
-                g.drawImage(zombieGameImages.get(i).getImageIcon().getImage(), (int)zombieGameImages.get(i).getPixelX(), (int)zombieGameImages.get(i).getPixelY(), TILE_WIDTH, TILE_HEIGHT, null);
+                x = (int) zombieGameImages.get(i).getPixelX();
+                y = (int) zombieGameImages.get(i).getPixelY();
+
+                g.drawImage(zombieGameImages.get(i).getImageIcon().getImage(), x, y, TILE_WIDTH, TILE_HEIGHT, null);
+
+                if (getZombieGameImages().get(i).isSlowed()) {
+                    g.setColor(new Color(0, 0, 255, 50));
+                    g.fillRect(x,y, TILE_WIDTH, TILE_HEIGHT);
+                }
             }
         }
 

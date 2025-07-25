@@ -352,6 +352,11 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                     } else { // otherwise, just update its position and image according to its status
                         z.get(i).getGameImage().setPixelX(pixelX);
                         z.get(i).getGameImage().setImageIcon(chooseZombieImage(z.get(i)));
+
+                        if (z.get(i).isSlowed())
+                            z.get(i).getGameImage().setSlowed(true);
+                        else
+                            z.get(i).getGameImage().setSlowed(false);
                     }
                 }
             }
@@ -413,8 +418,6 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                 image = zombieImages[6];
         }
 
-        if (image == null)
-            System.out.println("HELP IM NULL");
         return image;
     }
 

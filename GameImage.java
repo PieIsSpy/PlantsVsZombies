@@ -38,7 +38,15 @@ public class GameImage {
         return pixelY;
     }
 
+    public void setSlowed(boolean b) {
+        slowed = b;
+    }
+
+    public boolean isSlowed() {
+        return slowed;
+    }
+
     private ImageIcon image;
     private double pixelX, pixelY;
-    
+    private boolean slowed;
 }
