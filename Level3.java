@@ -38,7 +38,7 @@ public class Level3 extends Level{
         for (i = 0; i < 5; i++) {
             do {
                 nRow = (int)(Math.floor(Math.random() * getROWS()));
-                nCol = 4 + (int)(Math.floor(Math.random() * (getCOLUMNS() - 4)));
+                nCol = 5 + (int)(Math.floor(Math.random() * (getCOLUMNS() - 5)));
             } while (!canBePlaced(nRow, nCol));
 
             getTiles()[nRow][nCol] = new Tombstone(nRow, nCol);
