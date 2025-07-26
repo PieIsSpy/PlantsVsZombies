@@ -33,8 +33,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     }
 
     /**
-     * This method updates the GUI at a certain frame per second.
-     *
+     * This method updates the GUI at a certain frame rate.
      *
      */
     public void updateView() {
@@ -122,10 +121,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        /*
-         * 1.) convert field coordinates to row and column
-         * 2.) need to measure first where the field is
-         */
+    
         int i;
         drag = null; // stop tracking the previous seed packet
         System.out.println("Mouse pressed at (" + e.getX() + ", " + e.getY() + ")");
@@ -175,7 +171,8 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     }
 
     /** This method is responsible for checking if mousekey1 has been released
-     *  after pressing it.
+     *  after pressing it. Once released it will place the respective plant on the given 
+     * position and adds its image to the game. 
      *
      * @param e the event to be processed
      */
@@ -222,6 +219,12 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * This method checks if mouse has been clicked on the tile containing
+     * the sun. Once clicked, it will add it to the player's total amount of
+     * suns. 
+     * 
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -237,21 +240,14 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                     //if mouse coordinates are on the same position with sun
                     if((pixelToCol(e.getX()) == suns.get(i).getCol()) && (pixelToRow(e.getY()) == suns.get(i).getRow()))
                     {
-                        System.out.println("You have clicked on the sun!");
                         model.getLevelThread().getPlayer().collectSun(suns.get(i).getAmount());
                         view.getLawn().updateSunCount(model.getLevelThread().getPlayer().getSun());
                         suns.get(i).deactivate();
 
                     }
-                    else
-                    {
-                        System.out.println("no sun there");
-                    }
                 }
 
             }
-
-            System.out.println("Suns: " + suns.size());
         }
         catch(Exception x)
         {
@@ -315,10 +311,25 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         return col * view.getLawn().getTileWidth() + view.getLawn().getFieldPosX();
     }
 
+    /**
+     * This method converts the given coordinate to its row coordinate
+     * used by the model. 
+     * 
+     * @param px pixel coordinate to be converted
+     * @return equivalent row position
+     */
     public int pixelToRow(int px) {
         return (px - view.getLawn().getFieldPosY()) / view.getLawn().getTileHeight();
     }
 
+    /**
+     * This method converts the given coordinate to its column coordinate
+     * used by the model. 
+     * 
+     * 
+     * @param px pixel coordinate to be converted
+     * @return equivalent column position
+     */
     public int pixelToCol(int px) {
         return (px - view.getLawn().getFieldPosX()) / view.getLawn().getTileWidth();
     }
@@ -443,6 +454,14 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         return image;
     }
 
+    /**
+     * This method returns the corresponding image of the given
+     * GameElement object, depending on what type it is. 
+     * 
+     * 
+     * @param g
+     * @return
+     */
     public ImageIcon chooseGameElementImage(GameElement g)
     {
         ImageIcon image = null;
@@ -457,6 +476,11 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         return image;
     }
 
+    /**
+     * This method updates the images of Plant objects that have multiple
+     * states in the game. 
+     * 
+     */
     public void tileUpdate() {
         try {
             Entity[][] tiles = model.getLevelThread().getLevel().getTiles();
@@ -487,6 +511,12 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * This method updates the image of a Tombstone object with 
+     * respect to its current state in the game. 
+     * 
+     * @param t Tombstone object to be updated
+     */
     public void updateTombstone(Tombstone t) {
         // check position
         int row, col;
@@ -516,6 +546,12 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     }
 
 
+    /**
+     * This method updates the image of a Wallnut object with respect
+     * to its current state in the game 
+     * 
+     * @param w Wallnut object to be updated
+     */ 
     public void updateWallnut(Wallnut w) {
         ImageIcon[] states = view.getLawn().getPlantStateImgResources();
         double pixelX, pixelY;
@@ -539,6 +575,13 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * This method updates the image of a PotatoMine object with 
+     * respect to its current state in the game. 
+     * 
+     * 
+     * @param m PotatoMine object to be updated 
+     */ 
     public void updatePotatoMine(PotatoMine m) {
         ImageIcon[] states = view.getLawn().getPlantStateImgResources();
         double pixelX, pixelY;
@@ -586,6 +629,10 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * This method updates the image of a Sun object shown in the game
+     * 
+     */
     public void sunUpdate()
     {
         //access the array list of suns in level
@@ -619,6 +666,11 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * This method updates the image of a Projectile object shown in the game. 
+     * 
+     * 
+     */
     public void updateProjectiles() {
         try {
             ArrayList<Projectile> projectiles = model.getLevelThread().getLevel().getPeas();
@@ -651,6 +703,12 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * This method despawns objects and updates its images 
+     * accordingly. 
+     * 
+     * 
+     */
     public void despawnObjects() {
         int i;
 
