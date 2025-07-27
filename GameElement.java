@@ -148,6 +148,6 @@ abstract class GameElement {
     private boolean isActive;
     /**internal time of the game element*/
     private int internal_time;
+    /**the image held by the game element*/
     private GameImage image;
-
 }

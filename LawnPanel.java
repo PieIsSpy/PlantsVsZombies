@@ -364,10 +364,20 @@ public class LawnPanel extends JPanel {
         System.out.println("Added plant image!");
     }
 
+    /** This method adds a sun image into the array of sun images
+     *  to be rendered
+     *
+     * @param image the sun image to be added
+     */
     public void addSunImage(GameImage image) {
         sunGameImages.add(image);
     }
 
+    /** This method adds a projectile image into the array of projectile images
+     *  to be rendered
+     *
+     * @param image the projectile image to be rendered
+     */
     public void addProjectileImage(GameImage image) {
         projectileGameImages.add(image);
     }
@@ -396,6 +406,10 @@ public class LawnPanel extends JPanel {
         return seedPackets;
     }
 
+    /** This method returns the draggable shovel object of the panel.
+     *
+     * @return the draggable shovel of the panel
+     */
     public Draggable getShovelDraggable() {
         return shovelDraggable;
     }
@@ -427,11 +441,19 @@ public class LawnPanel extends JPanel {
         return zombiesImgResources;
     }
 
+    /** This method gets the image resources for game elements.
+     *
+     * @return the array of image resources for game elements
+     */
     public ImageIcon[] getGameElementsImgResources()
     {
         return gameElementsImgResources;
     }
 
+    /** This method gets the image resources for plant states.
+     *
+     * @return the array of image resources for plant states
+     */
     public ImageIcon[] getPlantStateImgResources() {
         return  plantStateImgResources;
     }

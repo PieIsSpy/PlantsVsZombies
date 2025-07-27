@@ -250,23 +250,37 @@ public class Zombie extends Entity {
         vulnerability = v;
     }
 
+    /** This method checks if the zombie is slowed or not.
+     *
+     * @return true if the zombie is slowed, false otherwise
+     */
     public boolean isSlowed() {
         return slowed;
     }
 
+    /** This method sets the slowed status of a zombie.
+     *
+     * @param s the slowed status of the zombie
+     */
     public void setSlowed(boolean s) {
         slowed = s;
     }
 
+    /** This method sets the starting time of when
+     *  a zombie was slowed down.
+     *
+     * @param t the current time frame of when
+     * the effect occured
+     */
     public void setSlowedStart(int t) {
         slowedStart = t;
     }
 
-    public void setIsEating(boolean b)
-    {
-        isEating = b;
-    }
-
+    /** This method checks if the zombie is currently eating
+     *  a plant or not.
+     *
+     * @return true if the zombie is curently eating, false otherwise
+     */
     public boolean getIsEating()
     {
         return isEating;
@@ -283,5 +297,6 @@ public class Zombie extends Entity {
     private boolean slowed;
     /** Time reference where the zombie started going slow */
     private int slowedStart;
+    /** the flag that checks if the zombie is eating or not*/
     private boolean isEating;
 }
