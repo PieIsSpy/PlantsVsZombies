@@ -12,7 +12,6 @@ public class Sun extends GameElement {
      *
      * @param row the row coordinate of the sun
      * @param col the col coordinate of the sun
-     * @param fromSky determines if it came from the sky
      * @param time time of creation
      */
     public Sun(float row, float col, int time)

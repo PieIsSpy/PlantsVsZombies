@@ -7,6 +7,7 @@ public class FlagZombie extends Zombie{
      *
      * @param r the row coordinate
      * @param c the col coordinate
+     * @param t the current time frame of the game
      */
     public FlagZombie (int r, int c, int t) {
         super(r, c, t, new Item("Flag", 1, 0));

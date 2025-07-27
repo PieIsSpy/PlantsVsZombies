@@ -100,6 +100,10 @@ public class Projectile extends GameElement{
         }
     }
 
+    /** This method returns the damage output of a projectile
+     *
+     * @return the damage output of a projectile
+     */
     public int getDamage() {
         return damage;
     }

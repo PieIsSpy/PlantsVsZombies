@@ -108,16 +108,16 @@ public class Draggable extends JPanel {
         return NAME;
     }
 
-    /// the name of the object represented
+    /** the name of the object represented*/
     private final String NAME;
-    /// the sprite image of the draggable object
+    /** the sprite image of the draggable object*/
     private ImageIcon imageSprite;
-    /// the original point of reference during instantiation
+    /** the original point of reference during instantiation*/
     private final Point ORIGINAL_POINT;
-    /// the current point of reference
+    /** the current point of reference*/
     private Point image_corner;
-    /// the previous point of reference
+    /** the previous point of reference*/
     private Point previous_corner;
-    /// determines whether the filter is semi-opaque or transparent
+    /** determines whether the filter is semi-opaque or transparent*/
     private boolean filterOpacity;
 }

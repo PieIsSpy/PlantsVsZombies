@@ -153,18 +153,18 @@ public class ResultPanel extends JPanel {
             cardLayout.show(mainPanel, "level won");
     }
 
-    /// the card layout of the panel
+    /** the card layout of the panel*/
     private CardLayout cardLayout;
-    /// the main container of the panels
+    /** the main container of the panels*/
     private JPanel mainPanel;
-    /// the winning message panel
+    /** the winning message panel*/
     private JPanel levelWon;
-    /// the losing message panel
+    /** the losing message panel*/
     private JPanel levelLost;
-    /// determines the message shown by the panel
+    /** determines the message shown by the panel*/
     private int messageShown;
-    /// the panel width
+    /** the panel width*/
     private final int PANEL_WIDTH;
-    /// the panel height
+    /** the panel height*/
     private final int PANEL_HEIGHT;
 }

@@ -459,8 +459,8 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
      * GameElement object, depending on what type it is. 
      * 
      * 
-     * @param g
-     * @return
+     * @param g the game element to be given an image
+     * @return the image icon of the game element
      */
     public ImageIcon chooseGameElementImage(GameElement g)
     {
@@ -728,6 +728,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             if (!enemies.get(i).isAlive()) {
                 enemyImg.remove(i);
                 enemies.remove(i);
+                Zombie.die();
             }
         }
 

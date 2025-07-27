@@ -20,6 +20,9 @@ public class Tombstone extends Entity {
 
     /** This method spawns a random zombie with a set probability of being a variant zombies
      *  in its occupied tile.
+     *
+     * @param currentTime the current time frame of the game
+     * @return the newly created zombie
      */
     public Zombie spawn(int currentTime) {
         float x = (float)Math.random();

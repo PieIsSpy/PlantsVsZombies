@@ -138,30 +138,30 @@ public class View extends JFrame {
         return result;
     }
 
-    /// the start button used by the View
+    /** the start button used by the View */
     private JButton start;
-    /// the quit button used by the View
+    /** the quit button used by the View */
     private JButton quit;
-    /// the forfeit button used by the View
+    /** the forfeit button used by the View */
     private JButton forfeit;
-    /// the back button used by the level lost GUI of the view
+    /** the back button used by the level lost GUI of the view */
     private JButton backLost;
-    /// the back button used by the level won GUI of the view
+    /** the back button used by the level won GUI of the view */
     private JButton backWon;
-    /// the retry button used by the View
+    /** the retry button used by the View */
     private JButton retry;
-    /// the next button used by the View
+    /** the next button used by the View */
     private JButton next;
-    /// the list of JPanels used by the View
+    /** the list of JPanels used by the View */
     private CardLayout cardLayout;
-    /// the current JPanel displayed in the View
+    /** the current JPanel displayed in the View */
     private JPanel currentPanel;
-    /// the Main Menu panel of the View
+    /** the Main Menu panel of the View */
     private MenuPanel menu;
-    /// the Lawn panel of the View
+    /** the Lawn panel of the View */
     private LawnPanel lawn;
-    /// the Game Over panel of the View
+    /** the Game Over panel of the View */
     private ResultPanel result;
-    /// the dimensions of the main JFrame
+    /** the dimensions of the main JFrame */
     private static final int WIDTH = 800, HEIGHT = 600;
 }

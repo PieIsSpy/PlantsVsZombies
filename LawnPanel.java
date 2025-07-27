@@ -19,6 +19,9 @@ public class LawnPanel extends JPanel {
      * This constructor initializes the file image of a lawn
      * background and sets its layout to null. 
      *
+     * @param width the width of the panel
+     * @param height the height of the panel
+     * @param forfeit the forfeit button to be formatted
      */
     public LawnPanel(int width, int height, JButton forfeit)
     {
@@ -356,6 +359,8 @@ public class LawnPanel extends JPanel {
      *  to be rendered
      *
      * @param image the image to be added for rendering
+     * @param row the row of the tile image
+     * @param col the col of the tile image
      */
     public void addTileImage(GameImage image, int row, int col)
     {
@@ -532,53 +537,52 @@ public class LawnPanel extends JPanel {
 
 
 
-    /// the panel width
+    /** the panel width*/
     private final int PANEL_WIDTH;
-    /// the panel height
+    /** the panel height*/
     private final int PANEL_HEIGHT;
     /**lawn background image to be displayed */
     private ImageIcon lawnImg;
-    /// the seed slot image to be displayed
+    /** the seed slot image to be displayed*/
     private ImageIcon seedSlotImg;
-    /// the width of the lawn area
+    /** the width of the lawn area*/
     private final int FIELD_WIDTH = 565;
-    /// the height of the lawn area
+    /** the height of the lawn area*/
     private final int FIELD_HEIGHT = 475;
-    /// the x coordinate of the reference point of the lawn area
+    /** the x coordinate of the reference point of the lawn area*/
     private final int FIELD_X = 195;
-    /// the y coordinate of the reference point of the lawn area
+    /** the y coordinate of the reference point of the lawn area*/
     private final int FIELD_Y = 85;
-    /// the tile width of a lawn tile.
+    /** the tile width of a lawn tile.*/
     private final int TILE_WIDTH;
-    /// the tile height of a lawn tile.
+    /** the tile height of a lawn tile.*/
     private final int TILE_HEIGHT;
-    /// the container for draggable objects
+    /** the container for draggable objects*/
     private JPanel dragArea;
-    /// the label text for the player sun count
+    /** the label text for the player sun count*/
     private JLabel sunCount;
-    /// the tiles to be rendered
+    /** the tiles to be rendered*/
     private GameImage[][] tileGameImages;
-    /// the zombies to be rendered
+    /** the zombies to be rendered*/
     private ArrayList<GameImage> zombieGameImages;
-    ///the sun elements to be rendered
+    /**the sun elements to be rendered*/
     private ArrayList<GameImage> sunGameImages;
-    /// the projectile elements to be rendered
+    /** the projectile elements to be rendered*/
     private ArrayList<GameImage> projectileGameImages;
-    /// the draggable seed packets to be used
+    /** the draggable seed packets to be used*/
     private Draggable[] seedPackets;
-    /// the shovel draggable to be used
+    /** the shovel draggable to be used*/
     private Draggable shovelDraggable;
-    /// the image resources for plants
+    /** the image resources for plants*/
     private ImageIcon[] plantsImgResources;
-    ///the image resources for zombies
+    /**the image resources for zombies*/
     private ImageIcon[] zombiesImgResources;
-     ///the image resources for game elements
+    /**the image resources for game elements*/
     private ImageIcon[] gameElementsImgResources;
-    ///the image resources for seed packets
+    /**the image resources for seed packets*/
     private ImageIcon[] seedPacketsImgResources;
-    /// the image resources for plant states
+    /** the image resources for plant states*/
     private ImageIcon[] plantStateImgResources;
-    ///the names of plants to be represented in a draggable object
+    /**the names of plants to be represented in a draggable object*/
     private String[] plantNames;
-    
 }

@@ -143,7 +143,7 @@ abstract class GameElement {
     /**
      * This method sets the game image of a game element.
      *
-     * @return game image of entity
+     * @param g the game image of entity
      */
     public void setGameImage(GameImage g)
     {

@@ -122,6 +122,10 @@ public class LevelThread extends Thread {
         return player;
     }
 
+    /** This method returns the current time frame of the running level
+     *
+     * @return the current time frame of the running level
+     */
     public int getLevelTimer() {
         return levelTimer;
     }

@@ -142,12 +142,12 @@ public class MenuPanel extends JPanel {
         add(right,BorderLayout.WEST);
     }
 
-    /// the background image to be rendered
+    /** the background image to be rendered*/
     private ImageIcon bgImg;
-    /// the logo image to be rendered
+    /** the logo image to be rendered*/
     private ImageIcon logoImg;
-    /// the panel width
+    /** the panel width*/
     private final int PANEL_WIDTH;
-    /// the panel height
+    /** the panel height*/
     private final int PANEL_HEIGHT;
 }

@@ -197,6 +197,11 @@ public class Zombie extends Entity {
             return null;
     }
 
+    /** This method is responsible for defrosting a zombie
+     *  overtime
+     *
+     * @param t the current time frame of the game
+     */
     public void defrost(int t) {
         if (slowed && t - slowedStart >= 10)
             slowed = false;
