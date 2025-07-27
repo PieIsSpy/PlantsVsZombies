@@ -598,7 +598,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
             int timer = model.getLevelThread().getLevelTimer();
 
             if (m.isPrimed(timer)) {
-                image = new GameImage(states[0], pixelX, pixelY);
+                image = new GameImage(states[0], pixelX, pixelY); //primed state image
                 view.getLawn().getTileGameImages()[row][col] = image;
                 m.setGameImage(image);
             }
@@ -619,13 +619,14 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                     String name = view.getLawn().getSeedPackets()[i].getName();
 
                     if (!name.equalsIgnoreCase("shovel")) {
+                        //if seedPacket is not ready to be used, image shaded
                         if (!model.getLevelThread().isPlantReady(name) || !model.getLevelThread().hasEnoughSuns(name))
                             view.getLawn().getSeedPackets()[i].setFilterOpacity(true);
                         else
                             view.getLawn().getSeedPackets()[i].setFilterOpacity(false);
                     }
                 }
-            }
+            } 
         }
     }
 
@@ -693,8 +694,10 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                     }
                     else { // otherwise, just update the position
                         projectiles.get(i).getGameImage().setPixelX(pixelX);
+                         System.out.println("X coord: " + projectiles.get(i).getGameImage().getPixelX());
                     }
                 }
+        
             }
 
 
@@ -757,6 +760,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
     public void mouseMoved(MouseEvent e) {
 
     }
+
 
 
 
