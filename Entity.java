@@ -172,11 +172,21 @@ abstract class Entity {
         return internal_time;
     }
 
+    /**
+     * This method returns the game image of entity. 
+     * 
+     * @return game image of entity
+     */
     public GameImage getGameImage()
     {
         return gameImage;
     }
 
+    /**
+     * This method sets the game image of entity. 
+     * 
+     * @param g game image to be set
+     */
     public void setGameImage(GameImage g)
     {
         gameImage = g;
@@ -195,6 +205,6 @@ abstract class Entity {
     private float col;
     /** The internal time of the enemy*/
     private int internal_time;
-    
+    /** The gameImage to be displayed in GUI */
     private GameImage gameImage;
 }
