@@ -352,7 +352,7 @@ public class LawnPanel extends JPanel {
         System.out.println("Added zombie image!");
     }
 
-    /** This method adds an image into the arraylist of plant images
+    /** This method adds an image into the array of tile images
      *  to be rendered
      *
      * @param image the image to be added for rendering
@@ -364,7 +364,7 @@ public class LawnPanel extends JPanel {
         System.out.println("Added plant image!");
     }
 
-    /** This method adds a sun image into the array of sun images
+    /** This method adds a sun image into the arraylist of sun images
      *  to be rendered
      *
      * @param image the sun image to be added
@@ -373,7 +373,7 @@ public class LawnPanel extends JPanel {
         sunGameImages.add(image);
     }
 
-    /** This method adds a projectile image into the array of projectile images
+    /** This method adds a projectile image into the arraylist of projectile images
      *  to be rendered
      *
      * @param image the projectile image to be rendered
@@ -382,18 +382,34 @@ public class LawnPanel extends JPanel {
         projectileGameImages.add(image);
     }
 
+    /** This method gets all zombie images to be rendered.
+     *
+     * @return the arraylist of zombie images to be rendered
+     */
     public ArrayList<GameImage> getZombieGameImages() {
         return zombieGameImages;
     }
 
+    /** This method gets all tile images to be rendered.
+     *
+     * @return the array of all tile images to be rendered
+     */
     public GameImage[][] getTileGameImages() {
         return tileGameImages;
     }
 
+    /** This method gets all sun images to be rendered
+     *
+     * @return all sun images to be rendered
+     */
     public ArrayList<GameImage> getSunGameImages() {
         return sunGameImages;
     }
 
+    /** This method gets all projectile images to be rendered
+     *
+     * @return all projectile images to be rendered
+     */
     public ArrayList<GameImage> getProjectileGameImages() {
         return projectileGameImages;
     }
