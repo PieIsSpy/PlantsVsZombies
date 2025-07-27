@@ -130,11 +130,21 @@ abstract class GameElement {
         internal_time = t;
     }
 
+    /**
+     * This method returns the game image of a game element.
+     *
+     * @return game image of entity
+     */
     public GameImage getGameImage()
     {
         return image;
     }
 
+    /**
+     * This method sets the game image of a game element.
+     *
+     * @return game image of entity
+     */
     public void setGameImage(GameImage g)
     {
         image = g;
@@ -148,6 +158,6 @@ abstract class GameElement {
     private boolean isActive;
     /**internal time of the game element*/
     private int internal_time;
-    /**the image held by the game element*/
+    /**game image of game element */
     private GameImage image;
 }
