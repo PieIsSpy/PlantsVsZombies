@@ -154,7 +154,7 @@ public class Peashooter extends Plant {
                 distance = enemies.get(i).getCol() - getCol();
 
                 // if the distance between them is small and that zombie is vulnerable
-                if(distance >= 0 && distance < smallestDistance && enemies.get(i).isVulnerable())
+                if(distance >= 0 && distance < smallestDistance)
                 {
                     smallestDistance = distance;
                     finalCol = i;
