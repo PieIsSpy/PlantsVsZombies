@@ -694,7 +694,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
                     }
                     else { // otherwise, just update the position
                         projectiles.get(i).getGameImage().setPixelX(pixelX);
-                         System.out.println("X coord: " + projectiles.get(i).getGameImage().getPixelX());
+                         //System.out.println("X coord: " + projectiles.get(i).getGameImage().getPixelX());
                     }
                 }
         
