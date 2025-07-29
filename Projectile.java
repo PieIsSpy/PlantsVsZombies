@@ -6,7 +6,7 @@ import java.util.ArrayList;
  *
  *  @author Karl Deejay Omandac
  *  @author Rachel Angeline Alba
- *  @version 1.0
+ *  @version 1.1
  */
 public class Projectile extends GameElement{
 
@@ -106,6 +106,24 @@ public class Projectile extends GameElement{
      */
     public int getDamage() {
         return damage;
+    }
+
+    /** This method returns the hit status of the
+     *  projectile.
+     *
+     * @return true if the object has hit a zombie,
+     * false otherwise
+     */
+    public boolean getHitStatus() {
+        return hasHit;
+    }
+
+    /** This method sets the hit status of the projectile.
+     *
+     * @param s the current status of the projectile
+     */
+    public void setHitStatus(boolean s) {
+        hasHit = s;
     }
 
     /**value of damage dealt by projectile */
