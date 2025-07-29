@@ -61,7 +61,4 @@ public class PolevaulterZombie extends Zombie{
             }
         }
     }
-
-    /** This saves the column where the zombie used its item */
-    private float colUsage;
 }
