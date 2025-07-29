@@ -10,16 +10,16 @@ public class Item {
      *  and its stat changes to a zombie. This also makes the item breakable.
      *
      * @param n the name of the item
-     * @param h the durability of the item
      * @param s the speed stat change to a zombie holding this item
      * @param d the damage stat change to a zombie holding this item
+     * @param h the durability of the item
      */
-    public Item (String n, int h, int s, int d) {
+    public Item (String n, int s, int d, int h) {
         NAME = n;
-        durability = h;
-        breakableStatus = true;
         speedChange = s;
         damageChange = d;
+        durability = h;
+        breakableStatus = true;
     }
 
     /** This constructor initializes the name of an item and
@@ -32,9 +32,9 @@ public class Item {
      */
     public Item (String n, int s, int d) {
         NAME = n;
-        breakableStatus = false;
         speedChange = s;
         damageChange = d;
+        breakableStatus = false;
     }
 
     /** This method returns the name of the item.

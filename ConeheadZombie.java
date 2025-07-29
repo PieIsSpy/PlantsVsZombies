@@ -15,7 +15,7 @@ public class ConeheadZombie extends Zombie{
      * @param t the time of its creation
      */
     public ConeheadZombie(int r, int c, int t) {
-        super(r, c, t, new Item("Traffic Cone", 140, -2, -2));
+        super(r, c, t, new Item("Traffic Cone", -2, -2, 140));
     }
 
 }
