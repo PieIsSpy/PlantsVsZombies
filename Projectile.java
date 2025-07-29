@@ -85,7 +85,7 @@ public class Projectile extends GameElement{
         for(x = 0; x < enemies.size() && !hasHit; x++)
         {
             //if zombie is alive and vulnerable and projectile is within range of attack
-            if(enemies.get(x).isAlive() && enemies.get(x).isVulnerable() && (enemies.get(x).getCol() - getCol()) < 0.5 && getRow() == enemies.get(x).getRow())
+            if(enemies.get(x).isAlive() && (enemies.get(x).getCol() - getCol()) < 0.5 && getRow() == enemies.get(x).getRow())
             {
                 hit(enemies.get(x));
                 hasHit = true;

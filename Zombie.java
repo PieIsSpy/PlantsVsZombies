@@ -23,7 +23,6 @@ public class Zombie extends Entity {
     public Zombie(int r, int c, int t) {
         super(70, 4,10, r, c, t);
         held_item = null;
-        vulnerability = true;
         slowed = false;
         isEating = false;
 
@@ -44,7 +43,6 @@ public class Zombie extends Entity {
     public Zombie (int r, int c, int t, Item i) {
         super(70, 4, 10, r, c, t);
         held_item = i;
-        vulnerability = true;
         slowed = false;
         isEating = false;
 
@@ -237,24 +235,6 @@ public class Zombie extends Entity {
         held_item = i;
     }
 
-    /** This method checks if the zombie is vulnerable
-     *  or not
-     *
-     * @return true if the zombie is vulnerable, false otherwise
-     */
-    public boolean isVulnerable() {
-        return vulnerability;
-    }
-
-    /** This method sets the vulnerability state of
-     *  the zombie
-     *
-     * @param v the vulnerability state of the zombie
-     */
-    public void setVulnerability(boolean v) {
-        vulnerability = v;
-    }
-
     /** This method checks if the zombie is slowed or not.
      *
      * @return true if the zombie is slowed, false otherwise
@@ -296,8 +276,6 @@ public class Zombie extends Entity {
     private static int count = 0;
     /** What items are they currently holding */
     private Item held_item;
-    /** Checks if the zombie can be hit or not */
-    private boolean vulnerability;
     /** Checks if the zombie is slow or not */
     private boolean slowed;
     /** Time reference where the zombie started going slow */

@@ -45,9 +45,6 @@ public class PolevaulterZombie extends Zombie{
             }
             //case 3: if a plant is in front of zombie but does not have an item
             else {
-                if (!isVulnerable())
-                    setVulnerability(true);
-
                 // case 1: if not slowed
                 if (!isSlowed() && currentTime - getInternal_time() >= 0.5) { // zombie should eat at a certain rate
                     eat(findFront(plants));
