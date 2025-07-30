@@ -66,10 +66,12 @@ public class Model {
     }
 
     /** This method increments the level progress of the player.
+     *  It will only increment if the level progress is less than 3.
      *
      */
     public void incrementProgress() {
-        levelProgress++;
+        if (levelProgress < 3)
+            levelProgress++;
     }
 
     /** This method prompts the thread to place a plant
