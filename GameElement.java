@@ -1,4 +1,4 @@
-/** This class is to be inherited by objects that exist in 
+/** This class is to be inherited by objects that exist in
  * the game but do not carry entity related attributes such as
  * health or attack values. These shared attributes and 
  * methods are to be used by temporary game elements such

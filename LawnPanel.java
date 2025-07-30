@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
@@ -28,7 +27,8 @@ public class LawnPanel extends JPanel {
 
         // get lawn bg
         try {
-            lawnImg = new ImageIcon(getClass().getResource("/img/lawn/lawnImg.png"));
+
+            lawnImg = new ImageIcon("res/lawn/lawnImg.png");
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -36,29 +36,29 @@ public class LawnPanel extends JPanel {
 
         // get seed slot img
         try {
-            seedSlotImg = new ImageIcon(getClass().getResource("img/lawn/seedSlotImg.png"));
+            seedSlotImg = new ImageIcon("res/lawn/seedSlotImg.png");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
         // read image files
-        plantsImgResources = readFiles("/img/lawn/plants"); //already stores the images
+        plantsImgResources = readFiles("lawn/plants"); //already stores the images
         System.out.println("entitiesImg size: " + plantsImgResources.length);
         System.out.println();
 
-        zombiesImgResources = readFiles("/img/lawn/zombies"); //already stores the images
+        zombiesImgResources = readFiles("lawn/zombies"); //already stores the images
         System.out.println("zombiesImgsize: " + zombiesImgResources.length);
         System.out.println();
 
-        gameElementsImgResources = readFiles("/img/lawn/gameElements");
+        gameElementsImgResources = readFiles("lawn/gameElements");
         System.out.println("gameElementsImgResources size: " + gameElementsImgResources.length);
         System.out.println();
 
-        seedPacketsImgResources = readFiles("/img/lawn/draggable/seedPackets");
+        seedPacketsImgResources = readFiles("lawn/draggable/seedPackets");
         System.out.println("seedPacketsImgResources size: " + seedPacketsImgResources.length);
         System.out.println();
 
-        plantStateImgResources = readFiles("/img/lawn/plantStates");
+        plantStateImgResources = readFiles("lawn/plantStates");
         System.out.println("plantStatesImg size: " + plantStateImgResources.length);
         System.out.println();
 
@@ -153,7 +153,7 @@ public class LawnPanel extends JPanel {
 
             // read and store images
             if (files !=null) {
-                if (folderPath.equalsIgnoreCase("/img/lawn/draggable/seedPackets")) {
+                if (folderPath.equalsIgnoreCase("lawn/draggable/seedPackets")) {
                     plantNames = new String[files.length]; //instatiates the plant names based on number of files
                     readPlantNames(files);
                 }
@@ -246,7 +246,7 @@ public class LawnPanel extends JPanel {
         }
 
         try {
-            ImageIcon shovel = new ImageIcon(getClass().getResource("/img/lawn/draggable/shovel.png"));
+            ImageIcon shovel = new ImageIcon("res/lawn/draggable/shovel.png");
             shovelDraggable = new Draggable("Shovel", shovel,50, 475);
             shovelDraggable.setBounds(0,0,getWidth(),getHeight());
             dragArea.add(shovelDraggable);

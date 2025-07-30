@@ -1,5 +1,3 @@
-import java.util.Objects;
-
 /** This class is responsible for allowing the game cycle
  *  of the level to be looped without interrupting the main thread of the program.
  *

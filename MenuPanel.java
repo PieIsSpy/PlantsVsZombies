@@ -20,14 +20,14 @@ public class MenuPanel extends JPanel {
     public MenuPanel(int width, int height, JButton start, JButton quit) {
         // get all images
         try {
-            bgImg = new ImageIcon(getClass().getResource("/img/menu/menuImg.png"));
+            bgImg = new ImageIcon("res/menu/menuImg.png");
         }
         catch (Exception e) {
             System.out.println("menuImg.png cannot be loaded");
         }
 
         try {
-            logoImg = new ImageIcon(getClass().getResource("/img/menu/logoImg.png"));
+            logoImg = new ImageIcon("res/menu/logoImg.png");
         }
         catch (Exception e) {
             System.out.println("logoImg.png cannot be loaded");
@@ -88,7 +88,7 @@ public class MenuPanel extends JPanel {
 
         ImageIcon startImg;
         try {
-            startImg = new ImageIcon(getClass().getResource("/img/menu/startImg.png"));
+            startImg = new ImageIcon("res/menu/startImg.png");
             start.setIcon(startImg);
         }
         catch (NullPointerException e) {

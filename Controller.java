@@ -527,7 +527,7 @@ public class Controller implements ActionListener, MouseListener, MouseMotionLis
         if (t.getGameImage() == null) {
             try {
                 // get image
-                ImageIcon src = new ImageIcon(getClass().getResource("/img/lawn/tombstone.png"));
+                ImageIcon src = new ImageIcon("res/lawn/tombstone.png");
                 double pixelX, pixelY;
                 GameImage image;
 

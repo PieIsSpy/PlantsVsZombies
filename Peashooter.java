@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 
 /** The class Peashooter represents the behaviors of a peashooter plant.

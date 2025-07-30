@@ -39,7 +39,7 @@ public class ResultPanel extends JPanel {
             g.fillRect(0,0,PANEL_WIDTH,PANEL_HEIGHT);
 
             try {
-                ImageIcon message = new ImageIcon(getClass().getResource("/img/result/levelLost.png"));
+                ImageIcon message = new ImageIcon("res/result/levelLost.png");
                 g.drawImage(message.getImage(), 200, 50, (int) (message.getIconWidth() / 1.5), (int) (message.getIconHeight() / 1.5), null);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -47,7 +47,7 @@ public class ResultPanel extends JPanel {
         }
         else if (messageShown > 0) { // if the level is won
             try {
-                ImageIcon background = new ImageIcon(getClass().getResource("/img/lawn/lawnImg.png"));
+                ImageIcon background = new ImageIcon("res/lawn/lawnImg.png");
                 g.drawImage(background.getImage(), 0, 0, PANEL_WIDTH, PANEL_HEIGHT, null);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -58,11 +58,11 @@ public class ResultPanel extends JPanel {
                 ImageIcon message;
 
                 if (messageShown == 1)
-                    message = new ImageIcon(getClass().getResource("/img/result/levelWin1.png"));
+                    message = new ImageIcon("res/result/levelWin1.png");
                 else if (messageShown == 2)
-                    message = new ImageIcon(getClass().getResource("/img/result/levelWin2.png"));
+                    message = new ImageIcon("res/result/levelWin2.png");
                 else
-                    message = new ImageIcon(getClass().getResource("/img/result/levelWin3.png"));
+                    message = new ImageIcon("res/result/levelWin3.png");
 
                 g.drawImage(message.getImage(), 150, 50, (int) (message.getIconWidth()*1.5), (int) (message.getIconHeight()*1.5), null);
             } catch (Exception e) {
